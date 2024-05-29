@@ -11,6 +11,7 @@ function Signup() {
     const navigate = useNavigate();
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
+    const [serverError, setServerError] = useState(''); // New state for server error
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,7 +25,13 @@ function Signup() {
                     console.log(result);
                     navigate('/login');
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    if (err.response && err.response.status === 400) {
+                        setServerError("Email already registered");
+                    } else {
+                        setServerError("An error occurred. Please try again.");
+                    }
+                });
         }
     };
 
@@ -76,6 +83,7 @@ function Signup() {
                             />
                             {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
                         </div>
+                        {serverError && <p className="text-danger">{serverError}</p>} 
                         <div className='mb-2'>
                             <label htmlFor="password">Password</label>
                             <input
