@@ -2,7 +2,7 @@ function Footer() {
   return (
     <div>
       {/* Footer Start */}
-      <div className="container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn">
+      <div className="container-fluid bg-dark text-light footer pt-5 wow fadeIn">
         <div className="container py-5">
           <div className="row g-5">
             <div className="col-lg-4 col-md-6">

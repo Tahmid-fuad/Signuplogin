@@ -26,7 +26,7 @@ function Header() {
             </div>
           </div>
         </div>
-        <a href="/login" className="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Sign in<i
+        <a href="/login" className="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Log in<i
           className="fa fa-arrow-right ms-3"></i></a>
         {/* </div> */}
       </nav>
