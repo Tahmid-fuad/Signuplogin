@@ -39,7 +39,7 @@ function Home() {
                   Telecommunication Engineering (ETE) in the year 2012. The vision of this department is to make great
                   contribution by producing efficient and resourceful engineers with research and development capabilities.
                 </p>
-                <a href="about.html">
+                <a href="/about">
                   Read More
                 </a>
               </div>

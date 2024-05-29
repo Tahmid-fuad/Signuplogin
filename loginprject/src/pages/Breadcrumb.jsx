@@ -7,11 +7,14 @@ function Breadcrumb() {
     const currentPath = window.location.pathname;
     switch (currentPath) {
       case '/photo':
-        setBreadcrumbText('Photos');
+        setBreadcrumbText('Our Photos');
         break;
       case '/faculties':
-        setBreadcrumbText('Faculties');
+        setBreadcrumbText('Our Faculties');
         break;
+        case '/about':
+          setBreadcrumbText('About');
+          break;
       default:
         setBreadcrumbText('Home'); 
     }
@@ -20,7 +23,7 @@ function Breadcrumb() {
     <div>
       <div className="container-fluid page-header py-5 mb-5" style={{height: "25rem"}}>
         <div className="container py-5">
-            <h1 className="display-3 text-white mb-3 animated slideInDown">Our {breadcrumbText}</h1>
+            <h1 className="display-3 text-white mb-3 animated slideInDown">{breadcrumbText}</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><a className="text-white" href="/">Home</a></li>
