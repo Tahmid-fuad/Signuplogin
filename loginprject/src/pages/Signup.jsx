@@ -8,10 +8,11 @@ function Signup() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState(''); // Initialize role state
     const navigate = useNavigate();
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
-    const [serverError, setServerError] = useState(''); // New state for server error
+    const [serverError, setServerError] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +21,7 @@ function Signup() {
         setIsSubmit(true);
 
         if (Object.keys(errors).length === 0) {
-            axios.post('http://localhost:3001/register', { name, email, password })
+            axios.post('http://localhost:3001/register', { name, email, password, role }) // Send role to server
                 .then(result => {
                     console.log(result);
                     navigate('/login');
@@ -50,6 +51,9 @@ function Signup() {
             errors.password = "Password is required";
         } else if (password.length < 6) {
             errors.password = "Password must be at least 6 characters long";
+        }
+        if (!role) { // Validate role
+            errors.role = "Role is required";
         }
         return errors;
     };
@@ -83,7 +87,21 @@ function Signup() {
                             />
                             {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
                         </div>
-                        {serverError && <p className="text-danger">{serverError}</p>} 
+                        <div className='mb-2'>
+                            <label htmlFor="role">Role</label>
+                            <select
+                                className='form-control'
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)} // Update role state
+                            >
+                                <option value="">Select Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="student">Student</option>
+                            </select>
+                            {formErrors.role && <p className="text-danger">{formErrors.role}</p>}
+                        </div>
+                        {serverError && <p className="text-danger">{serverError}</p>}
                         <div className='mb-2'>
                             <label htmlFor="password">Password</label>
                             <input

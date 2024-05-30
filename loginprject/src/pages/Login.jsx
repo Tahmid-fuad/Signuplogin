@@ -1,3 +1,4 @@
+// src/pages/Login.jsx
 import Header from './Header';
 import Footer from './Footer';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,17 +8,24 @@ import { useState } from 'react';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState(''); 
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('http://localhost:3001/login', { email, password })
             .then(result => {
-                if (result.data === "Success") {
-                    navigate('/');
+                if (result.data.message === "Success") {
+                    localStorage.setItem('role', result.data.role); // Store role in local storage
+                    if (result.data.role === 'admin') {
+                        navigate('/admin');
+                    } else if (result.data.role === 'teacher') {
+                        navigate('/teacher');
+                    } else if (result.data.role === 'student') {
+                        navigate('/student');
+                    }
                 } else {
-                    setErrorMessage(result.data); 
+                    setErrorMessage(result.data);
                 }
             })
             .catch(err => {
@@ -53,7 +61,7 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        {errorMessage && <p className="text-danger">{errorMessage}</p>} 
+                        {errorMessage && <p className="text-danger">{errorMessage}</p>}
                         <div className='d-grid'>
                             <button className='btn btn-primary mt-2'>Log in</button>
                         </div>
