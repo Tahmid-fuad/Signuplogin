@@ -4,7 +4,7 @@ import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 
 function Admin() {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -15,10 +15,9 @@ function Admin() {
     return (
         <div>
             <Header />
-            <ProtectedRoute allowedRoles={['admin']} handleLogout={handleLogout}>
-                <h1>Welcome to the Admin Panel</h1>
-                <button onClick={handleLogout}>Logout</button> 
-            </ProtectedRoute>
+            <ProtectedRoute allowedRoles={['admin']} handleLogout={handleLogout} />
+            <h1>Welcome to the Admin Panel</h1>
+            <button onClick={handleLogout}>Logout</button>
             <Footer />
         </div>
     );

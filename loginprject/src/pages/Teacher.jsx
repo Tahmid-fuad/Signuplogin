@@ -4,21 +4,20 @@ import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 
 function Teacher() {
-    const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        navigate('/login');
-    };
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    navigate('/login');
+  };
   return (
     <div>
-        <Header />
-    <ProtectedRoute allowedRoles={['teacher']} handleLogout={handleLogout}>
-        <h1>Welcome to the Admin Panel</h1>
-        <button onClick={handleLogout}>Logout</button> 
-    </ProtectedRoute>
-    <Footer />
+      <Header />
+      <ProtectedRoute allowedRoles={['teacher']} handleLogout={handleLogout} />
+      <h1>Welcome to the Teacher Panel</h1>
+      <button onClick={handleLogout}>Logout</button>
+      <Footer />
     </div>
   )
 }

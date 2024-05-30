@@ -11,7 +11,7 @@ const ProtectedRoute = ({ allowedRoles, handleLogout }) => {
     return (
         <>
             <Outlet />
-            <button onClick={handleLogout}>Logout</button> {/* Logout button */}
+            {/* <button onClick={handleLogout}>Logout</button> Logout button */}
         </>
     );
 };
