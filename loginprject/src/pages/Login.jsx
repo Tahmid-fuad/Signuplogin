@@ -38,7 +38,7 @@ function Login() {
         <div>
             <Header />
             <div className='login template d-flex justify-content-center align-items-center 100-w vh-100' style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
-                <div className='40-w p-5 rounded bg-white'>
+                <div className='w-25 p-5 rounded bg-white'>
                     <form onSubmit={handleSubmit} >
                         <h3 className='text-center'>Log in</h3>
                         <div className='mb-2'>
