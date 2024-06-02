@@ -27,7 +27,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Dr. Md. Azad Hossain</h4>
                                         <p>Head of the Depertment</p>
-                                        <a className="fw-medium" href="Faculty/Azadsir.html">Read More<i
+                                        <a className="fw-medium" href="/Azadsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Dr. Md. Jahedul Islam</h4>
                                         <p>Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Jahidsir.html">Read More<i
+                                        <a className="fw-medium" href="/Jahidsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Dr. Md. Saiful Islam</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Saifulsir.html">Read More<i
+                                        <a className="fw-medium" href="s/Saifulsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
