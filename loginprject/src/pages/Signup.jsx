@@ -8,7 +8,7 @@ function Signup() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState(''); // Initialize role state
+    const [role, setRole] = useState('');
     const navigate = useNavigate();
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
@@ -21,9 +21,12 @@ function Signup() {
         setIsSubmit(true);
 
         if (Object.keys(errors).length === 0) {
-            axios.post('http://localhost:3001/register', { name, email, password, role }) // Send role to server
+            axios.post('http://localhost:3001/register', { name, email, password, role })
                 .then(result => {
-                    console.log(result);
+                    const { token, user } = result.data;
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('role', user.role);
+
                     navigate('/login');
                 })
                 .catch(err => {
@@ -52,7 +55,7 @@ function Signup() {
         } else if (password.length < 6) {
             errors.password = "Password must be at least 6 characters long";
         }
-        if (!role) { // Validate role
+        if (!role) {
             errors.role = "Role is required";
         }
         return errors;
@@ -92,7 +95,7 @@ function Signup() {
                             <select
                                 className='form-control'
                                 value={role}
-                                onChange={(e) => setRole(e.target.value)} // Update role state
+                                onChange={(e) => setRole(e.target.value)}
                             >
                                 <option value="">Select Role</option>
                                 <option value="admin">Admin</option>

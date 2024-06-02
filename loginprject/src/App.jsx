@@ -10,6 +10,7 @@ import Admin from './pages/Admin';
 import Teacher from './pages/Teacher';
 import Student from './pages/Student';
 import ProtectedRoute from './pages/ProtectedRoute';
+import Error from './pages/error';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/about' element={<About />} />
+          
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
