@@ -18,6 +18,8 @@ import Anissir from './pages/faculty/Anissir';
 import Mamunsir from './pages/faculty/Mamunsir';
 import Tayebamaam from './pages/faculty/Tayebamaam';
 import Khadijamaam from './pages/faculty/Khadijamaam';
+import Tumpamaam from './pages/faculty/Tumpamaam';
+import Arifsir from './pages/faculty/Arifsir';
 
 
 function App() {
@@ -39,6 +41,10 @@ function App() {
           <Route path='/Mamunsir' element={<Mamunsir />} />
           <Route path='/Tayebamaam' element={<Tayebamaam />} />
           <Route path='/Khadijamaam' element={<Khadijamaam/>} />
+          <Route path='/Tumpamaam' element={<Tumpamaam/>} />
+          <Route path='/Tumpamaam' element={<Arifsir/>} />
+
+
           
            
 

@@ -73,7 +73,7 @@ function Tayebamaam() {
                             <td>2</td>
                             <td>Accident prevention smart zone sensing system</td>
                             <td>Taieba Taher Dept. of Electronics and Communication Engineering, Chittagong University of Engineering and Technology, Chittagong-4349, Bangladesh ; R. U. Ahmed ; M. A. Haider ; Swapnil Das ; M. N. Yasmin ; Nurasdul Mamun</td>
-                            <td>2017 IEEE Region 10 Humanitarian Technology Conference (R10-HTC</td>
+                            <td>2017 IEEE Region 10 Humanitarian Technology Conference R10-HTC</td>
                             <td>2018</td>
                         </tr>
                     </tbody>
