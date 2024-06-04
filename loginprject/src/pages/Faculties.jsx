@@ -27,7 +27,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Dr. Md. Azad Hossain</h4>
                                         <p>Head of the Depertment</p>
-                                        <a className="fw-medium" href="Faculty/Azadsir.html">Read More<i
+                                        <a className="fw-medium" href="/Azadsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Dr. Md. Jahedul Islam</h4>
                                         <p>Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Jahidsir.html">Read More<i
+                                        <a className="fw-medium" href="/Jahidsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Dr. Md. Saiful Islam</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Saifulsir.html">Read More<i
+                                        <a className="fw-medium" href="s/Saifulsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Piyas Chowdhury</h4>
                                         <p>Assistant Professor</p>
-                                        <a className="fw-medium" href="Faculty/Piyassir.html">Read More<i
+                                        <a className="fw-medium" href="/Piyassir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Mohammed Anisur Rahman</h4>
                                         <p> Assistant Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Anisursir.html">Read More<i
+                                        <a className="fw-medium" href="/Anisursir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Nursadul Mamun</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Mamun sir.html">Read More<i
+                                        <a className="fw-medium" href="/Mamunsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Tayeba Taher</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Taiebama'am.html">Read More<i
+                                        <a className="fw-medium" href="/Tayebamaam">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Khadija Akther</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Khadijama'am.html">Read More<i
+                                        <a className="fw-medium" href="/Khadijama'am">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -175,7 +175,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Forhad Hossain</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="Faculty/Farhadsir.html">Read More<i className="fa fa-arrow-right ms-2"></i></a>
+                                        <a className="fw-medium" href="/Farhadsir">Read More<i className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Eftekhar Hossain</h4>
                                         <p>Assistant Professor</p>
-                                        <a className="fw-medium" href="Faculty/eftekharsir.html">Read More<i
+                                        <a className="fw-medium" href="/eftekharsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -212,7 +212,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Priyanti Paul Tumpa</h4>
                                         <p>Lecturer</p>
-                                        <a className="fw-medium" href="Faculty/Tumpama'am.html">Read More<i
+                                        <a className="fw-medium" href="/Tumpama'am">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
@@ -230,7 +230,7 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Arif Istiaque</h4>
                                         <p>Lecturer</p>
-                                        <a className="fw-medium" href="Faculty/Arifsir.html">Read More<i
+                                        <a className="fw-medium" href="/Arifsir">Read More<i
                                             className="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
