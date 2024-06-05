@@ -131,7 +131,7 @@ function Faculties() {
                                     <div className="overflow-hidden position-relative">
                                         <img className="img-fluid" src="assets/njr.jpg" alt=""/>
                                             <div className="team-social">
-                                                <a className="btn btn-square" href=""><i className="fab fa-facebook-f"></i></a>
+                                                <a className="btn btn-square" href="https://www.facebook.com/profile.php?id=100010136313210&mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href=""><i className="fab fa-linkedin-in"></i></a>
                                                 <a className="btn btn-square" href=" taieba.athay@cuet.ac.bd"><i className="fab fa-instagram"></i></a>
                                             </div>
