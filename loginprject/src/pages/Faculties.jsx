@@ -21,7 +21,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/Hiron.RUET?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/azad-hossain-026b05260?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B2g1ud9zKT2WT6EVJf8eRjg%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="azad@cuet.ac.bd"><i className="fab fa-instagram"></i></a>
+                                                <a className="btn btn-square" href="mailto:azad@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
