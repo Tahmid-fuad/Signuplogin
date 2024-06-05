@@ -10,7 +10,19 @@ import Admin from './pages/Admin';
 import Teacher from './pages/Teacher';
 import Student from './pages/Student';
 import ProtectedRoute from './pages/ProtectedRoute';
-import Error from './pages/error';
+import Azadsir from './pages/faculty/Azadsir';
+import Jahidsir from './pages/faculty/Jahidsir';
+import Saifulsir from './pages/faculty/Saifulsir';
+import Piyassir from './pages/faculty/Piyassir';
+import Anissir from './pages/faculty/Anissir';
+import Mamunsir from './pages/faculty/Mamunsir';
+import Tayebamaam from './pages/faculty/Tayebamaam';
+import Khadijamaam from './pages/faculty/Khadijamaam';
+import Error from './pages/Error';
+import Tumpamaam from './pages/faculty/Tumpamaam';
+import Arifsir from './pages/faculty/Arifsir';
+import Eftekharsir from './pages/faculty/Eftekharsir';
+
 
 function App() {
   return (
@@ -23,8 +35,22 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/about' element={<About />} />
-          <Route path='*' element={<Error />} />
+          <Route path='/azadsir' element={<Azadsir />} />
+          <Route path='/Jahidsir' element={<Jahidsir />} />
+          <Route path='/Saifulsir' element={<Saifulsir />} />
+          <Route path='/Piyassir' element={<Piyassir />} />
+          <Route path='/Anissir' element={<Anissir />} />
+          <Route path='/Mamunsir' element={<Mamunsir />} />
+          <Route path='/Tayebamaam' element={<Tayebamaam />} />
+          <Route path='/Khadijamaam' element={<Khadijamaam/>} />
+          <Route path='*' element={<Error/>} />
+          <Route path='/Tumpamaam' element={<Tumpamaam/>} />
+          <Route path='/Arifsir' element={<Arifsir/>} />
+          <Route path='/Eftekharsir' element={<Eftekharsir/>} />
+
+
           
+           
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>

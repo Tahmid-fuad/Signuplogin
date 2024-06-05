@@ -13,7 +13,7 @@ function Error() {
                             <h1 className="display-1">404</h1>
                             <h1 className="mb-4">Page Not Found</h1>
                             <p className="mb-4">We’re sorry, the page you have looked for is not found!</p>
-                            <a className="btn btn-primary py-3 px-5" href="">Go Back To Home</a>
+                            <a className="btn btn-primary py-3 px-5" href="/">Go Back To Home</a>
                         </div>
                     </div>
                 </div>
