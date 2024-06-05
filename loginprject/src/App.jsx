@@ -1,4 +1,3 @@
-// src/App.jsx
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Login from './pages/Login';

@@ -2,15 +2,21 @@ import ProtectedRoute from './ProtectedRoute';
 import Footer from "./Footer";
 import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Admin() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        navigate('/login');
-    };
+        axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
+          .then(() => {
+            localStorage.removeItem('role');
+            navigate('/login');
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      };
 
     return (
         <div>

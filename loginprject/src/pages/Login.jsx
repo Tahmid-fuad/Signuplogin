@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import Header from './Header';
 import Footer from './Footer';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,6 +9,8 @@ function Login() {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+
+    axios.defaults.withCredentials = true;
 
     const handleSubmit = (e) => {
         e.preventDefault();
