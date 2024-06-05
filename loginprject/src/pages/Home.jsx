@@ -245,7 +245,7 @@ function Home() {
       </div>
       {/*  Carousel End  */}
 
-      <Footer/>
+      <Footer />
 
 
       {/* Back to Top */}
