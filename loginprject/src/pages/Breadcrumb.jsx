@@ -9,7 +9,7 @@ function Breadcrumb() {
       case '/photo':
         setBreadcrumbText('Our Photos');
         break;
-      case '/faculties':
+      case '/Faculties':
         setBreadcrumbText('Our Faculties');
         break;
         case '/about':

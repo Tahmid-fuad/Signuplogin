@@ -119,7 +119,7 @@ function Home() {
         <div className="container">
           <div className="section-title text-center">
             <h1 className="display-5 mb-5">
-              <a href="Faculties.html">Our Faculties</a>
+              <a href="/Faculties">Our Faculties</a>
             </h1>
           </div>
           <div className="row g-4 p-3">
@@ -230,7 +230,7 @@ function Home() {
       {/* Carousel Start */}
       <div className="section-title text-center">
         <h1 className="display-5 mt-5 mb-5">
-          <a href="photo.html">Photo Gallery</a>
+          <a href="/photo">Photo Gallery</a>
         </h1>
       </div>
       <div className="container-fluid p-0 pb-5">
