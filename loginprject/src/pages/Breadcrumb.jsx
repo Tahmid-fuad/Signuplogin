@@ -15,6 +15,9 @@ function Breadcrumb() {
         case '/about':
           setBreadcrumbText('About');
           break;
+          case '/contact':
+          setBreadcrumbText('Contact');
+          break;
       default:
         setBreadcrumbText('Home'); 
     }
