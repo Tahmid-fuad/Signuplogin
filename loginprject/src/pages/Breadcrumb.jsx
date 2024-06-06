@@ -9,11 +9,14 @@ function Breadcrumb() {
       case '/photo':
         setBreadcrumbText('Our Photos');
         break;
-      case '/faculties':
+      case '/Faculties':
         setBreadcrumbText('Our Faculties');
         break;
         case '/about':
           setBreadcrumbText('About');
+          break;
+          case '/contact':
+          setBreadcrumbText('Contact');
           break;
       default:
         setBreadcrumbText('Home'); 

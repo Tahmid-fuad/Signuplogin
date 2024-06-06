@@ -21,6 +21,9 @@ import Error from './pages/Error';
 import Tumpamaam from './pages/faculty/Tumpamaam';
 import Arifsir from './pages/faculty/Arifsir';
 import Eftekharsir from './pages/faculty/Eftekharsir';
+import Farhadsir from './pages/faculty/Farhadsir';
+import Contact from './pages/Contact';
+
 
 
 function App() {
@@ -46,6 +49,8 @@ function App() {
           <Route path='/Tumpamaam' element={<Tumpamaam/>} />
           <Route path='/Arifsir' element={<Arifsir/>} />
           <Route path='/Eftekharsir' element={<Eftekharsir/>} />
+          <Route path='/Farhadsir' element={<Farhadsir/>} />
+          <Route path='/Contact' element={<Contact/>} />
 
 
           
