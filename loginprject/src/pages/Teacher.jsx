@@ -23,7 +23,6 @@ function Teacher() {
     <div>
       <Header />
       <ProtectedRoute allowedRoles={['teacher']} handleLogout={handleLogout} />
-      <h1>Welcome to the Teacher Panel</h1>
       <button onClick={handleLogout}>Logout</button>
       <div style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
         <div className="container">
@@ -40,7 +39,7 @@ function Teacher() {
                   </h5>
                 </div>
                 <div className="col-9">
-                  D. Saiful Islam<br />
+                  Dr. Saiful Islam<br />
                   Associate proffesor
                 </div>
               </div>
@@ -53,9 +52,20 @@ function Teacher() {
           </div>
         </div>
       </div>
-      <div className="row">
-        <div className="col-4 float-start">
-          <Notice />
+      <div>
+        <div className="row">
+          <div className="col-4 float-start">
+            <Notice />
+          </div>
+          <div className="col-8">
+            <table>
+              <thead>
+                <td>
+                  
+                </td>
+              </thead>
+            </table>
+          </div>
         </div>
       </div>
       <Footer />

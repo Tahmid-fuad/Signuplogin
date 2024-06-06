@@ -30,7 +30,7 @@ function Student() {
             <div className="col-3">
               <img src="../assets/njr.jpg" alt="" className="img-fluid" />
             </div>
-            <div className="col-5">
+            <div className="col-5 ">
               <div className="row">
                 <div className="col-3">
                   <h5>
