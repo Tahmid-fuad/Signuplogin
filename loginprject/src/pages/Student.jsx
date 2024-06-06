@@ -22,7 +22,7 @@ function Student() {
     <div>
       <Header />
       <ProtectedRoute allowedRoles={['student']} handleLogout={handleLogout} />
-      <button onClick={handleLogout}>Logout</button>
+      <button className='btn btn-primary py-4 px-lg-5 d-none d-lg-block' onClick={handleLogout}>Logout</button>
       <div style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
         <div className="container">
           <div className="row py-sm-5 ">
