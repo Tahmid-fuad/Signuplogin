@@ -119,58 +119,61 @@ function Home() {
         <div className="container">
           <div className="section-title text-center">
             <h1 className="display-5 mb-5">
-              <a href="Faculties.html">Our Faculties</a>
+              <a href="/Faculties">Our Faculties</a>
             </h1>
           </div>
-          <div className="row g-4">
+          <div className="row g-4 p-3">
             <div className="col-md-6 col-lg-4 wow fadeInUp">
               <div className="team-item">
                 <div className="overflow-hidden position-relative">
-                  <img className="img-fluid" src="/assets/Azad sir.jpeg" alt="" />
+                  <img className="img-fluid" src="assets/Azad sir.jpeg" alt="" />
                   <div className="team-social">
-                    <a className="btn btn-square" href=""><i className="fab fa-facebook-f"></i></a>
-                    <a className="btn btn-square" href=""><i className="fab fa-twitter"></i></a>
-                    <a className="btn btn-square" href=""><i className="fab fa-instagram"></i></a>
+                    <a className="btn btn-square" href="https://www.facebook.com/Hiron.RUET?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
+                    <a className="btn btn-square" href="https://www.linkedin.com/in/azad-hossain-026b05260?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B2g1ud9zKT2WT6EVJf8eRjg%3D%3D"><i className="fab fa-linkedin-in"></i></a>
+                    <a className="btn btn-square" href="mailto:azad@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                   </div>
                 </div>
                 <div className="p-4 text-center border border-5 border-light border-top-0">
                   <h4 className="mb-3">Dr. Md. Azad Hossain</h4>
                   <p>Head of the Depertment</p>
-                  <a className="fw-medium" href="Faculty/Azadsir.html">Read More<i className="fa fa-arrow-right ms-2"></i></a>
+                  <a className="fw-medium" href="/Azadsir">Read More<i
+                    className="fa fa-arrow-right ms-2"></i></a>
                 </div>
               </div>
             </div>
             <div className="col-md-6 col-lg-4 wow fadeInUp">
               <div className="team-item">
                 <div className="overflow-hidden position-relative">
-                  <img className="img-fluid" src="/assets/Jahedsir.jpg" alt="" />
+                  <img className="img-fluid" src="assets/Jahedsir.jpg" alt="" />
                   <div className="team-social">
-                    <a className="btn btn-square" href=""><i className="fab fa-facebook-f"></i></a>
-                    <a className="btn btn-square" href=""><i className="fab fa-twitter"></i></a>
-                    <a className="btn btn-square" href=""><i className="fab fa-instagram"></i></a>
+                    <a className="btn btn-square" href="https://www.facebook.com/mdjahedul.islam.7?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
+                    <a className="btn btn-square" href=""><i className="fab fa-linkedin-in"></i></a>
+                    <a className="btn btn-square" href="jahed@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                   </div>
                 </div>
                 <div className="p-4 text-center border border-5 border-light border-top-0">
                   <h4 className="mb-3">Dr. Md. Jahedul Islam</h4>
                   <p>Proffesor</p>
-                  <a className="fw-medium" href="Faculty/Jahidsir.html">Read More<i className="fa fa-arrow-right ms-2"></i></a>
+                  <a className="fw-medium" href="/Jahidsir">Read More<i
+                    className="fa fa-arrow-right ms-2"></i></a>
                 </div>
               </div>
             </div>
             <div className="col-md-6 col-lg-4 wow fadeInUp">
               <div className="team-item">
                 <div className="overflow-hidden position-relative">
-                  <img className="img-fluid" src="/assets/saifulsir.jpg" alt="" />
+                  <img className="img-fluid" src="assets/saifulsir.jpg" alt="" />
                   <div className="team-social">
-                    <a className="btn btn-square" href=""><i className="fab fa-facebook-f"></i></a>
-                    <a className="btn btn-square" href=""><i className="fab fa-twitter"></i></a>
-                    <a className="btn btn-square" href=""><i className="fab fa-instagram"></i></a>
+                    <a className="btn btn-square" href="https://www.facebook.com/saiful.i.sumon.5?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
+                    <a className="btn btn-square" href="https://www.linkedin.com/in/dr-md-saiful-islam-195b1b298?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BYe2Kp%2FxrTP%2BZ9WbGuSjyhA%3D%3D"><i className="fab fa-linkedin-in"></i></a>
+                    <a className="btn btn-square" href="saiful05eee@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                   </div>
                 </div>
                 <div className="p-4 text-center border border-5 border-light border-top-0">
                   <h4 className="mb-3">Dr. Md. Saiful Islam</h4>
                   <p>Assistant Proffesor</p>
-                  <a className="fw-medium" href="Faculty/Saifulsir.html">Read More<i className="fa fa-arrow-right ms-2"></i></a>
+                  <a className="fw-medium" href="/Saifulsir">Read More<i
+                    className="fa fa-arrow-right ms-2"></i></a>
                 </div>
               </div>
             </div>
@@ -227,7 +230,7 @@ function Home() {
       {/* Carousel Start */}
       <div className="section-title text-center">
         <h1 className="display-5 mt-5 mb-5">
-          <a href="photo.html">Photo Gallery</a>
+          <a href="/photo">Photo Gallery</a>
         </h1>
       </div>
       <div className="container-fluid p-0 pb-5">

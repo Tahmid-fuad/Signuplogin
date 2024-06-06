@@ -50,7 +50,7 @@ app.post("/login", async (req, res) => {
     if (user) {
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (isPasswordValid) {
-        const token = jwt.sign({ email, role: user.role }, "your_secret_key", { expiresIn: '1h' });
+        const token = jwt.sign({ email, role: user.role }, "tyftugihd7e", { expiresIn: '1h' });
         
         res.status(200).json({ message: "Success", role: user.role, token });
       } else {
