@@ -4,6 +4,7 @@ import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Notice from './Notice';
+import Routine20 from './Routine20';
 
 function Student() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function Student() {
     <div>
       <Header />
       <ProtectedRoute allowedRoles={['student']} handleLogout={handleLogout} />
-      <button className='btn btn-primary py-4 px-lg-5 d-none d-lg-block' onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout}>Logout</button>
       <div style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
         <div className="container">
           <div className="row py-sm-5 ">
@@ -60,13 +61,7 @@ function Student() {
             <Notice />
           </div>
           <div className="col-8">
-            <table>
-              <thead>
-                <td>
-                  
-                </td>
-              </thead>
-            </table>
+            <Routine20/>
           </div>
         </div>
       </div>
