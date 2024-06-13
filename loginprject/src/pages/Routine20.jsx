@@ -7,6 +7,7 @@ function Routine20() {
             <h4>Class Routine</h4>
             <table className='table table-bordered'>
               <thead>
+                <tr>
                 <th></th>
                 <th>8:30 - 9:00</th>
                 <th>9:00 - 9:50</th>
@@ -17,6 +18,7 @@ function Routine20() {
                 <th>2:30 - 3:20</th>
                 <th>3:20 - 4:10</th>
                 <th>4:10 - 5:00</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>

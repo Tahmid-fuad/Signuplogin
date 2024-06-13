@@ -1,30 +1,28 @@
 import ProtectedRoute from './ProtectedRoute';
 import Footer from "./Footer";
 import Header from "./Header";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Notice from './Notice';
 import Routine20 from './Routine20';
 
 function Student() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleLogout = () => {
-    axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
-      .then(() => {
-        localStorage.removeItem('role');
-        navigate('/login');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // const handleLogout = () => {
+  //   axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
+  //     .then(() => {
+  //       localStorage.removeItem('role');
+  //       navigate('/login');
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   return (
     <div>
       <Header />
-      <ProtectedRoute allowedRoles={['student']} handleLogout={handleLogout} />
-      <button onClick={handleLogout}>Logout</button>
+      <ProtectedRoute allowedRoles={['student']} />
+      {/* <button onClick={handleLogout} className='btn btn-primary py-4 px-lg-5 d-none d-lg-block'>Logout<i className="fa fa-arrow-right ms-3"></i></button> */}
       <div style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
         <div className="container">
           <div className="row py-sm-5 ">
