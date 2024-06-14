@@ -26,12 +26,15 @@ function Login() {
                         navigate('/student');
                     }
                 } else {
-                    setErrorMessage(result.data);
+                    setErrorMessage(result.data.message); // Use the error message from the server
                 }
             })
             .catch(err => {
-                console.log(err);
-                setErrorMessage("An error occurred. Please try again.");
+                if (err.response && err.response.data && err.response.data.message) {
+                    setErrorMessage(err.response.data.message); // Display server error message
+                } else {
+                    setErrorMessage("An error occurred. Please try again."); // Fallback error message
+                }
             });
     };
 
@@ -40,7 +43,7 @@ function Login() {
             <Header />
             <div className='login template d-flex justify-content-center align-items-center 100-w vh-100' style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
                 <div className='w-25 p-5 rounded bg-white'>
-                    <form onSubmit={handleSubmit} >
+                    <form onSubmit={handleSubmit}>
                         <h3 className='text-center'>Log in</h3>
                         <div className='mb-2'>
                             <label htmlFor="email">Email</label>
@@ -50,6 +53,7 @@ function Login() {
                                 className='form-control'
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
                         </div>
                         <div className='mb-2'>
@@ -60,14 +64,15 @@ function Login() {
                                 className='form-control'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                required
                             />
                         </div>
                         {errorMessage && <p className="text-danger">{errorMessage}</p>}
                         <div className='d-grid'>
-                            <button className='btn btn-primary mt-2'>Log in</button>
+                            <button type='submit' className='btn btn-primary mt-2'>Log in</button>
                         </div>
-                        <p className='text-right mt-2 '>
-                            <a href="/forgot-password">Forgot Password?</a>
+                        <p className='text-right mt-2'>
+                            <Link to="/forgot-password">Forgot Password?</Link>
                         </p>
                         <div className="text-center mt-2">
                             <Link to="/signup" className='ms-2'>Sign up</Link>
