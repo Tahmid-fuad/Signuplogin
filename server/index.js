@@ -111,7 +111,7 @@ app.post('/reset-password/:token', async (req, res) => {
   try {
     const user = await StudentModel.findOne({ 
       resetToken: token, 
-      resetTokenExpiry: { $gt: Date.now() } // Token not expired
+      resetTokenExpiry: { $gt: Date.now() } 
     });
 
     if (!user) {

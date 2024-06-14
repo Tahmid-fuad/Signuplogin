@@ -44,7 +44,7 @@ async function setupTransporter() {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: 'cuetps.tf@gmail.com', // Your Gmail email address
+        user: 'cuetps.tf@gmail.com', 
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: '1//04UVx3qaHIa6zCgYIARAAGAQSNwF-L9IrbXlfFtedkVNggk6Yeds4Ow3I3cBbPYmqMrembVTkNiJnXmvxa2ZI7_SSLxyE7nkhAHQ', // Replace with your actual refresh token

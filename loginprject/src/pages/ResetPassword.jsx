@@ -8,19 +8,35 @@ function ResetPassword() {
   const { token } = useParams();
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
+  const [formErrors, setFormErrors] = useState({});
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post(`http://localhost:3001/reset-password/${token}`, { password });
-      setMessage('Password reset successfully');
-      setTimeout(() => {
-        navigate('/login');
-      }, 3000);
-    } catch (error) {
-      setMessage(error.response.data.message);
+    const errors = validate(password);
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length === 0) {
+      try {
+        await axios.post(`http://localhost:3001/reset-password/${token}`, { password });
+        setMessage('Password reset successfully');
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
+      } catch (error) {
+        setMessage(error.response.data.message || 'An error occurred. Please try again.');
+      }
     }
+  };
+
+  const validate = (password) => {
+    const errors = {};
+    if (!password) {
+      errors.password = "Password is required";
+    } else if (password.length < 6) {
+      errors.password = "Password must be at least 6 characters long";
+    }
+    return errors;
   };
 
   return (
@@ -39,6 +55,7 @@ function ResetPassword() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {formErrors.password && <p className="text-danger">{formErrors.password}</p>}
             </div>
             <div className="d-grid">
               <button className="btn btn-primary mt-2">Submit</button>
