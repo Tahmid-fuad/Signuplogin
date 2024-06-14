@@ -67,7 +67,7 @@ function Login() {
                             <button className='btn btn-primary mt-2'>Log in</button>
                         </div>
                         <p className='text-right mt-2 '>
-                            <a href="">Forgot Password?</a>
+                            <a href="/forgot-password">Forgot Password?</a>
                         </p>
                         <div className="text-center mt-2">
                             <Link to="/signup" className='ms-2'>Sign up</Link>

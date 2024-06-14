@@ -23,6 +23,8 @@ import Arifsir from './pages/faculty/Arifsir';
 import Eftekharsir from './pages/faculty/Eftekharsir';
 import Farhadsir from './pages/faculty/Farhadsir';
 import Contact from './pages/Contact';
+import ForgetPassword from './pages/ForgetPassword';
+import ResetPassword from './pages/ResetPassword';
 
 
 
@@ -51,6 +53,8 @@ function App() {
           <Route path='/Eftekharsir' element={<Eftekharsir/>} />
           <Route path='/Farhadsir' element={<Farhadsir/>} />
           <Route path='/Contact' element={<Contact/>} />
+          <Route path='/forgot-password' element={<ForgetPassword />} />
+          <Route path='/reset-password/:token' element={<ResetPassword />} />
 
 
           
