@@ -1,10 +1,9 @@
+import React, { useEffect, useState, Suspense } from 'react'; // Make sure to import Suspense for React.lazy
+import axios from 'axios';
 import ProtectedRoute from './ProtectedRoute';
 import Footer from "./Footer";
 import Header from "./Header";
 import Notice from './Notice';
-import Routine20 from './Routine20';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 function Student() {
   const [studentName, setStudentName] = useState('');
@@ -18,19 +17,10 @@ function Student() {
     if (studentId) {
       axios.get(`http://localhost:3001/studentdata/${studentId}`)
         .then(response => {
-          // const batchMap = {
-          //   '19': '2019-20',
-          //   '20': '2020-21',
-          //   '21': '2021-22',
-          //   '22': '2022-23',
-          //   '23': '2023-24'
-          // };
           setStudentName(response.data.name);
           setStudentEmail(response.data.email);
           setStudentId(response.data.id);
           setStudentBatch(response.data.batch);
-          // setStudentBatch(batchMap[response.data.batch]);
-          // console.log(response.data)
         })
         .catch(error => {
           console.error('Error fetching student details:', error);
@@ -49,39 +39,44 @@ function Student() {
     case '22':
       academicYear = '2022-23';
       break;
-    // Add more cases as needed
     default:
-      academicYear = 'Unknown Batch';
+      // academicYear = 'Unknown Batch';
   }
+
+  // Use React.lazy to import component dynamically
+  const RoutineComponent = studentBatch ? React.lazy(() => import(`./Routine${studentBatch}`)) : null;
 
   return (
     <div>
       <Header />
       <ProtectedRoute allowedRoles={['student']} />
-      {/* <button onClick={handleLogout} className='btn btn-primary py-4 px-lg-5 d-none d-lg-block'>Logout<i className="fa fa-arrow-right ms-3"></i></button> */}
       <div style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
         <div className="container">
           <div className="row py-sm-5 ">
             <div className="col-3">
-              <img src="../assets/njr.jpg" alt="" className="img-fluid" />
+              <img src={`../assets/student/${studentId}.jpg`} alt="" className="img-fluid" />
             </div>
             <div className="col-5  d-flex align-items-center">
-              <div className="row">
-                <div className="col-6">
-                  <h5>
-                    Name:<br />
-                    Student ID:<br />
-                    Email:<br />
-                    Batch:
-                  </h5>
-                </div>
-                <div className="col-6">
-                  {studentName}<br />
-                  {studentId}<br />
-                  {studentEmail}<br />
-                  {academicYear}
-                </div>
-              </div>
+              <table className='table' style={{ borderColor: "transparent" }}>
+                <tbody>
+                  <tr>
+                    <td style={{ fontWeight: "bold" }}>Name:</td>
+                    <td>{studentName}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ fontWeight: "bold" }}>Student ID:</td>
+                    <td>{studentId}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ fontWeight: "bold" }}>Email:</td>
+                    <td>{studentEmail}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ fontWeight: "bold" }}>Session:</td>
+                    <td>{academicYear}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <div className="col-2"></div>
             <div className="col-2">
@@ -97,7 +92,11 @@ function Student() {
             <Notice />
           </div>
           <div className="col-8">
-            <Routine20 />
+            {RoutineComponent && (
+              <Suspense fallback={<div></div>}>
+                <RoutineComponent />
+              </Suspense>
+            )}
           </div>
         </div>
       </div>
@@ -106,4 +105,4 @@ function Student() {
   )
 }
 
-export default Student
+export default Student;
