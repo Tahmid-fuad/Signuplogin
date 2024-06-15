@@ -6,24 +6,24 @@ import axios from 'axios';
 import Notice from './Notice';
 
 function Teacher() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleLogout = () => {
-    axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
-      .then(() => {
-        localStorage.removeItem('role');
-        navigate('/login');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // const handleLogout = () => {
+  //   axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
+  //     .then(() => {
+  //       localStorage.removeItem('role');
+  //       navigate('/login');
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   return (
     <div>
       <Header />
-      <ProtectedRoute allowedRoles={['teacher']} handleLogout={handleLogout} />
-      <button onClick={handleLogout}>Logout</button>
+      <ProtectedRoute allowedRoles={['teacher']} />
+      {/* <button onClick={handleLogout}>Logout</button> */}
       <div style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
         <div className="container">
           <div className="row py-sm-5 ">

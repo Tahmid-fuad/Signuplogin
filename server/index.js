@@ -14,7 +14,7 @@ app.use(cors({
   credentials: true
 }));
 
-const uri = "mongodb://localhost:27017/Student";
+const uri = "mongodb+srv://tahmidfuad18:eVpuJvt1jwyTx8cQ@cluster0.gsamudi.mongodb.net/";
 
 mongoose.connect(uri)
   .then(() => {

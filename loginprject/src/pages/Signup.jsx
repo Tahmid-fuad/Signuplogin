@@ -91,6 +91,17 @@ function Signup() {
                             {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
                         </div>
                         <div className='mb-2'>
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                placeholder='Enter Email'
+                                className='form-control'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
+                        </div>
+                        <div className='mb-2'>
                             <label htmlFor="role">Role</label>
                             <select
                                 className='form-control'
