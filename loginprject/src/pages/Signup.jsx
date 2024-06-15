@@ -18,7 +18,7 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const errors = validate(name, email, id, password);
+        const errors = validate(name, email, id, password, role);
         setFormErrors(errors);
         setIsSubmit(true);
 
@@ -111,17 +111,19 @@ function Signup() {
                             </select>
                             {formErrors.role && <p className="text-danger">{formErrors.role}</p>}
                         </div>
-                        <div className='mb-2'>
-                            <label htmlFor="id">Student ID</label>
-                            <input
+                        {role === 'student' && (
+                            <div className='mb-2'>
+                                <label htmlFor="id">Student ID</label>
+                                <input
                                     type="text"
-                                placeholder='Enter Student ID'
-                                className='form-control'
-                                value={id}
-                                onChange={(e) => setId(e.target.value)}
-                            />
-                            {formErrors.id && <p className="text-danger">{formErrors.id}</p>}
-                        </div>
+                                    placeholder='Enter Student ID'
+                                    className='form-control'
+                                    value={id}
+                                    onChange={(e) => setId(e.target.value)}
+                                />
+                                {formErrors.id && <p className="text-danger">{formErrors.id}</p>}
+                            </div>
+                        )}
                         <div className='mb-2'>
                             <label htmlFor="batch">Batch</label>
                             <select
@@ -136,7 +138,6 @@ function Signup() {
                                 <option value="22">22</option>
                                 <option value="23">23</option>
                             </select>
-                            {/* {formErrors.role && <p className="text-danger">{formErrors.role}</p>} */}
                         </div>
                         {serverError && <p className="text-danger">{serverError}</p>}
                         <div className='mb-2'>
