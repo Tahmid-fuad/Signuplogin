@@ -1,15 +1,19 @@
-import React, { useEffect, useState, Suspense } from 'react'; 
+import React, { useEffect, useState, Suspense } from 'react';
 import axios from 'axios';
 import ProtectedRoute from './ProtectedRoute';
 import Footer from "./Footer";
 import Header from "./Header";
 import Notice from './Notice';
+import getAdvisorEmail from './advisorLogic';
 
 function Student() {
   const [studentName, setStudentName] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
   const [studentId, setStudentId] = useState('');
   const [studentBatch, setStudentBatch] = useState('');
+  const [teacherName, setTeacherName] = useState('');
+
+  const advisorEmail = getAdvisorEmail(studentBatch, studentId);
 
   useEffect(() => {
     const studentId = localStorage.getItem('id');
@@ -28,6 +32,19 @@ function Student() {
     }
   }, []);
 
+  useEffect(() => {
+    if (advisorEmail) {
+      axios.get(`http://localhost:3001/teacherdata/${advisorEmail}`)
+        .then(response => {
+          setTeacherName(response.data.name);
+        })
+        .catch(error => {
+          console.error('Error fetching teacher details:', error);
+        });
+    }
+  }, [advisorEmail])
+
+
   let academicYear = '';
   switch (studentBatch) {
     case '20':
@@ -40,10 +57,12 @@ function Student() {
       academicYear = '2022-23';
       break;
     default:
-      // academicYear = 'Unknown Batch';
+    // academicYear = 'Unknown Batch';
   }
 
   const RoutineComponent = studentBatch ? React.lazy(() => import(`./Routine${studentBatch}`)) : null;
+
+
 
   return (
     <div>
@@ -79,8 +98,8 @@ function Student() {
             </div>
             <div className="col-2"></div>
             <div className="col-2">
-              <img src="../assets/saifulsir.jpg" alt="" className="img-fluid" />
-              <h5>Name of the advisor:</h5>Dr. Saiful Islam
+              <img src={`../assets/teacher/${advisorEmail}.jpg`} alt="" className="img-fluid" />
+              <h5>Name of the advisor:</h5>{teacherName}
             </div>
           </div>
         </div>

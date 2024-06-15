@@ -18,7 +18,8 @@ function Login() {
             .then(result => {
                 if (result.data.message === "Success") {
                     localStorage.setItem('role', result.data.role); // Store role in local storage
-                    localStorage.setItem('id', result.data.id); // Store id in local storage
+                    localStorage.setItem('id', result.data.id); 
+                    localStorage.setItem('email', result.data.email); 
                     if (result.data.role === 'admin') {
                         navigate('/admin');
                     } else if (result.data.role === 'teacher') {

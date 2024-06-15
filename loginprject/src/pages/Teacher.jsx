@@ -1,23 +1,28 @@
 import ProtectedRoute from './ProtectedRoute';
 import Footer from "./Footer";
 import Header from "./Header";
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Notice from './Notice';
+import { useEffect, useState } from 'react';
 
 function Teacher() {
-  // const navigate = useNavigate();
+  const [teacherName, setTeacherName] = useState('');
+  const [teacherEmail, setTeacherEmail] = useState('');
 
-  // const handleLogout = () => {
-  //   axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
-  //     .then(() => {
-  //       localStorage.removeItem('role');
-  //       navigate('/login');
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
+  useEffect(() => {
+    const teacherEmail = localStorage.getItem('email');
+
+    if (teacherEmail) {
+      axios.get(`http://localhost:3001/teacherdata/${teacherEmail}`)
+        .then(response => {
+          setTeacherName(response.data.name);
+          setTeacherEmail(response.data.email);
+        })
+        .catch(error => {
+          console.error('Error fetching teacher details:', error);
+        });
+    }
+  }, []);
 
   return (
     <div>
@@ -28,21 +33,21 @@ function Teacher() {
         <div className="container">
           <div className="row py-sm-5 ">
             <div className="col-3">
-              <img src="../assets/saifulsir.jpg" alt="" className="img-fluid" />
+              <img src={`../assets/teacher/${teacherEmail}.jpg`} alt="" className="img-fluid" />
             </div>
-            <div className="col-5">
-              <div className="row">
-                <div className="col-3">
-                  <h5>
-                    Name:<br />
-                    Designation:
-                  </h5>
-                </div>
-                <div className="col-9">
-                  Dr. Saiful Islam<br />
-                  Associate proffesor
-                </div>
-              </div>
+            <div className="col-5  d-flex align-items-center">
+              <table className='table' style={{ borderColor: "transparent" }}>
+                <tbody>
+                  <tr>
+                    <td style={{ fontWeight: "bold" }}>Name:</td>
+                    <td>{teacherName}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ fontWeight: "bold" }}>Email:</td>
+                    <td>{teacherEmail}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <div className="col-2"></div>
             <div className="col-2">
@@ -61,7 +66,7 @@ function Teacher() {
             <table>
               <thead>
                 <td>
-                  
+
                 </td>
               </thead>
             </table>

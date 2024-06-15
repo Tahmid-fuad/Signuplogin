@@ -20,6 +20,9 @@ function Header() {
     axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
       .then(() => {
         localStorage.removeItem('role');
+        localStorage.removeItem('id');
+        localStorage.removeItem('email');
+        // localStorage.removeItem('token');
         navigate('/login');
       })
       .catch(err => {

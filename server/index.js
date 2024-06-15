@@ -54,7 +54,7 @@ app.post("/login", async (req, res) => {
       if (isPasswordValid) {
         const token = jwt.sign({ email, role: user.role, id: user.id }, "tyftugihd7e", { expiresIn: '1h' });
 
-        res.status(200).json({ message: "Success", role: user.role, id: user.id, token });
+        res.status(200).json({ message: "Success", role: user.role, id: user.id, email: user.email, token });
       } else {
         res.status(400).json({ message: "The password is incorrect" });
       }
@@ -130,7 +130,7 @@ app.post('/reset-password/:token', async (req, res) => {
 });
 
 
-//data retrieve
+//Student data retrieve
 app.get('/studentdata/:id', async (req, res) => {
   const studentId = req.params.id;
   try {
@@ -138,11 +138,26 @@ app.get('/studentdata/:id', async (req, res) => {
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
-    res.json({ name: student.name, email: student.email, id: student.id , batch:student.batch});
+    res.json({ name: student.name, email: student.email, id: student.id, batch: student.batch });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
 });
+
+//Teacher data retrieve
+app.get('/teacherdata/:email', async (req, res) => {
+  const teacherEmail = req.params.email;
+  try {
+    const teacher = await StudentModel.findOne({ email: teacherEmail });
+    if (!teacher) {
+      return res.status(404).json({ message: 'Teacher not found' });
+    }
+    res.json({ name:teacher.name, email:teacher.email });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
 
 
 const port = 3001;

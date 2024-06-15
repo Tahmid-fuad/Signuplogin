@@ -4,8 +4,8 @@ const StudentSchema = new mongoose.Schema({
     email: String,
     password: String,
     id: String,
-    role: { type: String, enum: ['admin', 'teacher', 'student'], default: 'student' },
-    batch: { type: String, enum: ['19', '20', '21', '22', '23'] },
+    role: { type: String},
+    batch: { type: String},
     resetToken: String,
     resetTokenExpiry: Date
 })
