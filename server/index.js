@@ -129,6 +129,22 @@ app.post('/reset-password/:token', async (req, res) => {
   }
 });
 
+
+//data retrieve
+app.get('/studentdata/:id', async (req, res) => {
+  const studentId = req.params.id;
+  try {
+    const student = await StudentModel.findOne({ id: studentId });
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+    res.json({ name: student.name, email: student.email, id: student.id });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+
 const port = 3001;
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);

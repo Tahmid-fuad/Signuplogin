@@ -3,20 +3,31 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Notice from './Notice';
 import Routine20 from './Routine20';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Student() {
-  // const navigate = useNavigate();
+  const [studentName, setStudentName] = useState('');
+  const [studentEmail, setStudentEmail] = useState('');
+  const [studentId, setStudentId] = useState('');
 
-  // const handleLogout = () => {
-  //   axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
-  //     .then(() => {
-  //       localStorage.removeItem('role');
-  //       navigate('/login');
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
+  useEffect(() => {
+    const studentId = localStorage.getItem('id');
+
+    if (studentId) {
+      axios.get(`http://localhost:3001/studentdata/${studentId}`)
+        .then(response => {
+          // const { name, email, id } = response.data;
+          setStudentName(response.data.name || '');
+          setStudentEmail(response.data.email || '');
+          setStudentId(response.data.id || '');
+          // console.log(response.data)
+        })
+        .catch(error => {
+          console.error('Error fetching student details:', error);
+        });
+    }
+  }, []);
 
   return (
     <div>
@@ -35,13 +46,13 @@ function Student() {
                   <h5>
                     Name:<br />
                     Student ID:<br />
-                    Session:
+                    Email:
                   </h5>
                 </div>
                 <div className="col-9">
-                  Nusrat Jahan<br />
-                  2008056<br />
-                  2020-2021
+                  {studentName}<br />
+                  {studentId}<br />
+                  {studentEmail}
                 </div>
               </div>
             </div>
@@ -59,7 +70,7 @@ function Student() {
             <Notice />
           </div>
           <div className="col-8">
-            <Routine20/>
+            <Routine20 />
           </div>
         </div>
       </div>
