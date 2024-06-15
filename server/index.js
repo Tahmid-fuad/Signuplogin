@@ -25,7 +25,7 @@ mongoose.connect(uri)
   });
 
 app.post('/register', async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, id, role, batch } = req.body;
 
   try {
     const existingUser = await StudentModel.findOne({ email });
@@ -33,9 +33,9 @@ app.post('/register', async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new StudentModel({ name, email, password: hashedPassword, role });
+    const newUser = new StudentModel({ name, email, password: hashedPassword, id, role, batch });
     const savedUser = await newUser.save();
-    
+
     const token = jwt.sign({ email, role }, "your_secret_key", { expiresIn: '1h' });
 
     res.status(201).json({ user: savedUser, token });
@@ -52,9 +52,9 @@ app.post("/login", async (req, res) => {
     if (user) {
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (isPasswordValid) {
-        const token = jwt.sign({ email, role: user.role }, "tyftugihd7e", { expiresIn: '1h' });
-        
-        res.status(200).json({ message: "Success", role: user.role, token });
+        const token = jwt.sign({ email, role: user.role, id: user.id }, "tyftugihd7e", { expiresIn: '1h' });
+
+        res.status(200).json({ message: "Success", role: user.role, id: user.id, token });
       } else {
         res.status(400).json({ message: "The password is incorrect" });
       }
@@ -109,9 +109,9 @@ app.post('/reset-password/:token', async (req, res) => {
   const { password } = req.body;
 
   try {
-    const user = await StudentModel.findOne({ 
-      resetToken: token, 
-      resetTokenExpiry: { $gt: Date.now() } 
+    const user = await StudentModel.findOne({
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() }
     });
 
     if (!user) {

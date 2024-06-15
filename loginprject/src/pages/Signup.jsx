@@ -7,8 +7,10 @@ import axios from 'axios';
 function Signup() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
+    const [batch, setBatch] = useState('');
     const navigate = useNavigate();
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
@@ -16,12 +18,12 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const errors = validate(name, email, password);
+        const errors = validate(name, email, id, password);
         setFormErrors(errors);
         setIsSubmit(true);
 
         if (Object.keys(errors).length === 0) {
-            axios.post('http://localhost:3001/register', { name, email, password, role })
+            axios.post('http://localhost:3001/register', { name, email, password, id, role, batch })
                 .then(result => {
                     const { token, user } = result.data;
                     localStorage.setItem('token', token);
@@ -39,7 +41,7 @@ function Signup() {
         }
     };
 
-    const validate = (name, email, password) => {
+    const validate = (name, email, id, password) => {
         const errors = {};
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
         if (!name) {
@@ -49,6 +51,11 @@ function Signup() {
             errors.email = "Email is required";
         } else if (!regex.test(email)) {
             errors.email = "This is not a valid email format";
+        }
+        if (!id) {
+            errors.id = "Student ID is required";
+        } else if (id.length != 7) {
+            errors.password = "ID must be 7 characters long";
         }
         if (!password) {
             errors.password = "Password is required";
@@ -91,15 +98,15 @@ function Signup() {
                             {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
                         </div>
                         <div className='mb-2'>
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="id">Student ID</label>
                             <input
-                                type="email"
-                                placeholder='Enter Email'
+                                type="id"
+                                placeholder='Enter Student ID'
                                 className='form-control'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                value={id}
+                                onChange={(e) => setId(e.target.value)}
                             />
-                            {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
+                            {formErrors.id && <p className="text-danger">{formErrors.id}</p>}
                         </div>
                         <div className='mb-2'>
                             <label htmlFor="role">Role</label>
@@ -114,6 +121,22 @@ function Signup() {
                                 <option value="student">Student</option>
                             </select>
                             {formErrors.role && <p className="text-danger">{formErrors.role}</p>}
+                        </div>
+                        <div className='mb-2'>
+                            <label htmlFor="batch">Batch</label>
+                            <select
+                                className='form-control'
+                                value={batch}
+                                onChange={(e) => setBatch(e.target.value)}
+                            >
+                                <option value="">Select Batch</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                            {/* {formErrors.role && <p className="text-danger">{formErrors.role}</p>} */}
                         </div>
                         {serverError && <p className="text-danger">{serverError}</p>}
                         <div className='mb-2'>
