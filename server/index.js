@@ -25,7 +25,7 @@ mongoose.connect(uri)
   });
 
 app.post('/register', async (req, res) => {
-  const { name, email, password, id, role, batch } = req.body;
+  const { name, email, password, id, role, batch, desig } = req.body;
 
   try {
     const existingUser = await StudentModel.findOne({ email });
@@ -33,10 +33,10 @@ app.post('/register', async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new StudentModel({ name, email, password: hashedPassword, id, role, batch });
+    const newUser = new StudentModel({ name, email, password: hashedPassword, id, role, batch, desig });
     const savedUser = await newUser.save();
 
-    const token = jwt.sign({ email, role }, "your_secret_key", { expiresIn: '1h' });
+    const token = jwt.sign({ email, role }, "fwaxcgqgsgf", { expiresIn: '1h' });
 
     res.status(201).json({ user: savedUser, token });
   } catch (error) {
@@ -152,7 +152,7 @@ app.get('/teacherdata/:email', async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ message: 'Teacher not found' });
     }
-    res.json({ name:teacher.name, email:teacher.email });
+    res.json({ name: teacher.name, email: teacher.email , desig:teacher.desig});
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }

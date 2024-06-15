@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 function Teacher() {
   const [teacherName, setTeacherName] = useState('');
   const [teacherEmail, setTeacherEmail] = useState('');
+  const [teacherDesig, setTeacherDesig] = useState('');
 
   useEffect(() => {
     const teacherEmail = localStorage.getItem('email');
@@ -17,12 +18,31 @@ function Teacher() {
         .then(response => {
           setTeacherName(response.data.name);
           setTeacherEmail(response.data.email);
+          setTeacherDesig(response.data.desig);
         })
         .catch(error => {
           console.error('Error fetching teacher details:', error);
         });
     }
   }, []);
+
+  let designation = '';
+  switch (teacherDesig) {
+    case '1':
+      designation = 'Proffesor';
+      break;
+    case '2':
+      designation = 'Associate Proffesor';
+      break;
+    case '3':
+      designation = 'Assistant Proffesor';
+      break;
+    case '4':
+      designation = 'Lecturer';
+      break;
+    default:
+    // designation = 'Unknown Batch';
+  }
 
   return (
     <div>
@@ -46,6 +66,10 @@ function Teacher() {
                     <td style={{ fontWeight: "bold" }}>Email:</td>
                     <td>{teacherEmail}</td>
                   </tr>
+                  <tr>
+                    <td style={{ fontWeight: "bold" }}>Designation:</td>
+                    <td>{designation}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -63,13 +87,7 @@ function Teacher() {
             <Notice />
           </div>
           <div className="col-8">
-            <table>
-              <thead>
-                <td>
-
-                </td>
-              </thead>
-            </table>
+            
           </div>
         </div>
       </div>

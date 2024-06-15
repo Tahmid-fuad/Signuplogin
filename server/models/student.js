@@ -6,6 +6,7 @@ const StudentSchema = new mongoose.Schema({
     id: String,
     role: { type: String},
     batch: { type: String},
+    desig: String,
     resetToken: String,
     resetTokenExpiry: Date
 })

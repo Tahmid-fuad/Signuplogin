@@ -11,6 +11,7 @@ function Signup() {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
     const [batch, setBatch] = useState('');
+    const [desig, setDesig] = useState('');
     const navigate = useNavigate();
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
@@ -18,12 +19,12 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const errors = validate(name, email, id, password, role, batch);
+        const errors = validate(name, email, id, password, role, batch, desig);
         setFormErrors(errors);
         setIsSubmit(true);
 
         if (Object.keys(errors).length === 0) {
-            axios.post('http://localhost:3001/register', { name, email, password, id, role, batch })
+            axios.post('http://localhost:3001/register', { name, email, password, id, role, batch, desig })
                 .then(result => {
                     const { token, user } = result.data;
                     localStorage.setItem('token', token);
@@ -41,7 +42,7 @@ function Signup() {
         }
     };
 
-    const validate = (name, email, id, password, role, batch) => {
+    const validate = (name, email, id, password, role, batch, desig) => {
         const errors = {};
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
         if (!name) {
@@ -67,6 +68,9 @@ function Signup() {
         }
         if (role === 'student' && !batch) {
             errors.batch = "Batch is required";
+        }
+        if (!desig) {
+            errors.desig = "Designation is required";
         }
         return errors;
     };
@@ -144,6 +148,23 @@ function Signup() {
                                     {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>}
                                 </div>
                             </>
+                        )}
+                        {role === 'teacher' && (
+                            <div className='mb-2'>
+                                <label htmlFor="desig">Designation</label>
+                                <select
+                                    className='form-control'
+                                    value={desig}
+                                    onChange={(e) => setDesig(e.target.value)}
+                                >
+                                    <option value="">Select Designation</option>
+                                    <option value="1">Professor</option>
+                                    <option value="2">Associate Professor</option>
+                                    <option value="3">Assistant Professor</option>
+                                    <option value="4">Lecturer</option>
+                                </select>
+                                {formErrors.desig && <p className="text-danger">{formErrors.desig}</p>}
+                            </div>
                         )}
                         {serverError && <p className="text-danger">{serverError}</p>}
                         <div className='mb-2'>
