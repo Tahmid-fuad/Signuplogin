@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from 'react'; // Make sure to import Suspense for React.lazy
+import React, { useEffect, useState, Suspense } from 'react'; 
 import axios from 'axios';
 import ProtectedRoute from './ProtectedRoute';
 import Footer from "./Footer";
@@ -43,7 +43,6 @@ function Student() {
       // academicYear = 'Unknown Batch';
   }
 
-  // Use React.lazy to import component dynamically
   const RoutineComponent = studentBatch ? React.lazy(() => import(`./Routine${studentBatch}`)) : null;
 
   return (
