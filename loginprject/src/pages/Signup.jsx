@@ -98,17 +98,6 @@ function Signup() {
                             {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
                         </div>
                         <div className='mb-2'>
-                            <label htmlFor="id">Student ID</label>
-                            <input
-                                type="id"
-                                placeholder='Enter Student ID'
-                                className='form-control'
-                                value={id}
-                                onChange={(e) => setId(e.target.value)}
-                            />
-                            {formErrors.id && <p className="text-danger">{formErrors.id}</p>}
-                        </div>
-                        <div className='mb-2'>
                             <label htmlFor="role">Role</label>
                             <select
                                 className='form-control'
@@ -121,6 +110,17 @@ function Signup() {
                                 <option value="student">Student</option>
                             </select>
                             {formErrors.role && <p className="text-danger">{formErrors.role}</p>}
+                        </div>
+                        <div className='mb-2'>
+                            <label htmlFor="id">Student ID</label>
+                            <input
+                                type="id"
+                                placeholder='Enter Student ID'
+                                className='form-control'
+                                value={id}
+                                onChange={(e) => setId(e.target.value)}
+                            />
+                            {formErrors.id && <p className="text-danger">{formErrors.id}</p>}
                         </div>
                         <div className='mb-2'>
                             <label htmlFor="batch">Batch</label>
