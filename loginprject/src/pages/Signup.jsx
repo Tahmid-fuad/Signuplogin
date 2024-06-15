@@ -41,7 +41,7 @@ function Signup() {
         }
     };
 
-    const validate = (name, email, id, password) => {
+    const validate = (name, email, id, password, role, batch) => {
         const errors = {};
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
         if (!name) {
@@ -52,10 +52,10 @@ function Signup() {
         } else if (!regex.test(email)) {
             errors.email = "This is not a valid email format";
         }
-        if (!id) {
+        if (role === 'student' && !id) {
             errors.id = "Student ID is required";
-        } else if (id.length != 7) {
-            errors.password = "ID must be 7 characters long";
+        } else if (role === 'student' && id.length !== 7) {
+            errors.id = "ID must be 7 characters long";
         }
         if (!password) {
             errors.password = "Password is required";
@@ -64,6 +64,9 @@ function Signup() {
         }
         if (!role) {
             errors.role = "Role is required";
+        }
+        if (role === 'student' && !batch) {
+            errors.batch = "Batch is required";
         }
         return errors;
     };
@@ -112,33 +115,36 @@ function Signup() {
                             {formErrors.role && <p className="text-danger">{formErrors.role}</p>}
                         </div>
                         {role === 'student' && (
-                            <div className='mb-2'>
-                                <label htmlFor="id">Student ID</label>
-                                <input
-                                    type="text"
-                                    placeholder='Enter Student ID'
-                                    className='form-control'
-                                    value={id}
-                                    onChange={(e) => setId(e.target.value)}
-                                />
-                                {formErrors.id && <p className="text-danger">{formErrors.id}</p>}
-                            </div>
+                            <>
+                                <div className='mb-2'>
+                                    <label htmlFor="id">Student ID</label>
+                                    <input
+                                        type="text"
+                                        placeholder='Enter Student ID'
+                                        className='form-control'
+                                        value={id}
+                                        onChange={(e) => setId(e.target.value)}
+                                    />
+                                    {formErrors.id && <p className="text-danger">{formErrors.id}</p>}
+                                </div>
+                                <div className='mb-2'>
+                                    <label htmlFor="batch">Batch</label>
+                                    <select
+                                        className='form-control'
+                                        value={batch}
+                                        onChange={(e) => setBatch(e.target.value)}
+                                    >
+                                        <option value="">Select Batch</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                    </select>
+                                    {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>}
+                                </div>
+                            </>
                         )}
-                        <div className='mb-2'>
-                            <label htmlFor="batch">Batch</label>
-                            <select
-                                className='form-control'
-                                value={batch}
-                                onChange={(e) => setBatch(e.target.value)}
-                            >
-                                <option value="">Select Batch</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                            </select>
-                        </div>
                         {serverError && <p className="text-danger">{serverError}</p>}
                         <div className='mb-2'>
                             <label htmlFor="password">Password</label>
