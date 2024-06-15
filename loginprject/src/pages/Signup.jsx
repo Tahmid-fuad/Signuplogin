@@ -114,7 +114,7 @@ function Signup() {
                         <div className='mb-2'>
                             <label htmlFor="id">Student ID</label>
                             <input
-                                type="id"
+                                    type="text"
                                 placeholder='Enter Student ID'
                                 className='form-control'
                                 value={id}
