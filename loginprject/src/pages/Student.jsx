@@ -10,6 +10,7 @@ function Student() {
   const [studentName, setStudentName] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
   const [studentId, setStudentId] = useState('');
+  const [studentBatch, setStudentBatch] = useState('');
 
   useEffect(() => {
     const studentId = localStorage.getItem('id');
@@ -17,10 +18,18 @@ function Student() {
     if (studentId) {
       axios.get(`http://localhost:3001/studentdata/${studentId}`)
         .then(response => {
-          // const { name, email, id } = response.data;
-          setStudentName(response.data.name || '');
-          setStudentEmail(response.data.email || '');
-          setStudentId(response.data.id || '');
+          // const batchMap = {
+          //   '19': '2019-20',
+          //   '20': '2020-21',
+          //   '21': '2021-22',
+          //   '22': '2022-23',
+          //   '23': '2023-24'
+          // };
+          setStudentName(response.data.name);
+          setStudentEmail(response.data.email);
+          setStudentId(response.data.id);
+          setStudentBatch(response.data.batch);
+          // setStudentBatch(batchMap[response.data.batch]);
           // console.log(response.data)
         })
         .catch(error => {
@@ -28,6 +37,22 @@ function Student() {
         });
     }
   }, []);
+
+  let academicYear = '';
+  switch (studentBatch) {
+    case '20':
+      academicYear = '2020-21';
+      break;
+    case '21':
+      academicYear = '2021-22';
+      break;
+    case '22':
+      academicYear = '2022-23';
+      break;
+    // Add more cases as needed
+    default:
+      academicYear = 'Unknown Batch';
+  }
 
   return (
     <div>
@@ -40,19 +65,21 @@ function Student() {
             <div className="col-3">
               <img src="../assets/njr.jpg" alt="" className="img-fluid" />
             </div>
-            <div className="col-5 ">
+            <div className="col-5  d-flex align-items-center">
               <div className="row">
-                <div className="col-3">
+                <div className="col-6">
                   <h5>
                     Name:<br />
                     Student ID:<br />
-                    Email:
+                    Email:<br />
+                    Batch:
                   </h5>
                 </div>
-                <div className="col-9">
+                <div className="col-6">
                   {studentName}<br />
                   {studentId}<br />
-                  {studentEmail}
+                  {studentEmail}<br />
+                  {academicYear}
                 </div>
               </div>
             </div>

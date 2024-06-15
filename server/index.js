@@ -138,7 +138,7 @@ app.get('/studentdata/:id', async (req, res) => {
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
-    res.json({ name: student.name, email: student.email, id: student.id });
+    res.json({ name: student.name, email: student.email, id: student.id , batch:student.batch});
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }

@@ -18,7 +18,7 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const errors = validate(name, email, id, password, role);
+        const errors = validate(name, email, id, password, role, batch);
         setFormErrors(errors);
         setIsSubmit(true);
 
