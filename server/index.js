@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require('crypto');
 const StudentModel = require('./models/student');
 const setupTransporter = require('./emailConfig');
-const crypto = require('crypto');
-
+const MarksModel = require("./models/marks");
 const app = express();
 app.use(express.json());
 app.use(cors({
@@ -129,8 +129,7 @@ app.post('/reset-password/:token', async (req, res) => {
   }
 });
 
-
-//Student data retrieve
+// Student data retrieve
 app.get('/studentdata/:id', async (req, res) => {
   const studentId = req.params.id;
   try {
@@ -144,7 +143,7 @@ app.get('/studentdata/:id', async (req, res) => {
   }
 });
 
-//Teacher data retrieve
+// Teacher data retrieve
 app.get('/teacherdata/:email', async (req, res) => {
   const teacherEmail = req.params.email;
   try {
@@ -152,14 +151,66 @@ app.get('/teacherdata/:email', async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ message: 'Teacher not found' });
     }
-    res.json({ name: teacher.name, email: teacher.email , desig:teacher.desig});
+    res.json({ name: teacher.name, email: teacher.email, desig: teacher.desig });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
 });
 
+// Mark submission
+app.post('/submitMarks', async (req, res) => {
+  const { batch, course, exam, studentId, marks } = req.body;
+  try {
+    // Find the batch, or create a new batch document if it doesn't exist
+    let batchDoc = await MarksModel.findOne({ batchYear: batch });
+    if (!batchDoc) {
+      batchDoc = new MarksModel({ batchYear: batch, courses: [] });
+    }
+
+    // Find or create the course within the batch
+    let courseDoc = batchDoc.courses.find(c => c.courseCode === course);
+    if (!courseDoc) {
+      courseDoc = { courseCode: course, students: [] };
+      batchDoc.courses.push(courseDoc);
+    }
+
+    // Find or create the student within the course
+    let studentDoc = courseDoc.students.find(s => s.studentId === studentId);
+    if (!studentDoc) {
+      studentDoc = { studentId: studentId, exams: [] };
+      courseDoc.students.push(studentDoc);
+    }
+
+    // Find or create the exam for the student
+    let examDoc = studentDoc.exams.find(e => e.examType === exam);
+    if (!examDoc) {
+      examDoc = { examType: exam, marks: [] };
+      studentDoc.exams.push(examDoc);
+    }
+
+    // Add marks to the exam
+    let marksDoc = examDoc.marks[0]; // Assuming only one marks entry per exam
+
+    if (marksDoc) {
+      // Update existing marks
+      marksDoc.marks = marks;
+    } else {
+      // Add new marks entry if none exists
+      examDoc.marks.push({ marks: marks });
+    }
+
+    // Save the updated batch document
+    await batchDoc.save();
+    res.status(200).json({ message: 'Marks submitted successfully'});
+  } catch (error) {
+    console.error('Error submitting marks:', error);
+    res.status(500).json({ message: 'Error submitting marks' });
+  }
+});
 
 
+
+// Define port and start server
 const port = 3001;
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);
