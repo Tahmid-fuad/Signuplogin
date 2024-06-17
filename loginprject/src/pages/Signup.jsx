@@ -69,7 +69,7 @@ function Signup() {
         if (role === 'student' && !batch) {
             errors.batch = "Batch is required";
         }
-        if (!desig) {
+        if (role === 'teacher' && !desig) {
             errors.desig = "Designation is required";
         }
         return errors;

@@ -160,53 +160,60 @@ app.get('/teacherdata/:email', async (req, res) => {
 // Mark submission
 app.post('/submitMarks', async (req, res) => {
   const { batch, course, exam, studentId, marks } = req.body;
+
   try {
-    // Find the batch, or create a new batch document if it doesn't exist
-    let batchDoc = await MarksModel.findOne({ batchYear: batch });
-    if (!batchDoc) {
-      batchDoc = new MarksModel({ batchYear: batch, courses: [] });
+    // Using 'findOneAndUpdate' with 'upsert' to create/update nested documents
+    const batchDoc = await MarksModel.findOneAndUpdate(
+      { batchYear: batch },
+      { $setOnInsert: { batchYear: batch, courses: [] } },
+      { new: true, upsert: true }
+    );
+
+    const courseIndex = batchDoc.courses.findIndex(c => c.courseCode === course);
+    if (courseIndex === -1) {
+      // If the course doesn't exist, add it
+      batchDoc.courses.push({ courseCode: course, students: [] });
     }
 
-    // Find or create the course within the batch
-    let courseDoc = batchDoc.courses.find(c => c.courseCode === course);
-    if (!courseDoc) {
-      courseDoc = { courseCode: course, students: [] };
-      batchDoc.courses.push(courseDoc);
+    const updatedBatchDoc = await batchDoc.save();
+    const updatedCourseDoc = updatedBatchDoc.courses.find(c => c.courseCode === course);
+
+    const studentIndex = updatedCourseDoc.students.findIndex(s => s.studentId === studentId);
+    if (studentIndex === -1) {
+      // If the student doesn't exist, add them
+      updatedCourseDoc.students.push({ studentId: studentId, exams: [] });
     }
 
-    // Find or create the student within the course
-    let studentDoc = courseDoc.students.find(s => s.studentId === studentId);
-    if (!studentDoc) {
-      studentDoc = { studentId: studentId, exams: [] };
-      courseDoc.students.push(studentDoc);
+    const updatedStudentDoc = updatedCourseDoc.students.find(s => s.studentId === studentId);
+
+    const examIndex = updatedStudentDoc.exams.findIndex(e => e.examType === exam);
+    if (examIndex === -1) {
+      // If the exam doesn't exist, add it
+      updatedStudentDoc.exams.push({ examType: exam, marks: [] });
     }
 
-    // Find or create the exam for the student
-    let examDoc = studentDoc.exams.find(e => e.examType === exam);
-    if (!examDoc) {
-      examDoc = { examType: exam, marks: [] };
-      studentDoc.exams.push(examDoc);
-    }
+    const updatedExamDoc = updatedStudentDoc.exams.find(e => e.examType === exam);
+    
+    const marksIndex = updatedExamDoc.marks.findIndex(m => m.marks === marks);
 
-    // Add marks to the exam
-    let marksDoc = examDoc.marks[0]; // Assuming only one marks entry per exam
-
-    if (marksDoc) {
-      // Update existing marks
-      marksDoc.marks = marks;
+    if (marksIndex === -1) {
+      // If the marks entry doesn't exist, add it
+      updatedExamDoc.marks.push({ marks: marks });
     } else {
-      // Add new marks entry if none exists
-      examDoc.marks.push({ marks: marks });
+      // If it exists, update the marks
+      updatedExamDoc.marks[marksIndex].marks = marks;
     }
 
     // Save the updated batch document
-    await batchDoc.save();
-    res.status(200).json({ message: 'Marks submitted successfully'});
+    await updatedBatchDoc.save();
+
+    res.status(200).json({ message: 'Marks submitted successfully' });
   } catch (error) {
     console.error('Error submitting marks:', error);
     res.status(500).json({ message: 'Error submitting marks' });
   }
 });
+
 
 
 

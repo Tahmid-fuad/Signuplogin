@@ -14,7 +14,7 @@ const StudentSchema = new mongoose.Schema({
 });
 
 const CourseSchema = new mongoose.Schema({
-    courseCode: { type: String, required: true },  // e.g., ETE 301
+    courseCode: { type: String, required: true }, 
     students: [StudentSchema]
 });
 
