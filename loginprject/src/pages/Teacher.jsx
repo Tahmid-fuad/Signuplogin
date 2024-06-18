@@ -147,8 +147,8 @@ function Teacher() {
                         onChange={(e) => setCourse(e.target.value)}
                       >
                         <option value="">Select Course</option>
-                        <option value="301">ETE 201</option>
-                        <option value="303">ETE 203</option>
+                        <option value="301">ETE 301</option>
+                        <option value="303">ETE 303</option>
                         <option value="305">ETE 305</option>
                         <option value="307">ETE 307</option>
                         <option value="309">ETE 309</option>

@@ -214,6 +214,20 @@ app.post('/submitMarks', async (req, res) => {
   }
 });
 
+// Fetch student marks by studentId
+app.get('/studentMarks/:id', async (req, res) => {
+  const studentId = req.params.id;
+  try {
+    const studentMarks = await MarksModel.findOne({ 'students.studentId': studentId }, { 'students.$': 1 });
+    if (!studentMarks) {
+      return res.status(404).json({ message: 'Marks not found for the student' });
+    }
+    res.json(studentMarks.students[0]);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
 
 
 

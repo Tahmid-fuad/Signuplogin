@@ -17,6 +17,7 @@ function Student() {
   const [studentId, setStudentId] = useState('');
   const [studentBatch, setStudentBatch] = useState('');
   const [teacherName, setTeacherName] = useState('');
+  const [studentMarks, setStudentMarks] = useState(null); // New state for marks
 
   const advisorEmail = getAdvisorEmail(studentBatch, studentId);
 
@@ -34,6 +35,16 @@ function Student() {
         .catch(error => {
           console.error('Error fetching student details:', error);
         });
+
+      // Fetch student marks
+      axios.get(`http://localhost:3001/studentMarks/${studentId}`)
+        .then(response => {
+          setStudentMarks(response.data);
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching student marks:', error);
+        });
     }
   }, []);
 
@@ -47,8 +58,7 @@ function Student() {
           console.error('Error fetching teacher details:', error);
         });
     }
-  }, [advisorEmail])
-
+  }, [advisorEmail]);
 
   let academicYear = '';
   switch (studentBatch) {
@@ -66,8 +76,6 @@ function Student() {
   }
 
   const RoutineComponent = batchToRoutineComponent[studentBatch] || null;
-
-
 
   return (
     <div>
@@ -123,7 +131,34 @@ function Student() {
           </div>
         </div>
         <div className="row">
-            {/* Add your code here */}
+          {/* Display student marks */}
+          <div className="col-12">
+            <h3>Exam Results</h3>
+            {studentMarks ? (
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Course</th>
+                    {studentMarks.courses[0].exams.map(exam => (
+                      <th key={exam.examType}>{exam.examType}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {studentMarks.courses.map(course => (
+                    <tr key={course.courseCode}>
+                      <td>{course.courseCode}</td>
+                      {course.exams.map(exam => (
+                        <td key={exam.examType}>{exam.marks[0].marks}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No marks available</p>
+            )}
+          </div>
         </div>
       </div>
       <Footer />
