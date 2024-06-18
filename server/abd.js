@@ -165,34 +165,34 @@ app.post('/submitMarks', async (req, res) => {
     // Using 'findOneAndUpdate' with 'upsert' to create/update nested documents
     const batchDoc = await MarksModel.findOneAndUpdate(
       { batchYear: batch },
-      { $setOnInsert: { batchYear: batch, students: [] } },
+      { $setOnInsert: { batchYear: batch, courses: [] } },
       { new: true, upsert: true }
     );
 
-    const studentIndex = batchDoc.students.findIndex(s => s.studentId === studentId);
-    if (studentIndex === -1) {
-      // If the student doesn't exist, add them
-      batchDoc.students.push({ studentId: studentId, courses: [] });
+    const courseIndex = batchDoc.courses.findIndex(c => c.courseCode === course);
+    if (courseIndex === -1) {
+      // If the course doesn't exist, add it
+      batchDoc.courses.push({ courseCode: course, students: [] });
     }
 
     const updatedBatchDoc = await batchDoc.save();
-    const updatedStudentDoc = updatedBatchDoc.students.find(s => s.studentId === studentId);
+    const updatedCourseDoc = updatedBatchDoc.courses.find(c => c.courseCode === course);
 
-    const courseIndex = updatedStudentDoc.courses.findIndex(c => c.courseCode === course);
-    if (courseIndex === -1) {
-      // If the course doesn't exist, add it
-      updatedStudentDoc.courses.push({ courseCode: course, exams: [] });
+    const studentIndex = updatedCourseDoc.students.findIndex(s => s.studentId === studentId);
+    if (studentIndex === -1) {
+      // If the student doesn't exist, add them
+      updatedCourseDoc.students.push({ studentId: studentId, exams: [] });
     }
 
-    const updatedCourseDoc = updatedStudentDoc.courses.find(c => c.courseCode === course);
+    const updatedStudentDoc = updatedCourseDoc.students.find(s => s.studentId === studentId);
 
-    const examIndex = updatedCourseDoc.exams.findIndex(e => e.examType === exam);
+    const examIndex = updatedStudentDoc.exams.findIndex(e => e.examType === exam);
     if (examIndex === -1) {
       // If the exam doesn't exist, add it
-      updatedCourseDoc.exams.push({ examType: exam, marks: [] });
+      updatedStudentDoc.exams.push({ examType: exam, marks: [] });
     }
 
-    const updatedExamDoc = updatedCourseDoc.exams.find(e => e.examType === exam);
+    const updatedExamDoc = updatedStudentDoc.exams.find(e => e.examType === exam);
     
     const marksIndex = updatedExamDoc.marks.findIndex(m => m.marks === marks);
 
