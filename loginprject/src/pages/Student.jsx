@@ -6,6 +6,11 @@ import Header from "./Header";
 import Notice from './Notice';
 import getAdvisorEmail from './advisorLogic';
 
+const batchToRoutineComponent = {
+  '20': React.lazy(() => import('./Routine20.jsx')),
+  '21': React.lazy(() => import('./Routine21.jsx')),
+};
+
 function Student() {
   const [studentName, setStudentName] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
@@ -60,7 +65,7 @@ function Student() {
     // academicYear = 'Unknown Batch';
   }
 
-  const RoutineComponent = studentBatch ? React.lazy(() => import(`./Routine${studentBatch}`)) : null;
+  const RoutineComponent = batchToRoutineComponent[studentBatch] || null;
 
 
 
@@ -116,6 +121,9 @@ function Student() {
               </Suspense>
             )}
           </div>
+        </div>
+        <div className="row">
+            {/* Add your code here */}
         </div>
       </div>
       <Footer />
