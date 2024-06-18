@@ -229,6 +229,9 @@ function Teacher() {
           </div>
         </div>
       </div>
+      <div className="row">
+        {/* insert the marks table here */}
+      </div>
       <Footer />
     </div>
   );

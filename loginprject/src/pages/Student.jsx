@@ -17,7 +17,7 @@ function Student() {
   const [studentId, setStudentId] = useState('');
   const [studentBatch, setStudentBatch] = useState('');
   const [teacherName, setTeacherName] = useState('');
-  const [studentMarks, setStudentMarks] = useState(null); // New state for marks
+  const [studentMarks, setStudentMarks] = useState(null); 
 
   const advisorEmail = getAdvisorEmail(studentBatch, studentId);
 
