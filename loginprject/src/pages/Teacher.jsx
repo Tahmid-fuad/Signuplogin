@@ -15,6 +15,7 @@ function Teacher() {
   const [studentId, setStudentId] = useState('');
   const [marks, setMarks] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [marksData, setMarksData] = useState([]); // State to store marks data
 
   useEffect(() => {
     const teacherEmail = localStorage.getItem('email');
@@ -30,6 +31,16 @@ function Teacher() {
           console.error('Error fetching teacher details:', error);
         });
     }
+
+    // Fetch student marks data by course
+    axios.get('http://localhost:3001/getMarksByCourse')
+      .then(response => {
+        setMarksData(response.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching student marks:', error);
+      });
   }, []);
 
   const handleSubmit = (e) => {
@@ -230,7 +241,44 @@ function Teacher() {
         </div>
       </div>
       <div className="row">
-        {/* insert the marks table here */}
+        {/* Display Marks Data */}
+        <div className='container mt-5'>
+          {Object.keys(marksData).length > 0 ? (
+            Object.entries(marksData).map(([courseCode, students]) => (
+              <div key={courseCode} className="mb-4">
+                <h3>{courseCode}</h3>
+                <table className='table table-striped table-bordered'>
+                  <thead>
+                    <tr>
+                      <th>Student ID</th>
+                      <th>CT-1</th>
+                      <th>CT-2</th>
+                      <th>CT-3</th>
+                      <th>CT-4</th>
+                      <th>CT-5</th>
+                      <th>Term Final</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {students.map((student, index) => (
+                      <tr key={index}>
+                        <td>{student.studentId}</td>
+                        <td>{student['ct1'] || ''}</td>
+                        <td>{student['ct2'] || ''}</td>
+                        <td>{student['ct3'] || ''}</td>
+                        <td>{student['ct4'] || ''}</td>
+                        <td>{student['ct5'] || ''}</td>
+                        <td>{student['term'] || ''}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))
+          ) : (
+            <p>No marks data available.</p>
+          )}
+        </div>
       </div>
       <Footer />
     </div>

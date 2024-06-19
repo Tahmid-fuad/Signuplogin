@@ -40,7 +40,6 @@ function Student() {
       axios.get(`http://localhost:3001/studentMarks/${studentId}`)
         .then(response => {
           setStudentMarks(response.data);
-          console.log(response.data);
         })
         .catch(error => {
           console.error('Error fetching student marks:', error);

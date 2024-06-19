@@ -229,6 +229,35 @@ app.get('/studentMarks/:id', async (req, res) => {
 });
 
 
+app.get('/getMarksByCourse', async (req, res) => {
+  try {
+    const marksData = await MarksModel.find({});
+    if (!marksData) {
+      return res.status(404).json({ message: 'No marks data found' });
+    }
+
+    const courses = {};
+    marksData.forEach(batch => {
+      batch.students.forEach(student => {
+        student.courses.forEach(course => {
+          if (!courses[course.courseCode]) {
+            courses[course.courseCode] = [];
+          }
+          const studentData = { studentId: student.studentId };
+          course.exams.forEach(exam => {
+            studentData[exam.examType] = exam.marks.map(m => m.marks).join(', ');
+          });
+          courses[course.courseCode].push(studentData);
+        });
+      });
+    });
+
+    res.json(courses);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
 
 
 // Define port and start server
