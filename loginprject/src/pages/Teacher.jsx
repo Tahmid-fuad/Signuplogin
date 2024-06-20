@@ -4,6 +4,7 @@ import Header from "./Header";
 import axios from 'axios';
 import Notice from './Notice';
 import { useEffect, useState } from 'react';
+import courseIdReplace from './courseCodeMap';
 
 function Teacher() {
   const [teacherName, setTeacherName] = useState('');
@@ -36,12 +37,13 @@ function Teacher() {
     axios.get('http://localhost:3001/getMarksByCourse')
       .then(response => {
         setMarksData(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         console.error('Error fetching student marks:', error);
       });
   }, []);
+
+  console.log(marksData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,14 +90,6 @@ function Teacher() {
     default:
     // designation = 'Unknown Designation';
   }
-
-  const courseIdReplace = {
-    '301': 'ETE 301 (Semiconductor Devices)',
-    '303': 'ETE 303 (Industrial Electronics)',
-    '305': 'ETE 305 (Digital Communication)',
-    '307': 'ETE 307 (Microwave and Antenna Design)',
-    '309': 'ETE 309 (Digital Signal Processing)',
-  };
 
   return (
     <div>

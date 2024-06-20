@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Notice from './Notice';
 import getAdvisorEmail from './advisorLogic';
+import courseIdReplace from './courseCodeMap.jsx';
 
 const batchToRoutineComponent = {
   '20': React.lazy(() => import('./Routine20.jsx')),
@@ -58,6 +59,8 @@ function Student() {
         });
     }
   }, [advisorEmail]);
+
+ console.log(studentMarks);
 
   let academicYear = '';
   switch (studentBatch) {
@@ -134,7 +137,7 @@ function Student() {
           <div className="col-12">
             <h3>Exam Results</h3>
             {studentMarks ? (
-              <table className="table table-striped table-bordered">
+              <table className="table table-bordered">
                 <thead>
                   <tr>
                     <th>Course</th>
@@ -152,7 +155,7 @@ function Student() {
                 <tbody>
                   {studentMarks.courses.map(course => (
                     <tr key={course.courseCode}>
-                      <td>{course.courseCode}</td>
+                      <td>{courseIdReplace[course.courseCode]}</td>
                       {course.exams.map(exam => (
                         <td key={exam.examType}>{exam.marks[0].marks}</td>
                       ))}
