@@ -245,31 +245,39 @@ app.get('/studentMarks/:id', async (req, res) => {
 app.get('/getMarksByCourse', async (req, res) => {
   try {
     const marksData = await MarksModel.find({});
-    if (!marksData) {
+    if (!marksData || marksData.length === 0) {
       return res.status(404).json({ message: 'No marks data found' });
     }
 
-    const courses = {};
+    const dataByBatch = {};
     marksData.forEach(batch => {
+      const batchYear = batch.batchYear;
+      if (!dataByBatch[batchYear]) {
+        dataByBatch[batchYear] = {};
+      }
+
       batch.students.forEach(student => {
         student.courses.forEach(course => {
-          if (!courses[course.courseCode]) {
-            courses[course.courseCode] = [];
+          if (!dataByBatch[batchYear][course.courseCode]) {
+            dataByBatch[batchYear][course.courseCode] = [];
           }
+
           const studentData = { studentId: student.studentId };
           course.exams.forEach(exam => {
             studentData[exam.examType] = exam.marks.map(m => m.marks).join(', ');
           });
-          courses[course.courseCode].push(studentData);
+          dataByBatch[batchYear][course.courseCode].push(studentData);
         });
       });
     });
 
-    res.json(courses);
+    res.json(dataByBatch);
   } catch (error) {
+    console.error('Error fetching marks:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 });
+
 
 
 

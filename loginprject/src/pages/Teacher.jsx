@@ -16,7 +16,7 @@ function Teacher() {
   const [studentId, setStudentId] = useState('');
   const [marks, setMarks] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [marksData, setMarksData] = useState([]); // State to store marks data
+  const [marksData, setMarksData] = useState({}); // State to store marks data
 
   useEffect(() => {
     const teacherEmail = localStorage.getItem('email');
@@ -43,8 +43,6 @@ function Teacher() {
       });
   }, []);
 
-  console.log(marksData);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -66,7 +64,11 @@ function Teacher() {
       .then(response => {
         // Display success message or feedback
         setSuccessMessage('Marks submitted successfully');
-        console.log('Response:', response.data);
+        // console.log('Response:', response.data);
+        axios.get('http://localhost:3001/getMarksByCourse')
+          .then(response => {
+            setMarksData(response.data);
+          })
       })
       .catch(error => {
         console.error('Error submitting marks:', error);
@@ -170,6 +172,23 @@ function Teacher() {
                       {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
                     </div>
                   )}
+                  {batch === '21' && (
+                    <div className='mb-2'>
+                      <select
+                        className='form-control'
+                        value={course}
+                        onChange={(e) => setCourse(e.target.value)}
+                      >
+                        <option value="">Select Course</option>
+                        <option value="201">ETE 201</option>
+                        <option value="203">ETE 203</option>
+                        <option value="c281">CSE 281</option>
+                        <option value="m281">Math 281</option>
+                        <option value="h281">Hum 281</option>
+                      </select>
+                      {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                    </div>
+                  )}
                   {batch === '22' && (
                     <div className='mb-2'>
                       <select
@@ -245,44 +264,49 @@ function Teacher() {
       </div>
       <div className="row">
         {/* Display Marks Data */}
-        <div className='container mt-5'>
-          <h3 className='text-decoration-underline'>Exam Results</h3>
-          {Object.keys(marksData).length > 0 ? (
-            Object.entries(marksData).map(([courseCode, students]) => (
-              <div key={courseCode} className="mb-4">
-                <h4>{courseIdReplace[courseCode]}</h4>
-                <table className='table table-striped table-bordered'>
-                  <thead>
-                    <tr>
-                      <th>Student ID</th>
-                      <th>CT-1</th>
-                      <th>CT-2</th>
-                      <th>CT-3</th>
-                      <th>CT-4</th>
-                      <th>CT-5</th>
-                      <th>Term Final</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {students.map((student, index) => (
-                      <tr key={index}>
-                        <td>{student.studentId}</td>
-                        <td>{student['ct1'] || ''}</td>
-                        <td>{student['ct2'] || ''}</td>
-                        <td>{student['ct3'] || ''}</td>
-                        <td>{student['ct4'] || ''}</td>
-                        <td>{student['ct5'] || ''}</td>
-                        <td>{student['term'] || ''}</td>
+        <div className="container mt-5">
+        <h3 className='text-decoration-underline'>Exam Results</h3>
+        {Object.keys(marksData).length > 0 ? (
+          Object.entries(marksData).map(([batchYear, courses]) => (
+            <div key={batchYear} className="mb-5">
+              <h5 className='text-decoration-underline'>Batch: {batchYear}</h5>
+              {Object.entries(courses).map(([courseCode, students]) => (
+                <div key={courseCode} className="mb-4">
+                  <h5>{courseIdReplace[courseCode] || courseCode}</h5>
+                  <table className='table table-striped table-bordered'>
+                    <thead>
+                      <tr>
+                        <th>Student ID</th>
+                        <th>CT-1</th>
+                        <th>CT-2</th>
+                        <th>CT-3</th>
+                        <th>CT-4</th>
+                        <th>CT-5</th>
+                        <th>Term Final</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ))
-          ) : (
-            <p>No marks data available.</p>
-          )}
-        </div>
+                    </thead>
+                    <tbody>
+                      {students.map((student, index) => (
+                        <tr key={index}>
+                          <td>{student.studentId}</td>
+                          <td>{student['ct1'] || ''}</td>
+                          <td>{student['ct2'] || ''}</td>
+                          <td>{student['ct3'] || ''}</td>
+                          <td>{student['ct4'] || ''}</td>
+                          <td>{student['ct5'] || ''}</td>
+                          <td>{student['term'] || ''}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+            </div>
+          ))
+        ) : (
+          <p>No marks data available.</p>
+        )}
+      </div>
       </div>
       <Footer />
     </div>
