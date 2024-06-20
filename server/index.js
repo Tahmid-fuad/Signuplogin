@@ -159,53 +159,63 @@ app.get('/teacherdata/:email', async (req, res) => {
 
 // Mark submission
 app.post('/submitMarks', async (req, res) => {
-  const { batch, course, exam, studentId, marks } = req.body;
+  const { batch, course, exam, studentId, marks, teacherEmail } = req.body;
 
   try {
-    // Using 'findOneAndUpdate' with 'upsert' to create/update nested documents
-    const batchDoc = await MarksModel.findOneAndUpdate(
+    // Ensure batch document exists
+    let batchDoc = await MarksModel.findOneAndUpdate(
       { batchYear: batch },
       { $setOnInsert: { batchYear: batch, students: [] } },
       { new: true, upsert: true }
     );
 
-    const studentIndex = batchDoc.students.findIndex(s => s.studentId === studentId);
-    if (studentIndex === -1) {
-      // If the student doesn't exist, add them
-      batchDoc.students.push({ studentId: studentId, courses: [] });
+    // Find or create student entry
+    let student = batchDoc.students.find(s => s.studentId === studentId);
+    if (!student) {
+      student = { studentId: studentId, courses: [] };
+      batchDoc.students.push(student);
+      await batchDoc.save(); // Save to ensure nested document structure
     }
 
-    const updatedBatchDoc = await batchDoc.save();
-    const updatedStudentDoc = updatedBatchDoc.students.find(s => s.studentId === studentId);
+    // Retrieve updated batchDoc with student included
+    batchDoc = await MarksModel.findOne({ batchYear: batch });
+    student = batchDoc.students.find(s => s.studentId === studentId);
 
-    const courseIndex = updatedStudentDoc.courses.findIndex(c => c.courseCode === course);
-    if (courseIndex === -1) {
-      // If the course doesn't exist, add it
-      updatedStudentDoc.courses.push({ courseCode: course, exams: [] });
+    // Find or create course entry
+    let courseEntry = student.courses.find(c => c.courseCode === course);
+    if (!courseEntry) {
+      courseEntry = { courseCode: course, exams: [] };
+      student.courses.push(courseEntry);
+      await batchDoc.save(); // Save to ensure nested document structure
     }
 
-    const updatedCourseDoc = updatedStudentDoc.courses.find(c => c.courseCode === course);
+    // Retrieve updated batchDoc with course included
+    batchDoc = await MarksModel.findOne({ batchYear: batch });
+    student = batchDoc.students.find(s => s.studentId === studentId);
+    courseEntry = student.courses.find(c => c.courseCode === course);
 
-    const examIndex = updatedCourseDoc.exams.findIndex(e => e.examType === exam);
-    if (examIndex === -1) {
-      // If the exam doesn't exist, add it
-      updatedCourseDoc.exams.push({ examType: exam, marks: [] });
+    // Find or create exam entry
+    let examEntry = courseEntry.exams.find(e => e.examType === exam);
+    if (!examEntry) {
+      examEntry = { examType: exam, marks: [] };
+      courseEntry.exams.push(examEntry);
+      await batchDoc.save(); // Save to ensure nested document structure
     }
 
-    const updatedExamDoc = updatedCourseDoc.exams.find(e => e.examType === exam);
-    
-    const marksIndex = updatedExamDoc.marks.findIndex(m => m.marks === marks);
+    // Retrieve updated batchDoc with exam included
+    batchDoc = await MarksModel.findOne({ batchYear: batch });
+    student = batchDoc.students.find(s => s.studentId === studentId);
+    courseEntry = student.courses.find(c => c.courseCode === course);
+    examEntry = courseEntry.exams.find(e => e.examType === exam);
 
-    if (marksIndex === -1) {
-      // If the marks entry doesn't exist, add it
-      updatedExamDoc.marks.push({ marks: marks });
-    } else {
-      // If it exists, update the marks
-      updatedExamDoc.marks[marksIndex].marks = marks;
-    }
+    // Clear existing marks
+    examEntry.marks = [];
+
+    // Add the new marks entry
+    examEntry.marks.push({ marks, teacherEmail });
 
     // Save the updated batch document
-    await updatedBatchDoc.save();
+    await batchDoc.save();
 
     res.status(200).json({ message: 'Marks submitted successfully' });
   } catch (error) {
@@ -213,6 +223,9 @@ app.post('/submitMarks', async (req, res) => {
     res.status(500).json({ message: 'Error submitting marks' });
   }
 });
+
+
+
 
 // Fetch student marks by studentId
 app.get('/studentMarks/:id', async (req, res) => {

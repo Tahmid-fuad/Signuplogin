@@ -56,6 +56,7 @@ function Teacher() {
       exam,
       studentId,
       marks,
+      teacherEmail,
     };
 
     // Send data to the backend

@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
 
 const MarksSchema = new mongoose.Schema({
-    marks: { type: String, required: true }
+    marks: { type: String, required: true },
+    teacherEmail: { type: String }
 })
 const ExamSchema = new mongoose.Schema({
-    examType: { type: String, required: true }, 
-    marks: [MarksSchema]    
+    examType: { type: String, required: true },
+    marks: [MarksSchema]
 });
 
 const CourseSchema = new mongoose.Schema({
-    courseCode: { type: String, required: true }, 
+    courseCode: { type: String, required: true },
     exams: [ExamSchema]
 });
 
