@@ -89,6 +89,14 @@ function Teacher() {
     // designation = 'Unknown Designation';
   }
 
+  const courseIdReplace = {
+    '301': 'ETE 301 (Semiconductor Devices)',
+    '303': 'ETE 303 (Industrial Electronics)',
+    '305': 'ETE 305 (Digital Communication)',
+    '307': 'ETE 307 (Microwave and Antenna Design)',
+    '309': 'ETE 309 (Digital Signal Processing)',
+  };
+
   return (
     <div>
       <Header />
@@ -244,10 +252,11 @@ function Teacher() {
       <div className="row">
         {/* Display Marks Data */}
         <div className='container mt-5'>
+          <h3 className='text-decoration-underline'>Exam Results</h3>
           {Object.keys(marksData).length > 0 ? (
             Object.entries(marksData).map(([courseCode, students]) => (
               <div key={courseCode} className="mb-4">
-                <h3>{courseCode}</h3>
+                <h4>{courseIdReplace[courseCode]}</h4>
                 <table className='table table-striped table-bordered'>
                   <thead>
                     <tr>

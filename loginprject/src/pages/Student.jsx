@@ -17,7 +17,7 @@ function Student() {
   const [studentId, setStudentId] = useState('');
   const [studentBatch, setStudentBatch] = useState('');
   const [teacherName, setTeacherName] = useState('');
-  const [studentMarks, setStudentMarks] = useState(null); 
+  const [studentMarks, setStudentMarks] = useState(null);
 
   const advisorEmail = getAdvisorEmail(studentBatch, studentId);
 
@@ -134,13 +134,19 @@ function Student() {
           <div className="col-12">
             <h3>Exam Results</h3>
             {studentMarks ? (
-              <table className="table table-bordered">
+              <table className="table table-striped table-bordered">
                 <thead>
                   <tr>
                     <th>Course</th>
-                    {studentMarks.courses[0].exams.map(exam => (
+                    {/* {studentMarks.courses[0].exams.map(exam => (
                       <th key={exam.examType}>{exam.examType}</th>
-                    ))}
+                    ))} */}
+                    <th>CT-1</th>
+                    <th>CT-2</th>
+                    <th>CT-3</th>
+                    <th>CT-4</th>
+                    <th>CT-5</th>
+                    <th>Term Final</th>
                   </tr>
                 </thead>
                 <tbody>
