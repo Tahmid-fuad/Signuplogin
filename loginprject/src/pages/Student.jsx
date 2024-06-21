@@ -63,8 +63,6 @@ function Student() {
     }
   }, [advisorEmail]);
 
-  console.log(studentMarks);
-
   let academicYear = '';
   switch (studentBatch) {
     case '20':
