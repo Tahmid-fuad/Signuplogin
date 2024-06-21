@@ -6,6 +6,9 @@ import Header from "./Header";
 import Notice from './Notice';
 import getAdvisorEmail from './advisorLogic';
 import courseIdReplace from './courseCodeMap.jsx';
+import HeaderComponent from './HeaderComponent.jsx';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const batchToRoutineComponent = {
   '20': React.lazy(() => import('./Routine20.jsx')),
@@ -60,7 +63,7 @@ function Student() {
     }
   }, [advisorEmail]);
 
- console.log(studentMarks);
+  console.log(studentMarks);
 
   let academicYear = '';
   switch (studentBatch) {
@@ -78,6 +81,33 @@ function Student() {
   }
 
   const RoutineComponent = batchToRoutineComponent[studentBatch] || null;
+
+  // Function to print course content with a header
+  const printResultContent = async (studentId) => {
+    const resultElement = document.getElementById("result");
+    const canvasContent = await html2canvas(resultElement);
+    const imgContentData = canvasContent.toDataURL('image/png');
+
+    // Render header to canvas
+    const headerElement = document.getElementById('pdf-header');
+    const headerCanvas = await html2canvas(headerElement);
+    const headerImgData = headerCanvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+
+    // Add header
+    const headerImgProps = pdf.getImageProperties(headerImgData);
+    const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
+    pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+
+    // Add content
+    const imgContentProps = pdf.getImageProperties(imgContentData);
+    const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
+    pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
+
+    pdf.save(`Result_report_of_ID_${studentId}.pdf`);
+  };
 
   return (
     <div>
@@ -134,8 +164,16 @@ function Student() {
         </div>
         <div className="row">
           {/* Display student marks */}
-          <div className="col-12">
-            <h3>Exam Results</h3>
+          <div className="col-12" id="result">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h3>Exam Results of ID: {`${studentId}`}</h3>
+              <button
+                className="btn btn-primary mx-4"
+                onClick={() => printResultContent(studentId)}
+              >
+                Download
+              </button>
+            </div>
             {studentMarks ? (
               <table className="table table-bordered">
                 <thead>
@@ -170,6 +208,9 @@ function Student() {
         </div>
       </div>
       <Footer />
+      <div id="pdf-header" style={{ position: 'absolute', top: '-99999999px' }}>
+        <HeaderComponent />
+      </div>
     </div>
   )
 }

@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import axios from 'axios';
 import Notice from './Notice';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import courseIdReplace from './courseCodeMap';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -331,7 +331,7 @@ function Teacher() {
                     className="btn btn-primary mx-4"
                     onClick={() => printBatchContent(batchYear)}
                   >
-                    Print
+                    Download
                   </button>
                 </div>
                 {Object.entries(courses).map(([courseCode, students]) => (
@@ -342,7 +342,7 @@ function Teacher() {
                         className="btn btn-primary mx-4"
                         onClick={() => printCourseContent(batchYear, courseCode)}
                       >
-                        Print
+                        Download
                       </button>
                     </div>
                     <table className="table table-striped table-bordered">
