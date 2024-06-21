@@ -3,8 +3,11 @@ import Footer from "./Footer";
 import Header from "./Header";
 import axios from 'axios';
 import Notice from './Notice';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import courseIdReplace from './courseCodeMap';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import HeaderComponent from './HeaderComponent';
 
 function Teacher() {
   const [teacherName, setTeacherName] = useState('');
@@ -62,9 +65,7 @@ function Teacher() {
     // Send data to the backend
     axios.post('http://localhost:3001/submitMarks', data)
       .then(response => {
-        // Display success message or feedback
         setSuccessMessage('Marks submitted successfully');
-        // console.log('Response:', response.data);
         axios.get('http://localhost:3001/getMarksByCourse')
           .then(response => {
             setMarksData(response.data);
@@ -92,6 +93,61 @@ function Teacher() {
     default:
     // designation = 'Unknown Designation';
   }
+
+  // Function to print batch content
+  const printBatchContent = async (batchYear) => {
+    const batchElement = document.getElementById(`batch-${batchYear}`);
+    const canvas = await html2canvas(batchElement);
+    const imgData = canvas.toDataURL('image/png');
+
+    // Render header to canvas
+    const headerElement = document.getElementById('pdf-header');
+    const headerCanvas = await html2canvas(headerElement);
+    const headerImgData = headerCanvas.toDataURL('image/png');
+
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+
+    // Add header
+    const headerImgProps = pdf.getImageProperties(headerImgData);
+    const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
+    pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    pdf.addImage(imgData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, pdfHeight);
+    pdf.save(`Batch_${batchYear}_Report.pdf`);
+  };
+
+  // Function to print course content with a header
+  const printCourseContent = async (batchYear, courseCode) => {
+    const courseElement = document.getElementById(`course-${batchYear}-${courseCode}`);
+    const canvasContent = await html2canvas(courseElement);
+    const imgContentData = canvasContent.toDataURL('image/png');
+
+    // Render header to canvas
+    const headerElement = document.getElementById('pdf-header');
+    const headerCanvas = await html2canvas(headerElement);
+    const headerImgData = headerCanvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+
+    // Add header
+    const headerImgProps = pdf.getImageProperties(headerImgData);
+    const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
+    pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+
+    // Add content
+    const imgContentProps = pdf.getImageProperties(imgContentData);
+    const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
+    // pdf.addImage(imgContentData, 'PNG', 10, 10, pdfWidth - 20, contentHeight);
+    pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
+
+    pdf.save(`Course_${courseCode}_Batch_${batchYear}_Report.pdf`);
+  };
 
   return (
     <div>
@@ -265,50 +321,70 @@ function Teacher() {
       <div className="row">
         {/* Display Marks Data */}
         <div className="container mt-5">
-        <h3 className='text-decoration-underline'>Exam Results</h3>
-        {Object.keys(marksData).length > 0 ? (
-          Object.entries(marksData).map(([batchYear, courses]) => (
-            <div key={batchYear} className="mb-5">
-              <h5 className='text-decoration-underline'>Batch: {batchYear}</h5>
-              {Object.entries(courses).map(([courseCode, students]) => (
-                <div key={courseCode} className="mb-4">
-                  <h5>{courseIdReplace[courseCode] || courseCode}</h5>
-                  <table className='table table-striped table-bordered'>
-                    <thead>
-                      <tr>
-                        <th>Student ID</th>
-                        <th>CT-1</th>
-                        <th>CT-2</th>
-                        <th>CT-3</th>
-                        <th>CT-4</th>
-                        <th>CT-5</th>
-                        <th>Term Final</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {students.map((student, index) => (
-                        <tr key={index}>
-                          <td>{student.studentId}</td>
-                          <td>{student['ct1'] || ''}</td>
-                          <td>{student['ct2'] || ''}</td>
-                          <td>{student['ct3'] || ''}</td>
-                          <td>{student['ct4'] || ''}</td>
-                          <td>{student['ct5'] || ''}</td>
-                          <td>{student['term'] || ''}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+          <h3 className="text-decoration-underline">Exam Results</h3>
+          {Object.keys(marksData).length > 0 ? (
+            Object.entries(marksData).map(([batchYear, courses]) => (
+              <div key={batchYear} id={`batch-${batchYear}`} className="mb-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5 className="text-decoration-underline m-0">Batch: {batchYear}</h5>
+                  <button
+                    className="btn btn-primary mx-4"
+                    onClick={() => printBatchContent(batchYear)}
+                  >
+                    Print
+                  </button>
                 </div>
-              ))}
-            </div>
-          ))
-        ) : (
-          <p>No marks data available.</p>
-        )}
-      </div>
+                {Object.entries(courses).map(([courseCode, students]) => (
+                  <div key={courseCode} id={`course-${batchYear}-${courseCode}`} className="mb-4">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h5 className="m-0">{courseIdReplace[courseCode] || courseCode}</h5>
+                      <button
+                        className="btn btn-primary mx-4"
+                        onClick={() => printCourseContent(batchYear, courseCode)}
+                      >
+                        Print
+                      </button>
+                    </div>
+                    <table className="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Student ID</th>
+                          <th>CT-1</th>
+                          <th>CT-2</th>
+                          <th>CT-3</th>
+                          <th>CT-4</th>
+                          <th>CT-5</th>
+                          <th>Term Final</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {students.map((student, index) => (
+                          <tr key={index}>
+                            <td>{student.studentId}</td>
+                            <td>{student['ct1'] || ''}</td>
+                            <td>{student['ct2'] || ''}</td>
+                            <td>{student['ct3'] || ''}</td>
+                            <td>{student['ct4'] || ''}</td>
+                            <td>{student['ct5'] || ''}</td>
+                            <td>{student['term'] || ''}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+            ))
+          ) : (
+            <p>No marks data available.</p>
+          )}
+        </div>
+
       </div>
       <Footer />
+      <div id="pdf-header" style={{ position: 'absolute', top: '-99999999px' }}>
+        <HeaderComponent />
+      </div>
     </div>
   );
 }

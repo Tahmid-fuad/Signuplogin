@@ -48,7 +48,7 @@ function Footer() {
                 &copy; All Right Reserved.
               </div>
               <div className="col-md-6 text-center text-md-end">
-                Designed By <a className="border-bottom" href="">Nusrat and Tahmid</a>
+                Developed By <a className="border-bottom" href="">Nusrat and Tahmid</a>
               </div>
             </div>
           </div>
