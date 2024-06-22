@@ -19,7 +19,8 @@ function Teacher() {
   const [studentId, setStudentId] = useState('');
   const [marks, setMarks] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [marksData, setMarksData] = useState({}); // State to store marks data
+  const [marksData, setMarksData] = useState({});
+  const [batchVisibility, setBatchVisibility] = useState({});
 
   useEffect(() => {
     const teacherEmail = localStorage.getItem('email');
@@ -147,6 +148,13 @@ function Teacher() {
     pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
 
     pdf.save(`Course_${courseCode}_Batch_${batchYear}_Report.pdf`);
+  };
+
+  const toggleBatchVisibility = (batchYear) => {
+    setBatchVisibility((prev) => ({
+      ...prev,
+      [batchYear]: !prev[batchYear],
+    }));
   };
 
   return (
@@ -326,7 +334,11 @@ function Teacher() {
             Object.entries(marksData).map(([batchYear, courses]) => (
               <div key={batchYear} id={`batch-${batchYear}`} className="mb-5">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="text-decoration-underline m-0">Batch: {batchYear}</h5>
+                  <button
+                    className="btn btn-link text-decoration-underline m-0 p-0"
+                    onClick={() => toggleBatchVisibility(batchYear)}>
+                    <h5>Batch: {batchYear}</h5>
+                  </button>
                   <button
                     className="btn btn-primary mx-4"
                     onClick={() => printBatchContent(batchYear)}
@@ -334,46 +346,51 @@ function Teacher() {
                     Download
                   </button>
                 </div>
-                {Object.entries(courses).map(([courseCode, students]) => (
-                  <div key={courseCode} id={`course-${batchYear}-${courseCode}`} className="mb-4">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h5 className="m-0">{courseIdReplace[courseCode] || courseCode}</h5>
-                      <button
-                        className="btn btn-primary mx-4"
-                        onClick={() => printCourseContent(batchYear, courseCode)}
-                      >
-                        Download
-                      </button>
-                    </div>
-                    <table className="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Student ID</th>
-                          <th>CT-1</th>
-                          <th>CT-2</th>
-                          <th>CT-3</th>
-                          <th>CT-4</th>
-                          <th>CT-5</th>
-                          <th>Term Final</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {students.map((student, index) => (
-                          <tr key={index}>
-                            <td>{student.studentId}</td>
-                            <td>{student['ct1'] || ''}</td>
-                            <td>{student['ct2'] || ''}</td>
-                            <td>{student['ct3'] || ''}</td>
-                            <td>{student['ct4'] || ''}</td>
-                            <td>{student['ct5'] || ''}</td>
-                            <td>{student['term'] || ''}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ))}
+                {batchVisibility[batchYear] && (
+                  <>
+                    {Object.entries(courses).map(([courseCode, students]) => (
+                      <div key={courseCode} id={`course-${batchYear}-${courseCode}`} className="mb-4">
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                          <h5 className="m-0">{courseIdReplace[courseCode] || courseCode}</h5>
+                          <button
+                            className="btn btn-primary mx-4"
+                            onClick={() => printCourseContent(batchYear, courseCode)}
+                          >
+                            Download
+                          </button>
+                        </div>
+                        <table className="table table-striped table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Student ID</th>
+                              <th>CT-1</th>
+                              <th>CT-2</th>
+                              <th>CT-3</th>
+                              <th>CT-4</th>
+                              <th>CT-5</th>
+                              <th>Term Final</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {students.map((student, index) => (
+                              <tr key={index}>
+                                <td>{student.studentId}</td>
+                                <td>{student['ct1'] || ''}</td>
+                                <td>{student['ct2'] || ''}</td>
+                                <td>{student['ct3'] || ''}</td>
+                                <td>{student['ct4'] || ''}</td>
+                                <td>{student['ct5'] || ''}</td>
+                                <td>{student['term'] || ''}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
+
             ))
           ) : (
             <p>No marks data available.</p>
