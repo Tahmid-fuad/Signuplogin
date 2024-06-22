@@ -113,11 +113,11 @@ function Student() {
       <ProtectedRoute allowedRoles={['student']} />
       <div style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
         <div className="container">
-          <div className="row py-sm-5 ">
+          <div className="row py-sm-5">
             <div className="col-3">
               <img src={`../assets/student/${studentId}.jpg`} alt="" className="img-fluid" />
             </div>
-            <div className="col-5  d-flex align-items-center">
+            <div className="col-5 d-flex align-items-center">
               <table className='table' style={{ borderColor: "transparent" }}>
                 <tbody>
                   <tr>
@@ -173,32 +173,33 @@ function Student() {
               </button>
             </div>
             {studentMarks ? (
-              <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Course</th>
-                    {/* {studentMarks.courses[0].exams.map(exam => (
-                      <th key={exam.examType}>{exam.examType}</th>
-                    ))} */}
-                    <th>CT-1</th>
-                    <th>CT-2</th>
-                    <th>CT-3</th>
-                    <th>CT-4</th>
-                    <th>CT-5</th>
-                    <th>Term Final</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {studentMarks.courses.map(course => (
-                    <tr key={course.courseCode}>
-                      <td>{courseIdReplace[course.courseCode]}</td>
-                      {course.exams.map(exam => (
+              <div>
+                {studentMarks.terms.map(term => (
+                  <div key={term.term} className="mb-4">
+                    <h4>Term: {term.term}</h4>
+                    <table className="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Course</th>
+                          {term.courses[0].exams.map(exam => (
+                            <th key={exam.examType}>{exam.examType}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {term.courses.map(course => (
+                          <tr key={course.courseCode}>
+                            <td>{courseIdReplace[course.courseCode] || course.courseCode}</td>
+                            {course.exams.map(exam => (
                         <td key={exam.examType}>{exam.marks[0].marks}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
             ) : (
               <p>No marks available</p>
             )}
@@ -210,7 +211,7 @@ function Student() {
         <HeaderComponent />
       </div>
     </div>
-  )
+  );
 }
 
 export default Student;
