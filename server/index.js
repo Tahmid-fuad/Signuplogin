@@ -182,7 +182,7 @@ app.post('/submitMarks', async (req, res) => {
     student = batchDoc.students.find(s => s.studentId === studentId);
 
     // Find or create term entry
-    let semester = student.terms.find(s => t.term === term);
+    let semester = student.terms.find(t => t.term === term);
     if (!semester) {
       semester = { term: term, courses: [] };
       student.terms.push(semester);
@@ -192,7 +192,7 @@ app.post('/submitMarks', async (req, res) => {
     // Retrieve updated batchDoc with student included
     batchDoc = await MarksModel.findOne({ batchYear: batch });
     student = batchDoc.students.find(s => s.studentId === studentId);
-    semester = student.terms.find(t => term === term);
+    semester = student.terms.find(t => t.term === term);
 
     // Find or create course entry
     let courseEntry = semester.courses.find(c => c.courseCode === course);
@@ -205,7 +205,7 @@ app.post('/submitMarks', async (req, res) => {
     // Retrieve updated batchDoc with course included
     batchDoc = await MarksModel.findOne({ batchYear: batch });
     student = batchDoc.students.find(s => s.studentId === studentId);
-    semester = student.terms.find(t => term === term);
+    semester = student.terms.find(t => t.term === term);
     courseEntry = semester.courses.find(c => c.courseCode === course);
 
     // Find or create exam entry
@@ -219,7 +219,7 @@ app.post('/submitMarks', async (req, res) => {
     // Retrieve updated batchDoc with exam included
     batchDoc = await MarksModel.findOne({ batchYear: batch });
     student = batchDoc.students.find(s => s.studentId === studentId);
-    semester = student.terms.find(t => term === term);
+    semester = student.terms.find(t => t.term === term);
     courseEntry = semester.courses.find(c => c.courseCode === course);
     examEntry = courseEntry.exams.find(e => e.examType === exam);
 
