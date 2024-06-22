@@ -159,7 +159,7 @@ app.get('/teacherdata/:email', async (req, res) => {
 
 // Mark submission
 app.post('/submitMarks', async (req, res) => {
-  const { batch, course, exam, studentId, marks, teacherEmail } = req.body;
+  const { batch, term, course, exam, studentId, marks, teacherEmail } = req.body;
 
   try {
     // Ensure batch document exists
@@ -172,7 +172,7 @@ app.post('/submitMarks', async (req, res) => {
     // Find or create student entry
     let student = batchDoc.students.find(s => s.studentId === studentId);
     if (!student) {
-      student = { studentId: studentId, courses: [] };
+      student = { studentId: studentId, terms: [] };
       batchDoc.students.push(student);
       await batchDoc.save(); // Save to ensure nested document structure
     }
@@ -181,18 +181,32 @@ app.post('/submitMarks', async (req, res) => {
     batchDoc = await MarksModel.findOne({ batchYear: batch });
     student = batchDoc.students.find(s => s.studentId === studentId);
 
+    // Find or create term entry
+    let semester = student.terms.find(s => t.term === term);
+    if (!semester) {
+      semester = { term: term, courses: [] };
+      student.terms.push(semester);
+      await batchDoc.save(); // Save to ensure nested document structure
+    }
+
+    // Retrieve updated batchDoc with student included
+    batchDoc = await MarksModel.findOne({ batchYear: batch });
+    student = batchDoc.students.find(s => s.studentId === studentId);
+    semester = student.terms.find(t => term === term);
+
     // Find or create course entry
-    let courseEntry = student.courses.find(c => c.courseCode === course);
+    let courseEntry = semester.courses.find(c => c.courseCode === course);
     if (!courseEntry) {
       courseEntry = { courseCode: course, exams: [] };
-      student.courses.push(courseEntry);
+      semester.courses.push(courseEntry);
       await batchDoc.save(); // Save to ensure nested document structure
     }
 
     // Retrieve updated batchDoc with course included
     batchDoc = await MarksModel.findOne({ batchYear: batch });
     student = batchDoc.students.find(s => s.studentId === studentId);
-    courseEntry = student.courses.find(c => c.courseCode === course);
+    semester = student.terms.find(t => term === term);
+    courseEntry = semester.courses.find(c => c.courseCode === course);
 
     // Find or create exam entry
     let examEntry = courseEntry.exams.find(e => e.examType === exam);
@@ -205,7 +219,8 @@ app.post('/submitMarks', async (req, res) => {
     // Retrieve updated batchDoc with exam included
     batchDoc = await MarksModel.findOne({ batchYear: batch });
     student = batchDoc.students.find(s => s.studentId === studentId);
-    courseEntry = student.courses.find(c => c.courseCode === course);
+    semester = student.terms.find(t => term === term);
+    courseEntry = semester.courses.find(c => c.courseCode === course);
     examEntry = courseEntry.exams.find(e => e.examType === exam);
 
     // Clear existing marks

@@ -14,9 +14,14 @@ const CourseSchema = new mongoose.Schema({
     exams: [ExamSchema]
 });
 
+const TermSchema = new mongoose.Schema({
+    term: { type: String, required: true, index: true },
+    courses: [CourseSchema]
+});
+
 const StudentSchema = new mongoose.Schema({
     studentId: { type: String, required: true, index: true },
-    courses: [CourseSchema]
+    terms: [TermSchema]
 });
 
 const BatchSchema = new mongoose.Schema({

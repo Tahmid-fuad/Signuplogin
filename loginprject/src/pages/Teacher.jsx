@@ -14,6 +14,7 @@ function Teacher() {
   const [teacherEmail, setTeacherEmail] = useState('');
   const [teacherDesig, setTeacherDesig] = useState('');
   const [batch, setBatch] = useState('');
+  const [term, setTerm] = useState('');
   const [course, setCourse] = useState('');
   const [exam, setExam] = useState('');
   const [studentId, setStudentId] = useState('');
@@ -56,6 +57,7 @@ function Teacher() {
     // Data to be sent to the backend
     const data = {
       batch,
+      term,
       course,
       exam,
       studentId,
@@ -203,7 +205,25 @@ function Teacher() {
                     </select>
                     {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
                   </div>
-                  {batch === '19' && (
+                  <div className='mb-2'>
+                    <select
+                      className='form-control'
+                      value={term}
+                      onChange={(e) => setTerm(e.target.value)}
+                    >
+                      <option value="">Select Term</option>
+                      <option value="11">Level-1 Term-1</option>
+                      <option value="12">Level-1 Term-2</option>
+                      <option value="21">Level-2 Term-1</option>
+                      <option value="22">Level-2 Term-2</option>
+                      <option value="31">Level-3 Term-1</option>
+                      <option value="32">Level-3 Term-2</option>
+                      <option value="41">Level-4 Term-1</option>
+                      <option value="42">Level-4 Term-2</option>
+                    </select>
+                    {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                  </div>
+                  {term === '41' && (
                     <div className='mb-2'>
                       <select
                         className='form-control'
@@ -219,7 +239,7 @@ function Teacher() {
                       {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
                     </div>
                   )}
-                  {batch === '20' && (
+                  {term === '31' && (
                     <div className='mb-2'>
                       <select
                         className='form-control'
@@ -236,7 +256,7 @@ function Teacher() {
                       {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
                     </div>
                   )}
-                  {batch === '21' && (
+                  {term === '21' && (
                     <div className='mb-2'>
                       <select
                         className='form-control'
@@ -253,7 +273,7 @@ function Teacher() {
                       {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
                     </div>
                   )}
-                  {batch === '22' && (
+                  {term === '12' && (
                     <div className='mb-2'>
                       <select
                         className='form-control'
