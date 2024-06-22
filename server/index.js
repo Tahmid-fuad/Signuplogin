@@ -272,16 +272,23 @@ app.get('/getMarksByCourse', async (req, res) => {
       }
 
       batch.students.forEach(student => {
-        student.courses.forEach(course => {
-          if (!dataByBatch[batchYear][course.courseCode]) {
-            dataByBatch[batchYear][course.courseCode] = [];
+        student.terms.forEach(term => {
+          const termName = term.term;
+          if (!dataByBatch[batchYear][termName]) {
+            dataByBatch[batchYear][termName] = {};
           }
 
-          const studentData = { studentId: student.studentId };
-          course.exams.forEach(exam => {
-            studentData[exam.examType] = exam.marks.map(m => m.marks).join(', ');
+          term.courses.forEach(course => {
+            if (!dataByBatch[batchYear][termName][course.courseCode]) {
+              dataByBatch[batchYear][termName][course.courseCode] = [];
+            }
+
+            const studentData = { studentId: student.studentId };
+            course.exams.forEach(exam => {
+              studentData[exam.examType] = exam.marks.map(m => m.marks).join(', ');
+            });
+            dataByBatch[batchYear][termName][course.courseCode].push(studentData);
           });
-          dataByBatch[batchYear][course.courseCode].push(studentData);
         });
       });
     });

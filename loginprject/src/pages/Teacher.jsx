@@ -72,7 +72,7 @@ function Teacher() {
         axios.get('http://localhost:3001/getMarksByCourse')
           .then(response => {
             setMarksData(response.data);
-          })
+          });
       })
       .catch(error => {
         console.error('Error submitting marks:', error);
@@ -94,7 +94,8 @@ function Teacher() {
       designation = 'Lecturer';
       break;
     default:
-    // designation = 'Unknown Designation';
+      // designation = 'Unknown Designation';
+      break;
   }
 
   // Function to print batch content
@@ -107,7 +108,6 @@ function Teacher() {
     const headerElement = document.getElementById('pdf-header');
     const headerCanvas = await html2canvas(headerElement);
     const headerImgData = headerCanvas.toDataURL('image/png');
-
 
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -126,7 +126,7 @@ function Teacher() {
 
   // Function to print course content with a header
   const printCourseContent = async (batchYear, courseCode) => {
-    const courseElement = document.getElementById(`course-${batchYear}-${courseCode}`);
+    const courseElement = document.getElementById(`course-${batchYear}-${term}-${courseCode}`);
     const canvasContent = await html2canvas(courseElement);
     const imgContentData = canvasContent.toDataURL('image/png');
 
@@ -165,7 +165,7 @@ function Teacher() {
       <ProtectedRoute allowedRoles={['teacher']} />
       <div style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
         <div className="container">
-          <div className="row py-sm-5 ">
+          <div className="row py-sm-5">
             <div className="col-3">
               <img src={`../assets/teacher/${teacherEmail}.jpg`} alt="" className="img-fluid" />
             </div>
@@ -351,14 +351,14 @@ function Teacher() {
         <div className="container mt-5">
           <h3 className="text-decoration-underline">Exam Results</h3>
           {Object.keys(marksData).length > 0 ? (
-            Object.entries(marksData).map(([batchYear, courses]) => (
+            Object.entries(marksData).map(([batchYear, terms]) => (
               <div key={batchYear} id={`batch-${batchYear}`} className="mb-5">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <button
-                    className="btn btn-link text-decoration-underline m-0 p-0"
+                  <h5
+                    className="text-decoration-underline m-0 p-0"
                     onClick={() => toggleBatchVisibility(batchYear)}>
-                    <h5>Batch: {batchYear}</h5>
-                  </button>
+                    Batch: {batchYear}
+                  </h5>
                   <button
                     className="btn btn-primary mx-4"
                     onClick={() => printBatchContent(batchYear)}
@@ -368,55 +368,58 @@ function Teacher() {
                 </div>
                 {batchVisibility[batchYear] && (
                   <>
-                    {Object.entries(courses).map(([courseCode, students]) => (
-                      <div key={courseCode} id={`course-${batchYear}-${courseCode}`} className="mb-4">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                          <h5 className="m-0">{courseIdReplace[courseCode] || courseCode}</h5>
-                          <button
-                            className="btn btn-primary mx-4"
-                            onClick={() => printCourseContent(batchYear, courseCode)}
-                          >
-                            Download
-                          </button>
-                        </div>
-                        <table className="table table-striped table-bordered">
-                          <thead>
-                            <tr>
-                              <th>Student ID</th>
-                              <th>CT-1</th>
-                              <th>CT-2</th>
-                              <th>CT-3</th>
-                              <th>CT-4</th>
-                              <th>CT-5</th>
-                              <th>Term Final</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {students.map((student, index) => (
-                              <tr key={index}>
-                                <td>{student.studentId}</td>
-                                <td>{student['ct1'] || ''}</td>
-                                <td>{student['ct2'] || ''}</td>
-                                <td>{student['ct3'] || ''}</td>
-                                <td>{student['ct4'] || ''}</td>
-                                <td>{student['ct5'] || ''}</td>
-                                <td>{student['term'] || ''}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                    {Object.entries(terms).map(([termName, courses]) => (
+                      <div key={termName} id={`term-${batchYear}-${termName}`} className="mb-4">
+                        <h5 className="text-decoration-underline">{termName}</h5>
+                        {Object.entries(courses).map(([courseCode, students]) => (
+                          <div key={courseCode} id={`course-${batchYear}-${termName}-${courseCode}`} className="mb-4">
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                              <h5 className="m-0">{courseIdReplace[courseCode] || courseCode}</h5>
+                              <button
+                                className="btn btn-primary mx-4"
+                                onClick={() => printCourseContent(batchYear, courseCode)}
+                              >
+                                Download
+                              </button>
+                            </div>
+                            <table className="table table-striped table-bordered">
+                              <thead>
+                                <tr>
+                                  <th>Student ID</th>
+                                  <th>CT-1</th>
+                                  <th>CT-2</th>
+                                  <th>CT-3</th>
+                                  <th>CT-4</th>
+                                  <th>CT-5</th>
+                                  <th>Term Final</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {students.map((student, index) => (
+                                  <tr key={index}>
+                                    <td>{student.studentId}</td>
+                                    <td>{student['ct1'] || ''}</td>
+                                    <td>{student['ct2'] || ''}</td>
+                                    <td>{student['ct3'] || ''}</td>
+                                    <td>{student['ct4'] || ''}</td>
+                                    <td>{student['ct5'] || ''}</td>
+                                    <td>{student['term'] || ''}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </>
                 )}
               </div>
-
             ))
           ) : (
             <p>No marks data available.</p>
           )}
         </div>
-
       </div>
       <Footer />
       <div id="pdf-header" style={{ position: 'absolute', top: '-99999999px' }}>

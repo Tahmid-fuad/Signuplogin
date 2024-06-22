@@ -191,7 +191,7 @@ function Student() {
                           <tr key={course.courseCode}>
                             <td>{courseIdReplace[course.courseCode] || course.courseCode}</td>
                             {course.exams.map(exam => (
-                        <td key={exam.examType}>{exam.marks[0].marks}</td>
+                              <td key={exam.examType}>{exam.marks[0].marks}</td>
                             ))}
                           </tr>
                         ))}
