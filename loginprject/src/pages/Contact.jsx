@@ -60,14 +60,14 @@ function Contact() {
               <iframe
                 className="position-absolute w-100 h-100"
                 style={{ objectFit: 'cover', border: '0' }}
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3634.4809157562504!2d88.62957899999999!3d24.3645682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fbefc121034a2f%3A0x618197e9a1712686!2sDept.%20of%20ETE%20(Electronics%20and%20Tele%20Communication%20Engineering)%20-%20RUET!5e0!3m2!1sen!2sbd!4v1711009293543!5m2!1sen!2sbd"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3687.0775383494147!2d91.97144487480836!3d22.463720336953084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30ad2fcca555dc4d%3A0x9476f7bf1bbeddb3!2sDepartment%20of%20Electronics%20%26%20Telecommunication%20Engineering!5e0!3m2!1sen!2sbd!4v1719126116350!5m2!1sen!2sbd" 
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 aria-hidden="false"
                 tabIndex="0"
                 title="Google Map"
-              ></iframe>
+              ></iframe>              
             </div>
           </div>
         </div>
