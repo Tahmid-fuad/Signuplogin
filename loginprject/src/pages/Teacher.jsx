@@ -5,6 +5,7 @@ import axios from 'axios';
 import Notice from './Notice';
 import React, { useEffect, useState } from 'react';
 import courseIdReplace from './courseCodeMap';
+import termReplace from './termMap';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import HeaderComponent from './HeaderComponent';
@@ -22,6 +23,7 @@ function Teacher() {
   const [successMessage, setSuccessMessage] = useState('');
   const [marksData, setMarksData] = useState({});
   const [batchVisibility, setBatchVisibility] = useState({});
+  const [termVisibility, setTermVisibility] = useState({});
 
   useEffect(() => {
     const teacherEmail = localStorage.getItem('email');
@@ -159,6 +161,15 @@ function Teacher() {
     }));
   };
 
+  const toggleTermVisibility = (batchYear, termName) => {
+    setTermVisibility((prev) => ({
+      ...prev,
+      [batchYear]: {
+        ...prev[batchYear],
+        [termName]: !prev[batchYear]?.[termName]
+      }
+    }));
+  };
   return (
     <div>
       <Header />
@@ -370,46 +381,54 @@ function Teacher() {
                   <>
                     {Object.entries(terms).map(([termName, courses]) => (
                       <div key={termName} id={`term-${batchYear}-${termName}`} className="mb-4">
-                        <h5 className="text-decoration-underline">{termName}</h5>
-                        {Object.entries(courses).map(([courseCode, students]) => (
-                          <div key={courseCode} id={`course-${batchYear}-${termName}-${courseCode}`} className="mb-4">
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                              <h5 className="m-0">{courseIdReplace[courseCode] || courseCode}</h5>
-                              <button
-                                className="btn btn-primary mx-4"
-                                onClick={() => printCourseContent(batchYear, courseCode)}
-                              >
-                                Download
-                              </button>
-                            </div>
-                            <table className="table table-striped table-bordered">
-                              <thead>
-                                <tr>
-                                  <th>Student ID</th>
-                                  <th>CT-1</th>
-                                  <th>CT-2</th>
-                                  <th>CT-3</th>
-                                  <th>CT-4</th>
-                                  <th>CT-5</th>
-                                  <th>Term Final</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {students.map((student, index) => (
-                                  <tr key={index}>
-                                    <td>{student.studentId}</td>
-                                    <td>{student['ct1'] || ''}</td>
-                                    <td>{student['ct2'] || ''}</td>
-                                    <td>{student['ct3'] || ''}</td>
-                                    <td>{student['ct4'] || ''}</td>
-                                    <td>{student['ct5'] || ''}</td>
-                                    <td>{student['term'] || ''}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        ))}
+                        <h5
+                          className="text-decoration-underline"
+                          onClick={() => toggleTermVisibility(batchYear, termName)}>
+                          {termReplace[termName]}
+                        </h5>
+                        {termVisibility[batchYear] && termVisibility[batchYear][termName] && (
+                          <>
+                            {Object.entries(courses).map(([courseCode, students]) => (
+                              <div key={courseCode} id={`course-${batchYear}-${termName}-${courseCode}`} className="mb-4">
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                  <h5 className="m-0">{courseIdReplace[courseCode] || courseCode}</h5>
+                                  <button
+                                    className="btn btn-primary mx-4"
+                                    onClick={() => printCourseContent(batchYear, courseCode)}
+                                  >
+                                    Download
+                                  </button>
+                                </div>
+                                <table className="table table-striped table-bordered">
+                                  <thead>
+                                    <tr>
+                                      <th>Student ID</th>
+                                      <th>CT-1</th>
+                                      <th>CT-2</th>
+                                      <th>CT-3</th>
+                                      <th>CT-4</th>
+                                      <th>CT-5</th>
+                                      <th>Term Final</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {students.map((student, index) => (
+                                      <tr key={index}>
+                                        <td>{student.studentId}</td>
+                                        <td>{student['ct1'] || ''}</td>
+                                        <td>{student['ct2'] || ''}</td>
+                                        <td>{student['ct3'] || ''}</td>
+                                        <td>{student['ct4'] || ''}</td>
+                                        <td>{student['ct5'] || ''}</td>
+                                        <td>{student['term'] || ''}</td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            ))}
+                          </>
+                        )}
                       </div>
                     ))}
                   </>
