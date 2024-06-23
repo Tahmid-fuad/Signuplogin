@@ -126,6 +126,34 @@ function Teacher() {
     pdf.save(`Batch_${batchYear}_Report.pdf`);
   };
 
+  // Function to print term content with a header
+  const printTermContent = async (batchYear, termName) => {
+    const courseElement = document.getElementById(`term-${batchYear}-${termName}`);
+    const canvasContent = await html2canvas(courseElement);
+    const imgContentData = canvasContent.toDataURL('image/png');
+
+    // Render header to canvas
+    const headerElement = document.getElementById('pdf-header');
+    const headerCanvas = await html2canvas(headerElement);
+    const headerImgData = headerCanvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+
+    // Add header
+    const headerImgProps = pdf.getImageProperties(headerImgData);
+    const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
+    pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+
+    // Add content
+    const imgContentProps = pdf.getImageProperties(imgContentData);
+    const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
+    // pdf.addImage(imgContentData, 'PNG', 10, 10, pdfWidth - 20, contentHeight);
+    pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
+
+    pdf.save(`Batch_${batchYear}_Term_${termName}_Report.pdf`);
+  };
+
   // Function to print course content with a header
   const printCourseContent = async (batchYear, courseCode) => {
     const courseElement = document.getElementById(`course-${batchYear}-${term}-${courseCode}`);
@@ -381,11 +409,19 @@ function Teacher() {
                   <>
                     {Object.entries(terms).map(([termName, courses]) => (
                       <div key={termName} id={`term-${batchYear}-${termName}`} className="mb-4">
-                        <h5
-                          className="text-decoration-underline"
-                          onClick={() => toggleTermVisibility(batchYear, termName)}>
-                          {termReplace[termName]}
-                        </h5>
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                          <h5
+                            className="text-decoration-underline"
+                            onClick={() => toggleTermVisibility(batchYear, termName)}>
+                            {termReplace[termName]}
+                          </h5>
+                          <button
+                            className="btn btn-primary mx-4"
+                            onClick={() => printTermContent(batchYear, termName)}
+                          >
+                            Download
+                          </button>
+                        </div>
                         {termVisibility[batchYear] && termVisibility[batchYear][termName] && (
                           <>
                             {Object.entries(courses).map(([courseCode, students]) => (

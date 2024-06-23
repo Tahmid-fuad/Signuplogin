@@ -6,6 +6,7 @@ import Header from "./Header";
 import Notice from './Notice';
 import getAdvisorEmail from './advisorLogic';
 import courseIdReplace from './courseCodeMap.jsx';
+import termReplace from './termMap';
 import HeaderComponent from './HeaderComponent.jsx';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -80,7 +81,7 @@ function Student() {
 
   const RoutineComponent = batchToRoutineComponent[studentBatch] || null;
 
-  // Function to print course content with a header
+  // Function to print result with a header
   const printResultContent = async (studentId) => {
     const resultElement = document.getElementById("result");
     const canvasContent = await html2canvas(resultElement);
@@ -106,6 +107,34 @@ function Student() {
 
     pdf.save(`Result_report_of_ID_${studentId}.pdf`);
   };
+
+    // Function to print term content with a header
+    const printTermContent = async (studentId, termName) => {
+      const courseElement = document.getElementById(`term-${termName}`);
+      const canvasContent = await html2canvas(courseElement);
+      const imgContentData = canvasContent.toDataURL('image/png');
+  
+      // Render header to canvas
+      const headerElement = document.getElementById('pdf-header');
+      const headerCanvas = await html2canvas(headerElement);
+      const headerImgData = headerCanvas.toDataURL('image/png');
+  
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+  
+      // Add header
+      const headerImgProps = pdf.getImageProperties(headerImgData);
+      const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
+      pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+  
+      // Add content
+      const imgContentProps = pdf.getImageProperties(imgContentData);
+      const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
+      // pdf.addImage(imgContentData, 'PNG', 10, 10, pdfWidth - 20, contentHeight);
+      pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
+  
+      pdf.save(`${studentId}_Term_${termName}_Report.pdf`);
+    };
 
   return (
     <div>
@@ -175,15 +204,29 @@ function Student() {
             {studentMarks ? (
               <div>
                 {studentMarks.terms.map(term => (
-                  <div key={term.term} className="mb-4">
-                    <h4>Term: {term.term}</h4>
+                  <div key={term.term} className="mb-4" id={`term-${term.term}`}>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h4>{termReplace[term.term]}</h4>
+                      <button
+                        className="btn btn-primary mx-4"
+                        onClick={() => printTermContent(studentId,term.term)}
+                      >
+                        Download
+                      </button>
+                    </div>
                     <table className="table table-bordered">
                       <thead>
                         <tr>
                           <th>Course</th>
-                          {term.courses[0].exams.map(exam => (
+                          {/* {term.courses[0].exams.map(exam => (
                             <th key={exam.examType}>{exam.examType}</th>
-                          ))}
+                          ))} */}
+                          <th>CT-1</th>
+                          <th>CT-2</th>
+                          <th>CT-3</th>
+                          <th>CT-4</th>
+                          <th>CT-5</th>
+                          <th>Term Final</th>
                         </tr>
                       </thead>
                       <tbody>
