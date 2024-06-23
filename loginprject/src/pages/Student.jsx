@@ -23,6 +23,7 @@ function Student() {
   const [studentBatch, setStudentBatch] = useState('');
   const [teacherName, setTeacherName] = useState('');
   const [studentMarks, setStudentMarks] = useState(null);
+  const [termVisibility, setTermVisibility] = useState({});
 
   const advisorEmail = getAdvisorEmail(studentBatch, studentId);
 
@@ -36,6 +37,15 @@ function Student() {
           setStudentEmail(response.data.email);
           setStudentId(response.data.id);
           setStudentBatch(response.data.batch);
+
+          // Initialize term visibility for each term
+          if (response.data.marks && response.data.marks.terms) {
+            const initialTermVisibility = {};
+            response.data.marks.terms.forEach(term => {
+              initialTermVisibility[term.term] = true; // Set true or false based on your requirement
+            });
+            setTermVisibility(initialTermVisibility);
+          }
         })
         .catch(error => {
           console.error('Error fetching student details:', error);
@@ -108,33 +118,40 @@ function Student() {
     pdf.save(`Result_report_of_ID_${studentId}.pdf`);
   };
 
-    // Function to print term content with a header
-    const printTermContent = async (studentId, termName) => {
-      const courseElement = document.getElementById(`term-${termName}`);
-      const canvasContent = await html2canvas(courseElement);
-      const imgContentData = canvasContent.toDataURL('image/png');
-  
-      // Render header to canvas
-      const headerElement = document.getElementById('pdf-header');
-      const headerCanvas = await html2canvas(headerElement);
-      const headerImgData = headerCanvas.toDataURL('image/png');
-  
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-  
-      // Add header
-      const headerImgProps = pdf.getImageProperties(headerImgData);
-      const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
-      pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
-  
-      // Add content
-      const imgContentProps = pdf.getImageProperties(imgContentData);
-      const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
+  // Function to print term content with a header
+  const printTermContent = async (studentId, termName) => {
+    const courseElement = document.getElementById(`term-${termName}`);
+    const canvasContent = await html2canvas(courseElement);
+    const imgContentData = canvasContent.toDataURL('image/png');
+
+    // Render header to canvas
+    const headerElement = document.getElementById('pdf-header');
+    const headerCanvas = await html2canvas(headerElement);
+    const headerImgData = headerCanvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+
+    // Add header
+    const headerImgProps = pdf.getImageProperties(headerImgData);
+    const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
+    pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+
+    // Add content
+    const imgContentProps = pdf.getImageProperties(imgContentData);
+    const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
       // pdf.addImage(imgContentData, 'PNG', 10, 10, pdfWidth - 20, contentHeight);
-      pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
-  
-      pdf.save(`${studentId}_Term_${termName}_Report.pdf`);
-    };
+    pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
+
+    pdf.save(`${studentId}_Term_${termName}_Report.pdf`);
+  };
+
+  const toggleTermVisibility = (termName) => {
+    setTermVisibility((prev) => ({
+      ...prev,
+      [termName]: !prev[termName],
+    }));
+  };
 
   return (
     <div>
@@ -202,47 +219,53 @@ function Student() {
               </button>
             </div>
             {studentMarks ? (
-              <div>
-                {studentMarks.terms.map(term => (
-                  <div key={term.term} className="mb-4" id={`term-${term.term}`}>
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h4>{termReplace[term.term]}</h4>
-                      <button
-                        className="btn btn-primary mx-4"
-                        onClick={() => printTermContent(studentId,term.term)}
-                      >
-                        Download
-                      </button>
-                    </div>
-                    <table className="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Course</th>
+              studentMarks.terms.map(term => (
+                <div key={term.term} className="mb-4">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h4
+                      className="text-decoration-underline m-0 p-0"
+                      onClick={() => toggleTermVisibility(term.term)}>
+                      {termReplace[term.term]}
+                    </h4>
+                    <button
+                      className="btn btn-primary mx-4"
+                      onClick={() => printTermContent(studentId, term.term)}
+                    >
+                      Download
+                    </button>
+                  </div>
+                  {termVisibility[term.term] && (
+                    <div id={`term-${term.term}`}>
+                      <table className="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Course</th>
                           {/* {term.courses[0].exams.map(exam => (
                             <th key={exam.examType}>{exam.examType}</th>
                           ))} */}
-                          <th>CT-1</th>
-                          <th>CT-2</th>
-                          <th>CT-3</th>
-                          <th>CT-4</th>
-                          <th>CT-5</th>
-                          <th>Term Final</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {term.courses.map(course => (
-                          <tr key={course.courseCode}>
-                            <td>{courseIdReplace[course.courseCode] || course.courseCode}</td>
-                            {course.exams.map(exam => (
-                              <td key={exam.examType}>{exam.marks[0].marks}</td>
-                            ))}
+                            <th>CT-1</th>
+                            <th>CT-2</th>
+                            <th>CT-3</th>
+                            <th>CT-4</th>
+                            <th>CT-5</th>
+                            <th>Term Final</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ))}
-              </div>
+                        </thead>
+                        <tbody>
+                          {term.courses.map(course => (
+                            <tr key={course.courseCode}>
+                              <td>{courseIdReplace[course.courseCode] || course.courseCode}</td>
+                              {course.exams.map(exam => (
+                                <td key={exam.examType}>{exam.marks[0].marks}</td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              ))
             ) : (
               <p>No marks available</p>
             )}
