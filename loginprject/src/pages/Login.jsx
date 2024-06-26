@@ -76,9 +76,9 @@ function Login() {
                         <p className='text-right mt-2'>
                             <Link to="/forgot-password">Forgot Password?</Link>
                         </p>
-                        <div className="text-center mt-2">
+                        {/* <div className="text-center mt-2">
                             <Link to="/signup" className='ms-2'>Sign up</Link>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
             </div>

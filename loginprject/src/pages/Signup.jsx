@@ -1,5 +1,3 @@
-import Header from './Header';
-import Footer from './Footer';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
@@ -77,11 +75,11 @@ function Signup() {
 
     return (
         <div>
-            <Header />
-            <div className='signup template d-flex justify-content-center align-items-center vh-100' style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}>
-                <div className='w-25 p-5 rounded bg-white'>
+            {/* <Header /> */}
+            {/* <div className='signup template d-flex justify-content-center align-items-center vh-100' style={{ background: "linear-gradient(120deg,#AB7442, #ffffff)" }}> */}
+                <div className='w-100 p-4 rounded bg-white'>
                     <form onSubmit={handleSubmit}>
-                        <h3 className='text-center'>Sign Up</h3>
+                        <h5 className='text-center'>Sign Up</h5>
                         <div className='mb-2'>
                             <label htmlFor="name">Name</label>
                             <input
@@ -181,13 +179,13 @@ function Signup() {
                         <div className='d-grid'>
                             <button className='btn btn-primary mt-2'>Sign up</button>
                         </div>
-                        <p className='text-center mt-2'>
+                        {/* <p className='text-center mt-2'>
                             <Link to="/login" className='ms-2 mt-2'>Login</Link>
-                        </p>
+                        </p> */}
                     </form>
                 </div>
-            </div>
-            <Footer />
+            {/* </div> */}
+            {/* <Footer /> */}
         </div>
     );
 }

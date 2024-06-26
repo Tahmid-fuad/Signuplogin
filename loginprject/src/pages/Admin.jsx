@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import MarkSubForm from './MarkSubForm';
 import termReplace from './termMap';
 import courseIdReplace from './courseCodeMap';
+import Signup from './Signup';
 
 function Admin() {
   const [teacherEmail, setTeacherEmail] = useState('');
@@ -140,9 +141,9 @@ function Admin() {
         <div className="container">
           <div className="row py-sm-5">
             <div className="col-4">
-              
+              <Signup/>
             </div>
-            <div className="col-4 d-flex align-items-center">
+            <div className="col-4">
               
             </div>
             <div className="col-4">
