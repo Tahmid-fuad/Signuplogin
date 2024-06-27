@@ -7,6 +7,10 @@ const crypto = require('crypto');
 const StudentModel = require('./models/student');
 const setupTransporter = require('./emailConfig');
 const MarksModel = require("./models/marks");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
 const app = express();
 app.use(express.json());
 app.use(cors({
@@ -24,16 +28,33 @@ mongoose.connect(uri)
     console.error("Error connecting to MongoDB:", error.message);
   });
 
-app.post('/register', async (req, res) => {
+// Multer setup
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/images');
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    let fileName;
+    fileName = `${req.body.email}${ext}`;
+    cb(null, fileName);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.post('/register', upload.single('photo'), async (req, res) => {
   const { name, email, password, id, role, batch, desig } = req.body;
+  const photo = req.file ? req.file.filename : null;
 
   try {
     const existingUser = await StudentModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new StudentModel({ name, email, password: hashedPassword, id, role, batch, desig });
+    const newUser = new StudentModel({ name, email, password: hashedPassword, id, role, batch, desig, photo });
     const savedUser = await newUser.save();
 
     const token = jwt.sign({ email, role }, "fwaxcgqgsgf", { expiresIn: '1h' });
@@ -41,6 +62,24 @@ app.post('/register', async (req, res) => {
     res.status(201).json({ user: savedUser, token });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+app.use('/uploads', express.static('uploads'));
+
+app.get('/user-photo/:email', (req, res) => {
+  const email = req.params.email;
+  const possibleExtensions = ['jpeg', 'jpg', 'png'];
+
+  // Find the existing file with the appropriate extension
+  const photoPath = possibleExtensions
+      .map(ext => path.join(__dirname, 'public/images', `${email}.${ext}`))
+      .find(filePath => fs.existsSync(filePath));
+
+  if (photoPath) {
+      res.sendFile(photoPath);
+  } else {
+      res.status(404).send('Photo not found');
   }
 });
 

@@ -24,6 +24,7 @@ function Student() {
   const [teacherName, setTeacherName] = useState('');
   const [studentMarks, setStudentMarks] = useState(null);
   const [termVisibility, setTermVisibility] = useState({});
+  const [photoUrl, setPhotoUrl] = useState('');
 
   const advisorEmail = getAdvisorEmail(studentBatch, studentId);
 
@@ -42,7 +43,7 @@ function Student() {
           if (response.data.marks && response.data.marks.terms) {
             const initialTermVisibility = {};
             response.data.marks.terms.forEach(term => {
-              initialTermVisibility[term.term] = true; // Set true or false based on your requirement
+              initialTermVisibility[term.term] = true;
             });
             setTermVisibility(initialTermVisibility);
           }
@@ -73,6 +74,12 @@ function Student() {
         });
     }
   }, [advisorEmail]);
+
+  useEffect(() => {
+    if (studentEmail) {
+      setPhotoUrl(`http://localhost:3001/user-photo/${studentEmail}`);
+    }
+  }, [studentEmail]);
 
   let academicYear = '';
   switch (studentBatch) {
@@ -140,7 +147,7 @@ function Student() {
     // Add content
     const imgContentProps = pdf.getImageProperties(imgContentData);
     const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
-      // pdf.addImage(imgContentData, 'PNG', 10, 10, pdfWidth - 20, contentHeight);
+    // pdf.addImage(imgContentData, 'PNG', 10, 10, pdfWidth - 20, contentHeight);
     pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
 
     pdf.save(`${studentId}_Term_${termName}_Report.pdf`);
@@ -161,7 +168,11 @@ function Student() {
         <div className="container">
           <div className="row py-sm-5">
             <div className="col-3">
-              <img src={`../assets/student/${studentId}.jpg`} alt="" className="img-fluid" />
+              {photoUrl ? (
+                <img src={photoUrl} className="img-fluid" />
+              ) : (
+                <div>Loading photo...</div>
+              )}
             </div>
             <div className="col-5 d-flex align-items-center">
               <table className='table' style={{ borderColor: "transparent" }}>
@@ -240,7 +251,7 @@ function Student() {
                         <thead>
                           <tr>
                             <th>Course</th>
-                          {/* {term.courses[0].exams.map(exam => (
+                            {/* {term.courses[0].exams.map(exam => (
                             <th key={exam.examType}>{exam.examType}</th>
                           ))} */}
                             <th>CT-1</th>

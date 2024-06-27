@@ -25,6 +25,7 @@ function Teacher() {
   const [marksData, setMarksData] = useState({});
   const [batchVisibility, setBatchVisibility] = useState({});
   const [termVisibility, setTermVisibility] = useState({});
+  const [photoUrl, setPhotoUrl] = useState('');
 
   useEffect(() => {
     const teacherEmail = localStorage.getItem('email');
@@ -35,6 +36,7 @@ function Teacher() {
           setTeacherName(response.data.name);
           setTeacherEmail(response.data.email);
           setTeacherDesig(response.data.desig);
+          setPhotoUrl(`http://localhost:3001/user-photo/${teacherEmail}`);
         })
         .catch(error => {
           console.error('Error fetching teacher details:', error);
@@ -177,7 +179,11 @@ function Teacher() {
         <div className="container">
           <div className="row py-sm-5">
             <div className="col-3">
-              <img src={`../assets/teacher/${teacherEmail}.jpg`} alt="" className="img-fluid" />
+              {photoUrl ? (
+                <img src={photoUrl} className="img-fluid" />
+              ) : (
+                <div>Loading photo...</div>
+              )}
             </div>
             <div className="col-5 d-flex align-items-center">
               <table className='table' style={{ borderColor: "transparent" }}>
