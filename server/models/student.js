@@ -8,7 +8,7 @@ const StudentSchema = new mongoose.Schema({
   role: { type: String },
   batch: { type: String },
   desig: String,
-  photo: String, // Field to store photo filename
+  photo: String, 
   resetToken: String,
   resetTokenExpiry: Date,
 });

@@ -340,11 +340,26 @@ app.get('/getMarksByCourse', async (req, res) => {
   }
 });
 
-app.post('/addnotice', async (req, res) => {
+
+const storages = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/noticefile');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const uploads = multer({ storage: storages });
+
+app.use('/public', express.static('public'));
+
+app.post('/addnotice', uploads.single('file'), async (req, res) => {
   const { notice } = req.body;
+  const file = req.file ? req.file.filename : null;
 
   try {
-    const newNotice = new NoticeModel({ notice });
+    const newNotice = new NoticeModel({ notice, file: file });
     const savedNotice = await newNotice.save();
     res.status(201).json({ notice: savedNotice });
   } catch (error) {
@@ -354,11 +369,11 @@ app.post('/addnotice', async (req, res) => {
 
 app.get('/fetchnotices', async (req, res) => {
   try {
-      const notices = await NoticeModel.find({});
-      res.status(200).json(notices);
+    const notices = await NoticeModel.find({});
+    res.status(200).json(notices);
   } catch (error) {
-      console.error('Error fetching notices:', error);
-      res.status(500).json({ message: 'Failed to retrieve notices.' });
+    console.error('Error fetching notices:', error);
+    res.status(500).json({ message: 'Failed to retrieve notices.' });
   }
 });
 
@@ -366,14 +381,14 @@ app.delete('/notices/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-      const deletedNotice = await NoticeModel.findByIdAndDelete(id);
-      if (!deletedNotice) {
-          return res.status(404).json({ message: 'Notice not found' });
-      }
-      res.status(200).json({ message: 'Notice deleted successfully' });
+    const deletedNotice = await NoticeModel.findByIdAndDelete(id);
+    if (!deletedNotice) {
+      return res.status(404).json({ message: 'Notice not found' });
+    }
+    res.status(200).json({ message: 'Notice deleted successfully' });
   } catch (error) {
-      console.error('Error deleting notice:', error);
-      res.status(500).json({ message: 'Failed to delete notice' });
+    console.error('Error deleting notice:', error);
+    res.status(500).json({ message: 'Failed to delete notice' });
   }
 });
 

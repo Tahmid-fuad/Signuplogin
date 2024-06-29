@@ -36,7 +36,7 @@ function Signup() {
             formData.append('role', role);
             formData.append('batch', batch);
             formData.append('desig', desig);
-            formData.append('photo', photo); // Append photo to formData
+            formData.append('photo', photo);
 
             axios.post('http://localhost:3001/register', formData, {
                 headers: {

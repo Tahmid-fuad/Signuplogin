@@ -1,34 +1,40 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 
-
 const AddNotice = ({ notices, setNotices, setError }) => {
-
     const [isSubmit, setIsSubmit] = useState(false);
     const [serverError, setServerError] = useState('');
     const [notice, setNotice] = useState('');
+    const [file, setFile] = useState(null);
 
     const handleNotice = async (e) => {
         e.preventDefault();
         setIsSubmit(true);
         setServerError('');
+
+        const formData = new FormData();
+        formData.append('notice', notice);
+        formData.append('file', file);
+
         try {
-            const result = await axios.post('http://localhost:3001/addnotice', { notice });
-            try {
-                const response = await axios.get('http://localhost:3001/fetchnotices');
-                setNotices(response.data);
-            } catch (err) {
-                setError('Failed to load notices. Please try again later.');
-            }
+            await axios.post('http://localhost:3001/addnotice', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            const response = await axios.get('http://localhost:3001/fetchnotices');
+            setNotices(response.data);
         } catch (err) {
-            if (err.response && err.response.status === 500) {
-                setServerError("An error occurred. Please try again.");
-            } else {
-                setServerError(err.message);
-            }
+            setServerError(err.response ? err.response.data.message : 'An error occurred');
         } finally {
             setIsSubmit(false);
+            setNotice('');
+            setFile(null);
         }
+    };
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
     };
 
     return (
@@ -51,8 +57,16 @@ const AddNotice = ({ notices, setNotices, setError }) => {
                             <label htmlFor="message">Notice message</label>
                         </div>
                     </div>
+                    <div className='mb-2'>
+                        <label htmlFor="file">Upload File</label>
+                        <input
+                            type="file"
+                            className='form-control'
+                            onChange={handleFileChange}
+                        />
+                    </div>
                     <div className="col-12">
-                        <button className="btn btn-primary w-100 py-3" type="submit">
+                        <button className="btn btn-primary w-100 py-3" type="submit" disabled={isSubmit}>
                             {isSubmit ? 'Submitting...' : 'Add Notice'}
                         </button>
                     </div>
@@ -62,4 +76,5 @@ const AddNotice = ({ notices, setNotices, setError }) => {
         </div>
     );
 };
+
 export default AddNotice;
