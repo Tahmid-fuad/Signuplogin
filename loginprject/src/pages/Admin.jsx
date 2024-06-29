@@ -8,6 +8,7 @@ import MarkSubForm from './MarkSubForm';
 import termReplace from './termMap';
 import courseIdReplace from './courseCodeMap';
 import Signup from './Signup';
+import Notice from './Notice';
 
 function Admin() {
   const [teacherEmail, setTeacherEmail] = useState('');
@@ -141,10 +142,10 @@ function Admin() {
         <div className="container">
           <div className="row py-sm-5">
             <div className="col-4">
-              <Signup/>
+              <Signup />
             </div>
             <div className="col-4">
-              
+
             </div>
             <div className="col-4">
               <div className='w-100 p-3 rounded bg-white'>
@@ -171,7 +172,7 @@ function Admin() {
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row m-2">
         {/* Display Marks Data */}
         <div className="container mt-5">
           <h3 className="text-decoration-underline">Exam Results</h3>
@@ -261,6 +262,9 @@ function Admin() {
             <p>No marks data available.</p>
           )}
         </div>
+      </div>
+      <div>
+        <Notice />
       </div>
       <Footer />
     </div>

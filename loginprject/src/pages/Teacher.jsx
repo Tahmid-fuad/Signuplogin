@@ -238,7 +238,7 @@ function Teacher() {
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row m-2">
         {/* Display Marks Data */}
         <div className="container mt-5">
           <h3 className="text-decoration-underline">Exam Results</h3>

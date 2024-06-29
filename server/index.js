@@ -10,6 +10,7 @@ const MarksModel = require("./models/marks");
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const NoticeModel = require("./models/notice");
 
 const app = express();
 app.use(express.json());
@@ -73,13 +74,13 @@ app.get('/user-photo/:email', (req, res) => {
 
   // Find the existing file with the appropriate extension
   const photoPath = possibleExtensions
-      .map(ext => path.join(__dirname, 'public/images', `${email}.${ext}`))
-      .find(filePath => fs.existsSync(filePath));
+    .map(ext => path.join(__dirname, 'public/images', `${email}.${ext}`))
+    .find(filePath => fs.existsSync(filePath));
 
   if (photoPath) {
-      res.sendFile(photoPath);
+    res.sendFile(photoPath);
   } else {
-      res.status(404).send('Photo not found');
+    res.status(404).send('Photo not found');
   }
 });
 
@@ -339,7 +340,27 @@ app.get('/getMarksByCourse', async (req, res) => {
   }
 });
 
+app.post('/addnotice', async (req, res) => {
+  const { notice } = req.body;
 
+  try {
+    const newNotice = new NoticeModel({ notice });
+    const savedNotice = await newNotice.save();
+    res.status(201).json({ notice: savedNotice });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/fetchnotices', async (req, res) => {
+  try {
+      const notices = await NoticeModel.find({});
+      res.status(200).json(notices);
+  } catch (error) {
+      console.error('Error fetching notices:', error);
+      res.status(500).json({ message: 'Failed to retrieve notices.' });
+  }
+});
 
 
 // Define port and start server

@@ -217,7 +217,7 @@ function Student() {
             )}
           </div>
         </div>
-        <div className="row">
+        <div className="row m-2">
           {/* Display student marks */}
           <div className="col-12" id="result">
             <div className="d-flex justify-content-between align-items-center mb-3">
