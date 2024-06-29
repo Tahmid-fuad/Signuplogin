@@ -362,6 +362,21 @@ app.get('/fetchnotices', async (req, res) => {
   }
 });
 
+app.delete('/notices/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+      const deletedNotice = await NoticeModel.findByIdAndDelete(id);
+      if (!deletedNotice) {
+          return res.status(404).json({ message: 'Notice not found' });
+      }
+      res.status(200).json({ message: 'Notice deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting notice:', error);
+      res.status(500).json({ message: 'Failed to delete notice' });
+  }
+});
+
 
 // Define port and start server
 const port = 3001;

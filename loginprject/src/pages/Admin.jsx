@@ -8,7 +8,7 @@ import MarkSubForm from './MarkSubForm';
 import termReplace from './termMap';
 import courseIdReplace from './courseCodeMap';
 import Signup from './Signup';
-import Notice from './Notice';
+import AddNotice from './AddNotice';
 
 function Admin() {
   const [teacherEmail, setTeacherEmail] = useState('');
@@ -23,6 +23,8 @@ function Admin() {
   const navigate = useNavigate();
   const [batchVisibility, setBatchVisibility] = useState({});
   const [termVisibility, setTermVisibility] = useState({});
+  const [notices, setNotices] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     // Fetch student marks data by course
@@ -132,6 +134,29 @@ function Admin() {
         [termName]: !prev[batchYear]?.[termName]
       }
     }));
+  };
+
+
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/fetchnotices');
+        setNotices(response.data);
+      } catch (err) {
+        setError('Failed to load notices. Please try again later.');
+      }
+    };
+
+    fetchNotices();
+  }, []);
+
+  const deleteNotice = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/notices/${id}`);
+      setNotices(notices.filter(notice => notice._id !== id));
+    } catch (err) {
+      setError('Failed to delete notice. Please try again later.');
+    }
   };
 
   return (
@@ -264,7 +289,35 @@ function Admin() {
         </div>
       </div>
       <div>
-        <Notice />
+        <div className="row mb-3">
+          <div className="col-4 float-start">
+            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2">
+              <div className="heading-sect">
+                <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
+              </div>
+              <div>
+                <ol className="latest-news-ul">
+                  {error ? (
+                    <li>{error}</li>
+                  ) : (
+                    notices.map((notice, index) => (
+                      <li key={notice._id}>
+                        {notice.notice+" "}
+                        <button className='btn btn-secondary rounded-3 btn-sm ms-auto' onClick={() => deleteNotice(notice._id)}>Delete</button>
+                      </li>
+                    ))
+                  )}
+                </ol>
+              </div>
+            </div>
+          </div>
+          <div className="col-8">
+            <AddNotice
+              notices={notices}
+              setNotices={setNotices}
+            />
+          </div>
+        </div>
       </div>
       <Footer />
     </div>
