@@ -296,28 +296,32 @@ function Admin() {
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
               </div>
               <div>
-                <ol className="latest-news-ul">
+                <ul className="latest-news-ul">
                   {error ? (
                     <li>{error}</li>
                   ) : (
-                    notices.map((notice, index) => (
-                      <li key={notice._id}>
-                        {notice.notice+" "}
-                        <button className='btn btn-secondary rounded-3 btn-sm ms-auto' onClick={() => deleteNotice(notice._id)}>Delete</button>
-                      </li>
-                    ))
+                    notices
+                      .sort((a, b) => b._id.localeCompare(a._id))
+                      .map((notice) => (
+                        <li key={notice._id}>
+                          <a
+                            className= {notice.file ?'text-black text-decoration-underline' : 'text-black'}
+                            href={notice.file ? `http://localhost:3001/public/noticefile/${notice.file}` : '#'}>
+                            {notice.notice + " "}
+                          </a>
+                          <button className='btn btn-secondary rounded-3 btn-sm ms-auto' onClick={() => deleteNotice(notice._id)}>Delete</button>
+                        </li>
+                      ))
                   )}
-                </ol>
+                </ul>
               </div>
             </div>
           </div>
           <div className="col-8">
-            <AddNotice
-              notices={notices}
-              setNotices={setNotices}
-            />
+            <AddNotice notices={notices} setNotices={setNotices} />
           </div>
         </div>
+
       </div>
       <Footer />
     </div>

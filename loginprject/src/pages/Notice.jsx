@@ -25,14 +25,22 @@ function Notice() {
                 <div className="heading-sect">
                     <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
                 </div>
-                <marquee direction="up" scrollamount="2" scrolldelay="2" className="p-3"  style={{ height: "250px" }}>
+                <marquee direction="up" scrollamount="1" scrolldelay="0" className="p-3" style={{ height: "200px" }}>
                     <ul className="latest-news-ul">
                         {error ? (
                             <li>{error}</li>
                         ) : (
-                            notices.map((notice, index) => (
-                                <li key={index}>{notice.notice}</li>
-                            ))
+                            notices
+                                .sort((a, b) => b._id.localeCompare(a._id))
+                                .map((notice) => (
+                                    <li key={notice._id}>
+                                        <a
+                                            className={notice.file ? 'text-black text-decoration-underline' : 'text-black'}
+                                            href={notice.file ? `http://localhost:3001/public/noticefile/${notice.file}` : '#'}>
+                                            {notice.notice + " "}
+                                        </a>
+                                    </li>
+                                ))
                         )}
                     </ul>
                 </marquee>

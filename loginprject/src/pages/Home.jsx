@@ -1,5 +1,6 @@
 import Footer from "./Footer"
 import Header from "./Header"
+import Notice from "./Notice"
 
 function Home() {
   return (
@@ -60,24 +61,7 @@ function Home() {
       </div>
       <div className="d-flex" id="Notice">
         <div className="container-xxl py-2 my-4">
-          <div className="col-4 float-start">
-            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2" style={{ height: "100px" }}>
-              <div className="heading-sect">
-                <h3 className="m-0 p-0 fs-6 fw-semibold">Latest New</h3>
-              </div>
-              <marquee direction="up" className="p-3">
-                <ul className="latest-news-ul">
-                  <li> 20 batch: CT - 01 of ETE305 in next thursday </li>
-                  <li> 19 batch: Last moment direction on attachment </li>
-                  <li> 04 March 2024 Incubation Center </li>
-                  <li> 31 March 2024 Instituitional Distinctiveness</li>
-                  <li> Notice on EID-Ul-Fitr vacation</li>
-                </ul>
-              </marquee>
-            </div>
-          </div>
-
-          <div className="col-4 float-start">
+          <div className="col-6 float-start">
             <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2" style={{ height: "350px" }}>
               <div className="heading-sect">
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Upcoming Events</h3>
@@ -95,18 +79,8 @@ function Home() {
             </div>
           </div>
 
-          <div className="col-4 float-start">
-            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2" style={{ height: "350px" }}>
-              <div className="heading-sect">
-                <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
-              </div>
-              <ul className="notice-board-list">
-                <li>Undergraduate admission test</li>
-                <li>Masters admission notice</li>
-                <li>PhD Registration Form for Selected Candidates </li>
-                <li>Notice regarding industrial tour of 20-batch</li>
-              </ul>
-            </div>
+          <div className="col-6 float-start">
+            <Notice/>
           </div>
         </div>
       </div>
@@ -148,7 +122,7 @@ function Home() {
                   <div className="team-social">
                     <a className="btn btn-square" href="https://www.facebook.com/mdjahedul.islam.7?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                     <a className="btn btn-square" href=""><i className="fab fa-linkedin-in"></i></a>
-                    <a className="btn btn-square" href="jahed@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                    <a className="btn btn-square" href="mailto:jahed@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                   </div>
                 </div>
                 <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -166,7 +140,7 @@ function Home() {
                   <div className="team-social">
                     <a className="btn btn-square" href="https://www.facebook.com/saiful.i.sumon.5?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                     <a className="btn btn-square" href="https://www.linkedin.com/in/dr-md-saiful-islam-195b1b298?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BYe2Kp%2FxrTP%2BZ9WbGuSjyhA%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                    <a className="btn btn-square" href="saiful05eee@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                    <a className="btn btn-square" href="mailto:saiful05eee@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                   </div>
                 </div>
                 <div className="p-4 text-center border border-5 border-light border-top-0">

@@ -39,7 +39,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/mdjahedul.islam.7?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href=""><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="jahed@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:jahed@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -57,7 +57,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/saiful.i.sumon.5?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/dr-md-saiful-islam-195b1b298?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BYe2Kp%2FxrTP%2BZ9WbGuSjyhA%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="saiful05eee@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:saiful05eee@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -77,7 +77,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/piyas.chowdhury?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/piyas-chowdhury-b359b675?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BqpVVTZBNTMmbaiK8BAGFIA%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="piyas@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:piyas@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -95,7 +95,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/profile.php?id=61550075086310&mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/mohammad-anisur-rahaman-31198a96?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BOMr%2B1uQWTvmjo6QrW0QaqQ%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="anisur.rahaman@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:anisur.rahaman@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -113,7 +113,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/nursadul.mamun?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/nursadul-mamun-phd-85980752?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BZ14sX2WyQe2taYvGhKau3w%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="nursad.mamun@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:nursad.mamun@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -133,7 +133,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/profile.php?id=100010136313210&mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href=""><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href=" taieba.athay@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href=" mailto:taieba.athay@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -151,7 +151,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/micro.promy?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/khadija-akter-59a881176?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BtUfDn2N4RwiAxM8VNpPBuQ%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="khadija.ete@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:khadija.ete@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -169,7 +169,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/farhad.h.hridoy.7?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/farhadete13?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BrP5Na4dXRme8p2iivVFjIA%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="farhad.hossain@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:farhad.hossain@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -188,7 +188,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/eftekhar.hossain.12?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/eftekhar-hossain-6b16681b5?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BjbaZ0HpaS3CBr4d5g1SpCg%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="eftekhar.13ete@gmail.com"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:eftekhar.13ete@gmail.com"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -206,7 +206,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/priyanti.paul.5?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/priyanti-paul-tumpa-2297a9197?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BePJzraK8QWyZUmq%2FLDoAtw%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href=" priyanti.ete@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href=" mailto:priyanti.ete@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
@@ -224,7 +224,7 @@ function Faculties() {
                                             <div className="team-social">
                                                 <a className="btn btn-square" href="https://www.facebook.com/arif.istiaq.22?mibextid=ZbWKwL"><i className="fab fa-facebook-f"></i></a>
                                                 <a className="btn btn-square" href="https://www.linkedin.com/in/arifistiaq?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3ByzsiMCbTSIm1jhnRl30%2Fqg%3D%3D"><i className="fab fa-linkedin-in"></i></a>
-                                                <a className="btn btn-square" href="arif.ete@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                <a className="btn btn-square" href="mailto:arif.ete@cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
                                     </div>
                                     <div className="p-4 text-center border border-5 border-light border-top-0">

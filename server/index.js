@@ -367,6 +367,8 @@ app.post('/addnotice', uploads.single('file'), async (req, res) => {
   }
 });
 
+app.use('/public/noticefile', express.static(path.join(__dirname, 'public/noticefile')));
+
 app.get('/fetchnotices', async (req, res) => {
   try {
     const notices = await NoticeModel.find({});
@@ -381,16 +383,32 @@ app.delete('/notices/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deletedNotice = await NoticeModel.findByIdAndDelete(id);
-    if (!deletedNotice) {
+    const notice = await NoticeModel.findById(id);
+
+    if (!notice) {
       return res.status(404).json({ message: 'Notice not found' });
     }
+
+    // Delete the associated file
+    if (notice.file) {
+      const filePath = path.join(__dirname, 'public/noticefile', notice.file);
+      console.log('Attempting to delete file:', filePath);
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Failed to delete file:', err);
+        }
+      });
+    }
+
+    // Delete the notice from the database
+    await NoticeModel.findByIdAndDelete(id);
+
     res.status(200).json({ message: 'Notice deleted successfully' });
   } catch (error) {
-    console.error('Error deleting notice:', error);
-    res.status(500).json({ message: 'Failed to delete notice' });
+    res.status(500).json({ message: error.message });
   }
 });
+
 
 
 // Define port and start server
