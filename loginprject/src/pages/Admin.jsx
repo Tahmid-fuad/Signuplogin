@@ -24,7 +24,9 @@ function Admin() {
   const [batchVisibility, setBatchVisibility] = useState({});
   const [termVisibility, setTermVisibility] = useState({});
   const [notices, setNotices] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [error, setError] = useState('');
+  const [contactError, setContactError] = useState('');
 
   useEffect(() => {
     // Fetch student marks data by course
@@ -35,6 +37,19 @@ function Admin() {
       .catch(error => {
         console.error('Error fetching student marks:', error);
       });
+  }, []);
+
+  const fetchContacts = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/fetchcontacts');
+      setContacts(response.data);
+    } catch (err) {
+      setContactError('Failed to load notices. Please try again later.');
+    }
+  };
+
+  useEffect(() => {
+    fetchContacts();
   }, []);
 
   // Function to print batch content
@@ -156,6 +171,15 @@ function Admin() {
       setNotices(notices.filter(notice => notice._id !== id));
     } catch (err) {
       setError('Failed to delete notice. Please try again later.');
+    }
+  };
+
+  const deleteMessage = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/contacts/${id}`);
+      setContacts(contacts.filter(contact => contact._id !== id));
+    } catch (err) {
+      setError('Failed to delete contact. Please try again later.');
     }
   };
 
@@ -305,7 +329,7 @@ function Admin() {
                       .map((notice) => (
                         <li key={notice._id}>
                           <a
-                            className= {notice.file ?'text-black text-decoration-underline' : 'text-black'}
+                            className={notice.file ? 'text-black text-decoration-underline' : 'text-black'}
                             href={notice.file ? `http://localhost:3001/public/noticefile/${notice.file}` : '#'}>
                             {notice.notice + " "}
                           </a>
@@ -321,7 +345,55 @@ function Admin() {
             <AddNotice notices={notices} setNotices={setNotices} />
           </div>
         </div>
-
+      </div>
+      <div className="row m-2">
+        <div className="container mt-5">
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h3 className="text-decoration-underline">Contact Messages</h3>
+            <button
+              className="btn btn-primary"
+              onClick={() => fetchContacts()}
+            >
+              Refresh
+            </button>
+          </div>
+          {contactError ? (
+            <p>Error getting contacts.</p>
+          ) : (
+            contacts.length === 0 ? (
+              <p>No messages available.</p>
+            ) : (
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style={{ width: "15%" }}>Name</th>
+                    <th style={{ width: "15%" }}>Email</th>
+                    <th style={{ width: "20%" }}>Subject</th>
+                    <th style={{ width: "45%" }}>Message</th>
+                    <th style={{ width: "5%" }}>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {contacts.map((contact) => (
+                    <tr key={contact._id}>
+                      <td>{contact.name}</td>
+                      <td>{contact.email}</td>
+                      <td>{contact.subject}</td>
+                      <td>{contact.message}</td>
+                      <td>
+                        <button
+                          className='btn btn-secondary rounded-3 btn-sm ms-auto'
+                          onClick={() => deleteMessage(contact._id)}>
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )
+          )}
+        </div>
       </div>
       <Footer />
     </div>

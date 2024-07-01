@@ -52,8 +52,8 @@ function Header() {
             <a href="#" className="nav-link dropdown-toggle">More</a>
             <div className="dropdown-menu fade-up m-0">
               <a href="#" className="dropdown-item">Offered Degrees</a>
-              <a href="#Notice" className="dropdown-item">Notices</a>
-              <a href="contact" className="dropdown-item">Contact</a>
+              <a href="/#Notice" className="dropdown-item">Notices</a>
+              <a href="/contact" className="dropdown-item">Contact</a>
             </div>
           </div>
         </div>

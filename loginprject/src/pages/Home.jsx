@@ -54,7 +54,7 @@ function Home() {
         </div>
       </section>
       {/* Notice Start */}
-      <div className="section-title text-center">
+      <div className="section-title text-center" id="Notice">
         <h1 className="display-5 mt-5">
           Notice Board
         </h1>

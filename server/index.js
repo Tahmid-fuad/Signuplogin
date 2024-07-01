@@ -11,6 +11,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const NoticeModel = require("./models/notice");
+const ContactModel = require("./models/contact");
 
 const app = express();
 app.use(express.json());
@@ -409,7 +410,45 @@ app.delete('/notices/:id', async (req, res) => {
   }
 });
 
+// contact
+app.post("/contact", async (req, res) => {
+  const { name, email, subject, message } = req.body;
 
+  try {
+    const newMessage = new ContactModel({ name, email, subject, message });
+    const savedMessage = await newMessage.save();
+    res.status(201).json({ contact: savedMessage });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/fetchcontacts', async (req, res) => {
+  try {
+    const contacts = await ContactModel.find({});
+    res.status(200).json(contacts);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve contacts.' });
+  }
+});
+
+app.delete('/contacts/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const contact = await ContactModel.findById(id);
+
+    if (!contact) {
+      return res.status(404).json({ message: 'Contact not found' });
+    }
+
+    await ContactModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Contact deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Define port and start server
 const port = 3001;
