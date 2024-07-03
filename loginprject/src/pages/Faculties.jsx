@@ -58,8 +58,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Dr. Md. Jahedul Islam</h4>
                                         <p>Proffesor</p>
-                                        <a className="fw-medium" href="/Jahidsir">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("jahed@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -76,8 +82,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Dr. Md. Saiful Islam</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="/Saifulsir">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("saiful05eee@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -96,8 +108,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Piyas Chowdhury</h4>
                                         <p>Assistant Professor</p>
-                                        <a className="fw-medium" href="/Piyassir">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("piyas@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +132,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Mohammed Anisur Rahman</h4>
                                         <p> Assistant Proffesor</p>
-                                        <a className="fw-medium" href="/Anisursir">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("anisur.rahaman@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -132,8 +156,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Nursadul Mamun</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="/Mamunsir">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("nursad.mamun@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -152,8 +182,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Tayeba Taher</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="/Tayebamaam">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("taieba.athay@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -170,8 +206,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Khadija Akther</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="/Khadijamaam">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("khadija.ete@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +230,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">farhad Hossain</h4>
                                         <p>Assistant Proffesor</p>
-                                        <a className="fw-medium" href="/Farhadsir">Read More<i className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("farhad.hossain@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -207,8 +256,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Eftekhar Hossain</h4>
                                         <p>Assistant Professor</p>
-                                        <a className="fw-medium" href="/eftekharsir">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("eftekhar.13ete@gmail.com")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -225,8 +280,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Priyanti Paul Tumpa</h4>
                                         <p>Lecturer</p>
-                                        <a className="fw-medium" href="/Tumpamaam">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("priyanti.ete@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -243,8 +304,14 @@ function Faculties() {
                                     <div className="p-4 text-center border border-5 border-light border-top-0">
                                         <h4 className="mb-3">Arif Istiaque</h4>
                                         <p>Lecturer</p>
-                                        <a className="fw-medium" href="/Arifsir">Read More<i
-                                            className="fa fa-arrow-right ms-2"></i></a>
+                                        <a
+                                            className="fw-medium"
+                                            onClick={() => redirectToFaculty("arif.ete@cuet.ac.bd")}
+                                            style={{ cursor: 'pointer' }} 
+                                        >
+                                            Read More
+                                            <i className="fa fa-arrow-right ms-2"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
