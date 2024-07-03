@@ -26,7 +26,6 @@ function Faculty() {
                 setQuali(response.data.quali);
                 setPublication(response.data.publications);
                 setPhotoUrl(`http://localhost:3001/teacher-photo/${email}`);
-
             } catch (error) {
                 console.error('Error fetching faculty data', error);
             }

@@ -20,7 +20,6 @@ function Admin() {
   const [marks, setMarks] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [marksData, setMarksData] = useState({});
-  const navigate = useNavigate();
   const [batchVisibility, setBatchVisibility] = useState({});
   const [termVisibility, setTermVisibility] = useState({});
   const [notices, setNotices] = useState([]);
@@ -259,7 +258,7 @@ function Admin() {
     setYear('');
     setPhoto(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ''; // Reset file input
+      fileInputRef.current.value = ''; 
     }
   };
 
