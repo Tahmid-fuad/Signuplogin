@@ -449,8 +449,8 @@ function Teacher() {
                   onChange={(e) => setYear(e.target.value)}
                 />
               </div>
-              {/* {submitMessage && <p className="text-success">{submitMessage}</p>} */}
-              {/* {serverError && <p className="text-danger">{serverError}</p>} */}
+              {submitMessage && <p className="text-success">{submitMessage}</p>}
+              {serverError && <p className="text-danger">{serverError}</p>}
               <div className='d-grid'>
                 <button className='btn btn-primary mt-2'>Save</button>
               </div>
