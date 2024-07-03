@@ -26,6 +26,14 @@ function Teacher() {
   const [batchVisibility, setBatchVisibility] = useState({});
   const [termVisibility, setTermVisibility] = useState({});
   const [photoUrl, setPhotoUrl] = useState('');
+  const [title, setTitle] = useState('');
+  const [authors, setAuthors] = useState('');
+  const [info, setInfo] = useState('');
+  const [year, setYear] = useState('');
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [serverError, setServerError] = useState('');
+  const [facultyId, setFacultyId] = useState('');
+  const [publication, setPublication] = useState([]);
 
   useEffect(() => {
     const teacherEmail = localStorage.getItem('email');
@@ -171,6 +179,69 @@ function Teacher() {
       }
     }));
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitMessage('');
+    setServerError('');
+
+    const formData = new FormData();
+    formData.append('email', teacherEmail);
+    formData.append('title', title);
+    formData.append('authors', authors);
+    formData.append('info', info);
+    formData.append('year', year);
+
+    axios.post('http://localhost:3001/facultydetails', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then(result => {
+        setSubmitMessage('Updated Successfully');
+        fetchFaculty();
+        resetForm();
+      })
+      .catch(err => {
+        // if (err.response && err.response.status === 500) {
+        setServerError(err.response);
+        // } else {
+        //   setServerError("An error occurred. Please try again.");
+        // }
+      });
+
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setAuthors('');
+    setInfo('');
+    setYear('');
+  };
+
+  useEffect(() => {
+    fetchFaculty();
+  }, [teacherEmail]);
+
+  const fetchFaculty = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/faculty/${teacherEmail}`);
+      setPublication(response.data.publications);
+      setFacultyId(response.data._id);
+    } catch (error) {
+      console.error('Error fetching faculty data', error);
+    }
+  };
+
+  const deleteFacultyrecord = async (facultyId, publicationId) => {
+    try {
+      await axios.delete(`http://localhost:3001/facultyrecord/${facultyId}/publication/${publicationId}`);
+      fetchFaculty();
+    } catch (err) {
+      setError('Failed to delete publication. Please try again later.');
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -327,6 +398,106 @@ function Teacher() {
           ) : (
             <p>No marks data available.</p>
           )}
+        </div>
+      </div>
+      <div className="row">
+        <h2 className='text-center text-decoration-underline bg-primary py-sm-2 text-white'>My Research</h2>
+        <div className="col-4">
+          <div className='w-100 p-4 rounded bg-white'>
+            <form onSubmit={handleSubmit}>
+              <h5 className='text-center'>Update My Research</h5>
+              <div className="form-floating mb-2">
+                <textarea
+                  className="form-control"
+                  placeholder="Title"
+                  id="title"
+                  style={{ height: '20px' }}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <label htmlFor="title">Title</label>
+              </div>
+              <div className="form-floating mb-2">
+                <textarea
+                  className="form-control"
+                  placeholder="Authors"
+                  id="authors"
+                  style={{ height: '20px' }}
+                  value={authors}
+                  onChange={(e) => setAuthors(e.target.value)}
+                />
+                <label htmlFor="authors">Authors</label>
+              </div>
+              <div className="form-floating mb-2">
+                <textarea
+                  className="form-control"
+                  placeholder="Informations"
+                  id="info"
+                  style={{ height: '20px' }}
+                  value={info}
+                  onChange={(e) => setInfo(e.target.value)}
+                />
+                <label htmlFor="info">Information</label>
+              </div>
+              <div className='mb-2'>
+                {/* <label htmlFor="number">Year</label> */}
+                <input
+                  type="number"
+                  placeholder='Year'
+                  className='form-control'
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                />
+              </div>
+              {/* {submitMessage && <p className="text-success">{submitMessage}</p>} */}
+              {/* {serverError && <p className="text-danger">{serverError}</p>} */}
+              <div className='d-grid'>
+                <button className='btn btn-primary mt-2'>Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className="col-8">
+          <div className='m-2'>
+            <div className="d-flex justify-content-end">
+              <button
+                className="btn btn-primary m-1"
+                onClick={fetchFaculty}
+              >
+                Refresh
+              </button>
+            </div>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th style={{ width: "5%" }}>SN</th>
+                  <th style={{ width: "25%" }}>Title</th>
+                  <th style={{ width: "25%" }}>Authors</th>
+                  <th style={{ width: "30%" }}>Info</th>
+                  <th style={{ width: "10%" }}>Year</th>
+                  <th style={{ width: "5%" }}>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {publication.map((publication, idx) => (
+                  <tr key={idx}>
+                    <td>{publication.sn}</td>
+                    <td>{publication.title}</td>
+                    <td>{publication.authors}</td>
+                    <td>{publication.info}</td>
+                    <td>{publication.year}</td>
+                    <td>
+                      <button
+                        className='btn btn-secondary rounded-3 btn-sm ms-auto'
+                        onClick={() => deleteFacultyrecord(facultyId, publication._id)}>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <Footer />
