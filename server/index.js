@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const NoticeModel = require("./models/notice");
 const ContactModel = require("./models/contact");
+const FacultyModel = require("./models/faculty");
 
 const app = express();
 app.use(express.json());
@@ -73,7 +74,6 @@ app.get('/user-photo/:email', (req, res) => {
   const email = req.params.email;
   const possibleExtensions = ['jpeg', 'jpg', 'png'];
 
-  // Find the existing file with the appropriate extension
   const photoPath = possibleExtensions
     .map(ext => path.join(__dirname, 'public/images', `${email}.${ext}`))
     .find(filePath => fs.existsSync(filePath));
@@ -449,6 +449,173 @@ app.delete('/contacts/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// Multer setup
+
+const storage2 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/teacherimage');
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    let fileName;
+    fileName = `${req.body.email}${ext}`;
+    cb(null, fileName);
+  }
+});
+
+const upload2 = multer({ storage: storage2 });
+
+app.post('/facultydetails', upload2.single('photo'), async (req, res) => {
+  const { name, email, number, desig, foi, quali, title, authors, info, year } = req.body;
+  const photo = req.file ? req.file.filename : null;
+  try {
+    const existingUser = await FacultyModel.findOne({ email });
+
+    if (!existingUser) {
+      const newUser = new FacultyModel({
+        name,
+        email,
+        number,
+        desig,
+        foi,
+        quali,
+        photo,
+        publications: [{
+          sn: 1,
+          title,
+          authors,
+          info,
+          year
+        }]
+      });
+      const savedUser = await newUser.save();
+      res.status(201).json({ user: savedUser });
+    } else {
+      const newPublication = {
+        sn: existingUser.publications.length + 1,
+        title,
+        authors,
+        info,
+        year
+      };
+
+      if (name) {
+        existingUser.name = name;
+      }
+      if (number) {
+        existingUser.number = number;
+      }
+      if (desig) {
+        existingUser.desig = desig;
+      }
+      if (foi) {
+        existingUser.foi = foi;
+      }
+      if (quali) {
+        existingUser.quali = quali;
+      }
+      if (photo) {
+        existingUser.photo = photo || existingUser.photo;
+      }
+      // if (publications){
+      existingUser.publications.push(newPublication);
+      // }
+
+      const updatedUser = await existingUser.save();
+      res.status(200).json({ user: updatedUser });
+    }
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.use('/uploads', express.static('uploads'));
+
+app.get('/teacher-photo/:email', (req, res) => {
+  const email = req.params.email;
+  const possibleExtensions = ['jpeg', 'jpg', 'png'];
+
+  const photoPath = possibleExtensions
+    .map(ext => path.join(__dirname, 'public/teacherimage', `${email}.${ext}`))
+    .find(filePath => fs.existsSync(filePath));
+
+  if (photoPath) {
+    res.sendFile(photoPath);
+  } else {
+    res.status(404).send('Photo not found');
+  }
+});
+
+app.get('/faculties', async (req, res) => {
+  try {
+    const faculties = await FacultyModel.find();
+    res.status(200).json(faculties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/emails', async (req, res) => {
+  try {
+    const emails = await FacultyModel.find().select('email -_id');
+    res.status(200).json(emails);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.delete('/facultyrecord/:facultyId/publication/:publicationId', async (req, res) => {
+  const { facultyId, publicationId } = req.params;
+
+
+  try {
+    const updatedFaculty = await FacultyModel.findByIdAndUpdate(
+      facultyId,
+      { $pull: { publications: { _id: publicationId } } },
+      { new: true }
+    );
+
+    if (!updatedFaculty) {
+      return res.status(404).json({ message: 'Faculty record not found' });
+    }
+
+    res.status(200).json({ message: 'Publication deleted successfully', updatedFaculty });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.delete('/dltfaculty/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const faculty = await FacultyModel.findById(id);
+
+    if (!faculty) {
+      return res.status(404).json({ message: 'Faculty not found' });
+    }
+
+    await FacultyModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Faculty deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/faculty/:email', async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const faculty = await FacultyModel.findOne({email});
+    res.status(200).json(faculty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 // Define port and start server
 const port = 3001;

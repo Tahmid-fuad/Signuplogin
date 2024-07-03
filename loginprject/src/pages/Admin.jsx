@@ -28,6 +28,24 @@ function Admin() {
   const [error, setError] = useState('');
   const [contactError, setContactError] = useState('');
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [number, setNumber] = useState('');
+  const [desig, setDesig] = useState('');
+  const [foi, setFoi] = useState('');
+  const [quali, setQuali] = useState('');
+  const [title, setTitle] = useState('');
+  const [authors, setAuthors] = useState('');
+  const [info, setInfo] = useState('');
+  const [year, setYear] = useState('');
+  const [photo, setPhoto] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
+  const [serverError, setServerError] = useState('');
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [faculties, setFaculties] = useState([]);
+  const [emails, setEmails] = useState([]);
+  const [selectedEmail, setSelectedEmail] = useState('');
+
   useEffect(() => {
     // Fetch student marks data by course
     axios.get('http://localhost:3001/getMarksByCourse')
@@ -180,6 +198,130 @@ function Admin() {
       setContacts(contacts.filter(contact => contact._id !== id));
     } catch (err) {
       setError('Failed to delete contact. Please try again later.');
+    }
+  };
+
+  const handlePhotoChange = (e) => {
+    setPhoto(e.target.files[0]);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitMessage('');
+    setServerError('');
+    const errors = validate(name, email, desig);
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length === 0) {
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('number', number);
+      formData.append('desig', desig);
+      formData.append('foi', foi);
+      formData.append('quali', quali);
+      formData.append('photo', photo);
+      formData.append('title', title);
+      formData.append('authors', authors);
+      formData.append('info', info);
+      formData.append('year', year);
+
+      axios.post('http://localhost:3001/facultydetails', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(result => {
+          setSubmitMessage('Updated Successfully');
+          fetchFaculties();
+          fetchEmails();
+          resetForm();
+        })
+        .catch(err => {
+          // if (err.response && err.response.status === 500) {
+          setServerError(err.response);
+          // } else {
+          //   setServerError("An error occurred. Please try again.");
+          // }
+        });
+    }
+  };
+
+  const resetForm = () => {
+    setName('');
+    setNumber('');
+    setDesig('');
+    setFoi('');
+    setQuali('');
+    setTitle('');
+    setAuthors('');
+    setInfo('');
+    setYear('');
+    setPhoto(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''; // Reset file input
+    }
+  };
+
+  const validate = (name, email, id, password, role, batch, desig) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    // if (!name) {
+    //   errors.name = "Username is required";
+    // }
+    if (!email) {
+      errors.email = "Email is required";
+    } else if (!regex.test(email)) {
+      errors.email = "This is not a valid email format";
+    }
+    // if (!desig) {
+    //   errors.desig = "Designation is required";
+    // }
+    return errors;
+  };
+
+
+  const fetchFaculties = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/faculties');
+      setFaculties(response.data);
+    } catch (error) {
+      console.error('Error fetching faculty data', error);
+    }
+  };
+  useEffect(() => {
+    fetchFaculties();
+  }, []);
+
+  const fetchEmails = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/emails');
+      setEmails(response.data.map(entry => entry.email));
+    } catch (error) {
+      console.error('Error fetching emails', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmails();
+  }, []);
+
+  const deleteFacultyrecord = async (facultyId, publicationId) => {
+    try {
+      await axios.delete(`http://localhost:3001/facultyrecord/${facultyId}/publication/${publicationId}`);
+      fetchFaculties();
+    } catch (err) {
+      setError('Failed to delete publication. Please try again later.');
+    }
+  };
+
+  const deleteFaculty = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/dltfaculty/${id}`);
+      fetchFaculties();
+      fetchEmails();
+    } catch (err) {
+      setError('Failed to delete faculty. Please try again later.');
     }
   };
 
@@ -393,6 +535,222 @@ function Admin() {
               </table>
             )
           )}
+        </div>
+      </div>
+      <div className="row">
+        <h2 className='text-center text-decoration-underline bg-primary py-sm-2 text-white'>Faculty Details</h2>
+        <div className="col-4">
+          <div className='w-100 p-4 rounded bg-white'>
+            <form onSubmit={handleSubmit}>
+              <h5 className='text-center'>Faculty Details Update</h5>
+              <div className='mb-2'>
+                <label htmlFor="name">Name</label>
+                <input
+                  type="text"
+                  placeholder='Enter Name'
+                  className='form-control'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                {/* {formErrors.name && <p className="text-danger">{formErrors.name}</p>} */}
+              </div>
+              <div className='mb-2'>
+                <label htmlFor="email">Email</label>
+                <div>
+                  <select
+                    className='form-control'
+                    value={selectedEmail}
+                    onChange={(e) => {
+                      setSelectedEmail(e.target.value);
+                      if (e.target.value === 'other') {
+                        setEmail('');
+                      } else {
+                        setEmail(e.target.value);
+                      }
+                    }
+                    }
+                  >
+                    <option value="">Select an existing email</option>
+                    {emails.map((emailOption, index) => (
+                      <option key={index} value={emailOption}>{emailOption}</option>
+                    ))}
+                    <option value="other">Other (Enter a new email)</option>
+                  </select>
+                </div>
+                {selectedEmail === 'other' && (
+                  <input
+                    type="email"
+                    placeholder='Enter Email'
+                    className='form-control mt-2'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                )}
+                {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
+              </div>
+              <div className='mb-2'>
+                <label htmlFor="number">Number</label>
+                <input
+                  type="text"
+                  placeholder='Enter Number'
+                  className='form-control'
+                  value={number}
+                  onChange={(e) => setNumber(e.target.value)}
+                />
+                {/* {formErrors.number && <p className="text-danger">{formErrors.number}</p>} */}
+              </div>
+              <div className='mb-2'>
+                <label htmlFor="desig">Designation</label>
+                <select
+                  className='form-control'
+                  value={desig}
+                  onChange={(e) => setDesig(e.target.value)}
+                >
+                  <option value="">Select Designation</option>
+                  <option value="1">Professor</option>
+                  <option value="2">Associate Professor</option>
+                  <option value="3">Assistant Professor</option>
+                  <option value="4">Lecturer</option>
+                </select>
+                {/* {formErrors.desig && <p className="text-danger">{formErrors.desig}</p>} */}
+              </div>
+              <div className="form-floating mb-2">
+                <textarea
+                  className="form-control"
+                  placeholder="Field of Interest"
+                  id="foi"
+                  style={{ height: '20px' }}
+                  value={foi}
+                  onChange={(e) => setFoi(e.target.value)}
+                />
+                <label htmlFor="foi">Field of Interest</label>
+              </div>
+              <div className="form-floating mb-2">
+                <textarea
+                  className="form-control"
+                  placeholder="Qualification"
+                  id="quili"
+                  style={{ height: '20px' }}
+                  value={quali}
+                  onChange={(e) => setQuali(e.target.value)}
+                />
+                <div className='mb-2'>
+                  <label htmlFor="photo">Upload Photo</label>
+                  <input
+                    type="file"
+                    className='form-control'
+                    onChange={handlePhotoChange}
+                  />
+                </div>
+                <label htmlFor="quali">Qualification</label>
+              </div>
+              <div className="fw-bolder pt-3">Publications</div>
+              <div className="form-floating mb-2">
+                <textarea
+                  className="form-control"
+                  placeholder="Title"
+                  id="title"
+                  style={{ height: '20px' }}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <label htmlFor="title">Title</label>
+              </div>
+              <div className="form-floating mb-2">
+                <textarea
+                  className="form-control"
+                  placeholder="Authors"
+                  id="authors"
+                  style={{ height: '20px' }}
+                  value={authors}
+                  onChange={(e) => setAuthors(e.target.value)}
+                />
+                <label htmlFor="authors">Authors</label>
+              </div>
+              <div className="form-floating mb-2">
+                <textarea
+                  className="form-control"
+                  placeholder="Informations"
+                  id="info"
+                  style={{ height: '20px' }}
+                  value={info}
+                  onChange={(e) => setInfo(e.target.value)}
+                />
+                <label htmlFor="info">Information</label>
+              </div>
+              <div className='mb-2'>
+                {/* <label htmlFor="number">Year</label> */}
+                <input
+                  type="number"
+                  placeholder='Year'
+                  className='form-control'
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                />
+              </div>
+              {submitMessage && <p className="text-success">{submitMessage}</p>}
+              {serverError && <p className="text-danger">{serverError}</p>}
+              <div className='d-grid'>
+                <button className='btn btn-primary mt-2'>Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className="col-8">
+          <div className='m-2'>
+            {faculties.map((faculty, index) => (
+              <div key={index}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h3>{faculty.name}</h3  >
+                  <div>
+                    <button
+                      className="btn btn-primary m-1"
+                      onClick={() => deleteFaculty(faculty._id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="btn btn-primary m-1"
+                      onClick={() => fetchFaculties()}
+                    >
+                      Refresh
+                    </button>
+                  </div>
+                </div>
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "5%" }}>SN</th>
+                      <th style={{ width: "25%" }}>Title</th>
+                      <th style={{ width: "25%" }}>Authors</th>
+                      <th style={{ width: "30%" }}>Info</th>
+                      <th style={{ width: "10%" }}>Year</th>
+                      <th style={{ width: "5%" }}>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {faculty.publications.map((publication, idx) => (
+                      <tr key={idx}>
+                        <td>{publication.sn}</td>
+                        <td>{publication.title}</td>
+                        <td>{publication.authors}</td>
+                        <td>{publication.info}</td>
+                        <td>{publication.year}</td>
+                        <td>
+                          <button
+                            className='btn btn-secondary rounded-3 btn-sm ms-auto'
+                            onClick={() => deleteFacultyrecord(faculty._id, publication._id)}>
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <Footer />

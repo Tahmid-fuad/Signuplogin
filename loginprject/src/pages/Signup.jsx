@@ -101,7 +101,7 @@ function Signup() {
         setRole('');
         setBatch('');
         setDesig('');
-        setPhoto(null); // Reset photo state
+        setPhoto(null); 
         if (fileInputRef.current) {
             fileInputRef.current.value = ''; // Reset file input
         }

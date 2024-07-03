@@ -9,13 +9,15 @@ function Contact() {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSuccessMessage('');
     axios.post('http://localhost:3001/contact', { name, email, subject, message })
-      .then(result => {
-        // console.log(result.data);
+      .then(result => {        
+        setSuccessMessage('Message sent successfully');
       })
       .catch(err => {
         if (err.response && err.response.data && err.response.data.message) {
@@ -96,6 +98,7 @@ function Contact() {
                         <label htmlFor="message">Message</label>
                       </div>
                     </div>
+                    {successMessage && <p className="text-success">{successMessage}</p>}
                     <div className="col-12">
                       <button className="btn btn-primary w-100 py-3" type="submit">Send Message</button>
                     </div>
