@@ -1,6 +1,7 @@
 import Footer from "./Footer"
 import Header from "./Header"
 import Notice from "./Notice"
+import Carousel from "./OwlCarousel"
 
 function Home() {
   return (
@@ -80,7 +81,7 @@ function Home() {
           </div>
 
           <div className="col-6 float-start">
-            <Notice/>
+            <Notice />
           </div>
         </div>
       </div>
@@ -202,7 +203,7 @@ function Home() {
       {/* Feature End */}
 
       {/* Carousel Start */}
-      <div className="section-title text-center">
+      {/* <div className="section-title text-center">
         <h1 className="display-5 mt-5 mb-5">
           <a href="/photo">Photo Gallery</a>
         </h1>
@@ -210,7 +211,7 @@ function Home() {
       <div className="container-fluid p-0 pb-5">
         <div className="owl-carousel header-carousel position-relative">
           <div className="owl-carousel-item position-relative">
-            <img className="img-fluid" src="/assets/bg16-9.jpg" alt="" /> {/*Img must be 16:9*/}
+            <img className="img-fluid" src="/assets/bg16-9.jpg" alt="" />
           </div>
           <div className="owl-carousel-item position-relative">
             <img className="img-fluid" src="/assets/bg16-9.jpg" alt="" />
@@ -219,8 +220,9 @@ function Home() {
             <img className="img-fluid" src="/assets/bg16-9.jpg" alt="" />
           </div>
         </div>
-      </div>
+      </div> */}
       {/*  Carousel End  */}
+      <Carousel />
 
       <Footer />
 
