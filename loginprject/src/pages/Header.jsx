@@ -5,7 +5,7 @@ import axios from 'axios';
 function Header() {
   const [HeaderText, setHeaderText] = useState('Home');
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -58,7 +58,7 @@ function Header() {
           </div>
         </div>
         {
-          ['/student', '/teacher', '/admin'].includes(currentPath) ? (
+          ['teacher', 'student', 'admin'].includes(localStorage.getItem('role')) ? (
             <button onClick={handleLogout} className="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
               Logout
               <i className="fa fa-arrow-right ms-3"></i>
