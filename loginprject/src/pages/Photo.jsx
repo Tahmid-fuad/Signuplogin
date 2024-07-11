@@ -1,8 +1,37 @@
-import Breadcrumb from "./Breadcrumb"
-import Footer from "./Footer"
-import Header from "./Header"
+import React, { useEffect } from 'react';
+import Breadcrumb from './Breadcrumb';
+import Footer from './Footer';
+import Header from './Header';
+import 'lightbox2/dist/css/lightbox.min.css';
+import 'lightbox2';
+import Isotope from 'isotope-layout';
 
 function Photo() {
+  useEffect(() => {
+    // Initialize Isotope
+    const isotope = new Isotope('.portfolio-container', {
+      itemSelector: '.portfolio-item',
+      layoutMode: 'fitRows'
+    });
+
+    // Filter items on button click
+    const filters = document.querySelectorAll('#portfolio-flters li');
+    filters.forEach(filter => {
+      filter.addEventListener('click', function () {
+        filters.forEach(f => f.classList.remove('active'));
+        this.classList.add('active');
+        const filterValue = this.getAttribute('data-filter');
+        isotope.arrange({ filter: filterValue });
+      });
+    });
+
+    // Initialize Lightbox
+    window.lightbox.option({
+      resizeDuration: 200,
+      wrapAround: true
+    });
+  }, []);
+  
   return (
     <div>
       <div>
