@@ -44,6 +44,7 @@ function Admin() {
   const [faculties, setFaculties] = useState([]);
   const [emails, setEmails] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState('');
+  const [facultyVisibility, setFacultyVisibility] = useState({});
 
   useEffect(() => {
     // Fetch student marks data by course
@@ -258,7 +259,7 @@ function Admin() {
     setYear('');
     setPhoto(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ''; 
+      fileInputRef.current.value = '';
     }
   };
 
@@ -322,6 +323,13 @@ function Admin() {
     } catch (err) {
       setError('Failed to delete faculty. Please try again later.');
     }
+  };
+
+  const toggleFacultyVisibility = (facultyId) => {
+    setFacultyVisibility((prev) => ({
+      ...prev,
+      [facultyId]: !prev[facultyId],
+    }));
   };
 
   return (
@@ -701,7 +709,13 @@ function Admin() {
             {faculties.map((faculty, index) => (
               <div key={index}>
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h3>{faculty.name}</h3  >
+                  <h3
+                    className="text-decoration-underline m-0 p-0"
+                    onClick={() => toggleFacultyVisibility(faculty._id)}
+                    style={{ cursor: 'pointer' }} 
+                  >
+                    {faculty.name}
+                  </h3>
                   <div>
                     <button
                       className="btn btn-primary m-1"
@@ -717,36 +731,41 @@ function Admin() {
                     </button>
                   </div>
                 </div>
-                <table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "5%" }}>SN</th>
-                      <th style={{ width: "25%" }}>Title</th>
-                      <th style={{ width: "25%" }}>Authors</th>
-                      <th style={{ width: "30%" }}>Info</th>
-                      <th style={{ width: "10%" }}>Year</th>
-                      <th style={{ width: "5%" }}>Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {faculty.publications.map((publication, idx) => (
-                      <tr key={idx}>
-                        <td>{publication.sn}</td>
-                        <td>{publication.title}</td>
-                        <td>{publication.authors}</td>
-                        <td>{publication.info}</td>
-                        <td>{publication.year}</td>
-                        <td>
-                          <button
-                            className='btn btn-secondary rounded-3 btn-sm ms-auto'
-                            onClick={() => deleteFacultyrecord(faculty._id, publication._id)}>
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                {facultyVisibility[faculty._id] && (
+                  <div>
+                    <table className="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "5%" }}>SN</th>
+                          <th style={{ width: "25%" }}>Title</th>
+                          <th style={{ width: "25%" }}>Authors</th>
+                          <th style={{ width: "30%" }}>Info</th>
+                          <th style={{ width: "10%" }}>Year</th>
+                          <th style={{ width: "5%" }}>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {faculty.publications.map((publication, idx) => (
+                          <tr key={idx}>
+                            <td>{publication.sn}</td>
+                            <td>{publication.title}</td>
+                            <td>{publication.authors}</td>
+                            <td>{publication.info}</td>
+                            <td>{publication.year}</td>
+                            <td>
+                              <button
+                                className='btn btn-secondary rounded-3 btn-sm ms-auto'
+                                onClick={() => deleteFacultyrecord(faculty._id, publication._id)}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             ))}
           </div>
