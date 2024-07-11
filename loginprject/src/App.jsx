@@ -48,20 +48,20 @@ function App() {
           <Route path='/Anissir' element={<Anissir />} />
           <Route path='/Mamunsir' element={<Mamunsir />} />
           <Route path='/Tayebamaam' element={<Tayebamaam />} />
-          <Route path='/Khadijamaam' element={<Khadijamaam/>} />
-          <Route path='*' element={<Error/>} />
-          <Route path='/Tumpamaam' element={<Tumpamaam/>} />
-          <Route path='/Arifsir' element={<Arifsir/>} />
-          <Route path='/Eftekharsir' element={<Eftekharsir/>} />
-          <Route path='/Farhadsir' element={<Farhadsir/>} />
-          <Route path='/Contact' element={<Contact/>} />
+          <Route path='/Khadijamaam' element={<Khadijamaam />} />
+          <Route path='*' element={<Error />} />
+          <Route path='/Tumpamaam' element={<Tumpamaam />} />
+          <Route path='/Arifsir' element={<Arifsir />} />
+          <Route path='/Eftekharsir' element={<Eftekharsir />} />
+          <Route path='/Farhadsir' element={<Farhadsir />} />
+          <Route path='/Contact' element={<Contact />} />
           <Route path='/forgot-password' element={<ForgetPassword />} />
           <Route path='/reset-password/:token' element={<ResetPassword />} />
-          <Route path="/faculty/:email" element={<Faculty/>} />
+          <Route path="/faculty/:email" element={<Faculty />} />
 
 
-          
-           
+
+
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>

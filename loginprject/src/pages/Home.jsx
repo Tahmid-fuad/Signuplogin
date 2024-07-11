@@ -2,6 +2,17 @@ import Footer from "./Footer"
 import Header from "./Header"
 import Notice from "./Notice"
 import Carousel from "./OwlCarousel"
+import { useSpring, animated } from "react-spring";
+
+function Number({ n }) {
+  const { number } = useSpring({
+    from: { number: 0 },
+    number: n,
+    delay: 200,
+    config: { mass: 1, tenion: 0, friction: 100 },
+  });
+  return <animated.div>{number.to((n) => n.toFixed(0))}</animated.div>;
+}
 
 function Home() {
   return (
@@ -166,7 +177,7 @@ function Home() {
                 <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
                   <i className="fa fa-chalkboard fa-2x text-primary"></i>
                 </div>
-                <h1 className="display-2 text-primary mb-0">20</h1>
+                <h1 className="display-2 text-primary mb-0"><Number n={20} /></h1>
               </div>
               <h5 className="text-center">Total Teachers</h5>
             </div>
@@ -175,7 +186,7 @@ function Home() {
                 <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
                   <i className="fa fa-users fa-2x text-primary"></i>
                 </div>
-                <h1 className="display-2 text-primary mb-0">300</h1>
+                <h1 className="display-2 text-primary mb-0"><Number n={300} /></h1>
               </div>
               <h5 className="text-center">Total Students</h5>
             </div>
@@ -184,7 +195,7 @@ function Home() {
                 <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
                   <i className="fa fa-microchip fa-2x text-primary"></i>
                 </div>
-                <h1 className="display-2 text-primary mb-0">04</h1>
+                <h1 className="display-2 text-primary mb-0"><Number n={4} /></h1>
               </div>
               <h5 className="text-center">Total Labs</h5>
             </div>
@@ -193,7 +204,7 @@ function Home() {
                 <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
                   <i className="fa fa-laptop fa-2x text-primary"></i>
                 </div>
-                <h1 className="display-2 text-primary mb-0">60</h1>
+                <h1 className="display-2 text-primary mb-0"><Number n={60} /></h1>
               </div>
               <h5 className="text-center">Total Computer</h5>
             </div>

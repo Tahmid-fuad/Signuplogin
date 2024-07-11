@@ -1,7 +1,6 @@
 import React from 'react';
 import OwlCarousel from 'react-owl-carousel';
 
-
 const Carousel = () => {
     const options = {
         autoplay: true,
@@ -20,7 +19,7 @@ const Carousel = () => {
         <div>
             <div className="section-title text-center">
                 <h1 className="display-5 mt-5 mb-5">
-                    <a href="photo.html">Photo Gallery</a>
+                    <a href="/photo">Photo Gallery</a>
                 </h1>
             </div>
             <div className="container-fluid p-0 pb-5">
