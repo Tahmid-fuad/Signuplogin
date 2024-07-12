@@ -34,6 +34,22 @@ function Header() {
     return currentPath === '/login' ? "fa-arrow-down" : "fa-arrow-right";
   };
 
+  let profile = '';
+  switch (localStorage.getItem('role')) {
+    case 'student':
+      profile = '/student';
+      break;
+    case 'teacher':
+      profile = '/teacher';
+      break;
+    case 'admin':
+      profile = '/admin';
+      break;
+    default:
+      profile = '/login';
+      break;
+  }
+
   return (
     <div>
       {/* Navbar Start */}
@@ -48,6 +64,7 @@ function Header() {
           <a href="https://alumni-ete-cuet.netlify.app/?fbclid=IwAR0HCp0F7QXw-GWn8Y3F_O574PxSl4XH7M_TFkXJ1yWGPM8cQ-c4IrA9_eY"
             className="nav-item nav-link">Alumni</a>
           <a href="/photo" className={getNavLinkClass("/photo")}>Photo Gallery</a>
+          <a href={profile} className={getNavLinkClass(`/${localStorage.getItem('role')}`)}>My Profile</a>
           <div className="nav-item dropdown">
             <a href="#" className="nav-link dropdown-toggle">More</a>
             <div className="dropdown-menu fade-up m-0">
