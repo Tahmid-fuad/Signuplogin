@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
+import axios from 'axios'; // Ensure Axios is imported
 
 const Carousel = () => {
     const options = {
@@ -15,6 +16,22 @@ const Carousel = () => {
         ]
     };
 
+    const [owls, setOwls] = useState([]);
+    const [error, setError] = useState('');
+
+    const fetchOwls = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/fetchowls');
+            setOwls(response.data);
+        } catch (err) {
+            setError('Failed to load Owl. Please try again later.');
+        }
+    };
+
+    useEffect(() => {
+        fetchOwls();
+    }, []);
+
     return (
         <div>
             <div className="section-title text-center">
@@ -24,15 +41,18 @@ const Carousel = () => {
             </div>
             <div className="container-fluid p-0 pb-5">
                 <OwlCarousel className="owl-theme header-carousel" {...options}>
-                    <div className="owl-carousel-item position-relative">
-                        <img className="img-fluid" src="assets/bg16-9.jpg" alt="" />
-                    </div>
-                    <div className="owl-carousel-item position-relative">
-                        <img className="img-fluid" src="assets/bg16-9.jpg" alt="" />
-                    </div>
-                    <div className="owl-carousel-item position-relative">
-                        <img className="img-fluid" src="assets/bg16-9.jpg" alt="" />
-                    </div>
+                    {error ? (
+                        <li>{error}</li>
+                    ) : (
+                        owls.map((owl) => (
+                            <div key={owl._id} className="owl-carousel-item position-relative">
+                                <img
+                                    className="img-fluid"
+                                    src={`http://localhost:3001/public/owlimage/${owl.file}`}
+                                />
+                            </div>
+                        ))
+                    )}
                 </OwlCarousel>
             </div>
         </div>

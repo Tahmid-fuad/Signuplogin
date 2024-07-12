@@ -13,6 +13,7 @@ const fs = require('fs');
 const NoticeModel = require("./models/notice");
 const ContactModel = require("./models/contact");
 const FacultyModel = require("./models/faculty");
+const OwlModel = require("./models/owllink");
 
 const app = express();
 app.use(express.json());
@@ -609,13 +610,89 @@ app.get('/faculty/:email', async (req, res) => {
   const { email } = req.params;
 
   try {
-    const faculty = await FacultyModel.findOne({email});
+    const faculty = await FacultyModel.findOne({ email });
     res.status(200).json(faculty);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
+const storage3 = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/owlimage');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload3 = multer({ storage: storage3 });
+
+app.use('/public', express.static('public'));
+
+app.post('/addowl', upload3.single('file'), async (req, res) => {
+  const file = req.file ? req.file.filename : null;
+
+  try {
+    const newOwl = new OwlModel({ file: file });
+    const savedOwl = await newOwl.save();
+    res.status(201).json({ message: "Success" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/fetchowls', async (req, res) => {
+  try {
+    const owl = await OwlModel.find({});
+    res.status(200).json(owl);
+  } catch (error) {
+    console.error('Error fetching notices:', error);
+    res.status(500).json({ message: 'Failed to retrieve notices.' });
+  }
+});
+
+app.use('/public/owlimage', express.static(path.join(__dirname, 'public/owlimage')));
+
+app.get('/owl-photo/:file', (req, res) => {
+  const fileName = req.params.file;
+  const photoPath = path.join(__dirname, 'public/owlimage', fileName);
+
+  if (fs.existsSync(photoPath)) {
+    res.sendFile(photoPath);
+  } else {
+    res.status(404).send('Photo not found');
+  }
+});
+
+app.delete('/owls/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const owl = await OwlModel.findById(id);
+
+    if (!owl) {
+      return res.status(404).json({ message: 'Picture not found' });
+    }
+
+    // Delete the associated file
+    if (owl.file) {
+      const filePath = path.join(__dirname, 'public/owlimage', owl.file);
+      console.log('Attempting to delete file:', filePath);
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Failed to delete file:', err);
+        }
+      });
+    }
+
+    await OwlModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Owl deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Define port and start server
 const port = 3001;

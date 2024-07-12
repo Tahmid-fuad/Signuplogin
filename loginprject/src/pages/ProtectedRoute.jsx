@@ -18,7 +18,7 @@ const ProtectedRoute = ({ allowedRoles, handleLogout }) => {
 
 ProtectedRoute.propTypes = {
     allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
-    handleLogout: PropTypes.func.isRequired
+    handleLogout: PropTypes.func
 };
 
 export default ProtectedRoute;
