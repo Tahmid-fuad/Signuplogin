@@ -1,6 +1,8 @@
 function Footer() {
   return (
     <div>
+      {/* Back to Top */}
+      <a href="#" className="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"><i className="bi bi-arrow-up"></i></a>
       {/* Footer Start */}
       <div className="container-fluid bg-dark text-light footer pt-5 wow fadeIn">
         <div className="container py-5">

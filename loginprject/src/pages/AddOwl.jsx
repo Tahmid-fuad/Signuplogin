@@ -50,6 +50,7 @@ const AddOwl = ({ }) => {
             setServerError(err.response ? err.response.data.message : 'An error occurred');
         } finally {
             setIsSubmit(false);
+            setFile(null);
         }
     };
 
