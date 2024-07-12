@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
-import axios from 'axios'; // Ensure Axios is imported
+import axios from 'axios'; 
 
 const Carousel = () => {
     const options = {

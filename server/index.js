@@ -14,6 +14,7 @@ const NoticeModel = require("./models/notice");
 const ContactModel = require("./models/contact");
 const FacultyModel = require("./models/faculty");
 const OwlModel = require("./models/owllink");
+const PicModel = require("./models/piclib");
 
 const app = express();
 app.use(express.json());
@@ -647,8 +648,8 @@ app.get('/fetchowls', async (req, res) => {
     const owl = await OwlModel.find({});
     res.status(200).json(owl);
   } catch (error) {
-    console.error('Error fetching notices:', error);
-    res.status(500).json({ message: 'Failed to retrieve notices.' });
+    console.error('Error fetching owls:', error);
+    res.status(500).json({ message: 'Failed to retrieve owls.' });
   }
 });
 
@@ -689,6 +690,73 @@ app.delete('/owls/:id', async (req, res) => {
     await OwlModel.findByIdAndDelete(id);
 
     res.status(200).json({ message: 'Owl deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+const storage4 = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/piclib');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload4 = multer({ storage: storage4 });
+
+app.use('/public', express.static('public'));
+
+app.post('/addpic', upload4.single('file'), async (req, res) => {
+  const { name, filter } = req.body;
+  const file = req.file ? req.file.filename : null;
+
+  try {
+    const newPic = new PicModel({ file: file, name, filter });
+    const savedPic = await newPic.save();
+    res.status(201).json({ message: "Success" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/fetchpics', async (req, res) => {
+  try {
+    const pics = await PicModel.find({});
+    res.status(200).json(pics);
+  } catch (error) {
+    console.error('Error fetching pics:', error);
+    res.status(500).json({ message: 'Failed to retrieve pics.' });
+  }
+});
+
+app.use('/public/piclib', express.static(path.join(__dirname, 'public/piclib')));
+
+app.delete('/pics/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const pic = await PicModel.findById(id);
+
+    if (!pic) {
+      return res.status(404).json({ message: 'Picture not found' });
+    }
+
+    // Delete the associated file
+    if (pic.file) {
+      const filePath = path.join(__dirname, 'public/piclib', pic.file);
+      console.log('Attempting to delete file:', filePath);
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Failed to delete file:', err);
+        }
+      });
+    }
+
+    await PicModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Pic deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

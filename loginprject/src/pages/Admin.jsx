@@ -10,6 +10,7 @@ import courseIdReplace from './courseCodeMap';
 import Signup from './Signup';
 import AddNotice from './AddNotice';
 import AddOwl from './AddOwl';
+import AddPic from './AddPic';
 
 function Admin() {
   const [teacherEmail, setTeacherEmail] = useState('');
@@ -345,6 +346,8 @@ function Admin() {
             </div>
             <div className="col-4">
               <AddOwl />
+              <div className="m-2"></div>
+              <AddPic />
             </div>
             <div className="col-4">
               <div className='w-100 p-3 rounded bg-white'>
