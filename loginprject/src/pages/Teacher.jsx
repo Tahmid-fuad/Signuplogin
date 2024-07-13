@@ -51,16 +51,19 @@ function Teacher() {
         });
     }
 
-    // Fetch student marks data by course
-    axios.get('http://localhost:3001/getMarksByCourse')
-      .then(response => {
-        setMarksData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching student marks:', error);
-      });
+    fetchMarks();
+
   }, []);
 
+  const fetchMarks = async () => {
+    // Fetch student marks data by course
+    try {
+      const response = await axios.get('http://localhost:3001/getMarksByCourse')
+      setMarksData(response.data);
+    } catch (error) {
+      console.error('Error fetching student marks:', error);
+    }
+  }
 
   let designation = '';
   switch (teacherDesig) {
@@ -312,7 +315,15 @@ function Teacher() {
       <div className="row m-2">
         {/* Display Marks Data */}
         <div className="container mt-5">
-          <h3 className="text-decoration-underline">Exam Results</h3>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h3 className="text-decoration-underline">Exam Results</h3>
+            <button
+              className="btn btn-primary mx-4"
+              onClick={() => fetchMarks()}
+            >
+              Refresh
+            </button>
+          </div>
           {Object.keys(marksData).length > 0 ? (
             Object.entries(marksData).map(([batchYear, terms]) => (
               <div key={batchYear} id={`batch-${batchYear}`} className="mb-5">

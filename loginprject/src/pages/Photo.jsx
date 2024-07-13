@@ -100,25 +100,27 @@ function Photo() {
                                     <div className="alert alert-danger">{error}</div>
                                 </div>
                             ) : (
-                                pics.map((pic) => (
-                                    <div key={pic._id} className={`col-lg-4 col-md-6 portfolio-item ${pic.filter} wow fadeInUp`}>
-                                        <div className="card h-100">
-                                            <div className="position-relative overflow-hidden">
-                                                <img className="card-img-top" src={`http://localhost:3001/public/piclib/${pic.file}`} alt={pic.name} style={{ objectFit: 'contain', height: '200px' }} />
-                                                <div className="portfolio-overlay d-flex align-items-center justify-content-center">
-                                                    <a className="btn btn-square btn-outline-light mx-1" href={`http://localhost:3001/public/piclib/${pic.file}`} data-lightbox="portfolio"><i className="fa fa-eye"></i></a>
-                                                    <a className="btn btn-square btn-outline-light mx-1" href={`http://localhost:3001/public/piclib/${pic.file}`}><i className="fa fa-link"></i></a>
-                                                    {localStorage.getItem('role') === 'admin' && (
-                                                        <a className="btn btn-square btn-outline-light mx-1" onClick={() => deletePic(pic._id)}><i className="fa-solid fa-trash"></i></a>
-                                                    )}
+                                pics
+                                    .sort((a, b) => b._id.localeCompare(a._id))
+                                    .map((pic) => (
+                                        <div key={pic._id} className={`col-lg-4 col-md-6 portfolio-item ${pic.filter} wow fadeInUp`}>
+                                            <div className="card h-100">
+                                                <div className="position-relative overflow-hidden">
+                                                    <img className="card-img-top" src={`http://localhost:3001/public/piclib/${pic.file}`} alt={pic.name} style={{ objectFit: 'contain', height: '200px' }} />
+                                                    <div className="portfolio-overlay d-flex align-items-center justify-content-center">
+                                                        <a className="btn btn-square btn-outline-light mx-1" href={`http://localhost:3001/public/piclib/${pic.file}`} data-lightbox="portfolio"><i className="fa fa-eye"></i></a>
+                                                        <a className="btn btn-square btn-outline-light mx-1" href={`http://localhost:3001/public/piclib/${pic.file}`}><i className="fa fa-link"></i></a>
+                                                        {localStorage.getItem('role') === 'admin' && (
+                                                            <a className="btn btn-square btn-outline-light mx-1" onClick={() => deletePic(pic._id)}><i className="fa-solid fa-trash"></i></a>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                <div className="card-body text-center">
+                                                    <h5 className="card-title">{pic.name}</h5>
                                                 </div>
                                             </div>
-                                            <div className="card-body text-center">
-                                                <h5 className="card-title">{pic.name}</h5>
-                                            </div>
                                         </div>
-                                    </div>
-                                ))
+                                    ))
                             )}
                         </div>
                     )}

@@ -2,35 +2,64 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, setCourse, exam, setExam, studentId, setStudentId, marks, setMarks, setMarksData, successMessage, setSuccessMessage }) => {
+    const [formErrors, setFormErrors] = useState({});
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        const errors = validate(batch, term, course, exam, studentId, marks);
+        setFormErrors(errors);
         // Clear success message before submission
         setSuccessMessage('');
 
-        // Data to be sent to the backend
-        const data = {
-            batch,
-            term,
-            course,
-            exam,
-            studentId,
-            marks,
-            teacherEmail,
-        };
+        if (Object.keys(errors).length === 0) {
+            // Data to be sent to the backend
+            const data = {
+                batch,
+                term,
+                course,
+                exam,
+                studentId,
+                marks,
+                teacherEmail,
+            };
 
-        // Send data to the backend
-        axios.post('http://localhost:3001/submitMarks', data)
-            .then(response => {
-                setSuccessMessage('Marks submitted successfully');
-                axios.get('http://localhost:3001/getMarksByCourse')
-                    .then(response => {
-                        setMarksData(response.data);
-                    });
-            })
-            .catch(error => {
-                console.error('Error submitting marks:', error);
-            });
+            // Send data to the backend
+            axios.post('http://localhost:3001/submitMarks', data)
+                .then(response => {
+                    setSuccessMessage('Marks submitted successfully');
+                    axios.get('http://localhost:3001/getMarksByCourse')
+                        .then(response => {
+                            setMarksData(response.data);
+                        });
+                })
+                .catch(error => {
+                    console.error('Error submitting marks:', error);
+                });
+        }
+    };
+
+    const validate = (batch, term, course, exam, studentId, marks) => {
+        const errors = {};
+        if (!batch) {
+            errors.batch = "Batch is required";
+        }
+        if (!term) {
+            errors.term = "Term is required";
+        }
+        if (!course) {
+            errors.course = "Course code is required";
+        }
+        if (!exam) {
+            errors.exam = "Exam type is required";
+        }
+        if (!studentId) {
+            errors.studentId = "Student Id is required";
+        } else if (studentId.length != 7) {
+            errors.studentId = "Student ID  must be at least 7 characters long";
+        }
+        if (!marks) {
+            errors.marks = "Marks is required";
+        }
+        return errors;
     };
 
     return (
@@ -48,7 +77,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     <option value="21">21</option>
                     <option value="22">22</option>
                 </select>
-                {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>}
             </div>
             <div className='mb-2'>
                 <select
@@ -66,7 +95,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     <option value="41">Level-4 Term-1</option>
                     <option value="42">Level-4 Term-2</option>
                 </select>
-                {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                {formErrors.term && <p className="text-danger">{formErrors.term}</p>}
             </div>
             {term === '41' && (
                 <div className='mb-2'>
@@ -81,7 +110,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="405">ETE 405</option>
                         <option value="407">ETE 407</option>
                     </select>
-                    {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                    {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
             )}
             {term === '31' && (
@@ -98,7 +127,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="307">ETE 307</option>
                         <option value="309">ETE 309</option>
                     </select>
-                    {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                    {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
             )}
             {term === '21' && (
@@ -115,7 +144,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="m281">Math 281</option>
                         <option value="h281">Hum 281</option>
                     </select>
-                    {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                    {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
             )}
             {term === '12' && (
@@ -132,7 +161,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="m185">Math 185</option>
                         <option value="p181">Phy 181</option>
                     </select>
-                    {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                    {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
             )}
             <div className='mb-2'>
@@ -149,7 +178,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     <option value="ct5">CT-5</option>
                     <option value="term">Term Final</option>
                 </select>
-                {/* {formErrors.batch && <p className="text-danger">{formErrors.batch}</p>} */}
+                {formErrors.exam && <p className="text-danger">{formErrors.exam}</p>}
             </div>
             <div className='mb-2'>
                 <input
@@ -159,7 +188,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     value={studentId}
                     onChange={(e) => setStudentId(e.target.value)}
                 />
-                {/* {formErrors.id && <p className="text-danger">{formErrors.id}</p>} */}
+                {formErrors.studentId && <p className="text-danger">{formErrors.studentId}</p>}
             </div>
             <div className='mb-2'>
                 <input
@@ -169,7 +198,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     value={marks}
                     onChange={(e) => setMarks(e.target.value)}
                 />
-                {/* {formErrors.id && <p className="text-danger">{formErrors.id}</p>} */}
+                {formErrors.marks && <p className="text-danger">{formErrors.marks}</p>}
             </div>
             {successMessage && <p className="text-success">{successMessage}</p>}
             <div className='d-grid'>
