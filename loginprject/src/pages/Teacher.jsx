@@ -34,6 +34,8 @@ function Teacher() {
   const [serverError, setServerError] = useState('');
   const [facultyId, setFacultyId] = useState('');
   const [publication, setPublication] = useState([]);
+  const [routine, setRoutine] = useState([]);
+  const [routineError, setRoutineError] = useState('');
 
   useEffect(() => {
     const teacherEmail = localStorage.getItem('email');
@@ -245,6 +247,20 @@ function Teacher() {
     }
   };
 
+  const fetchRoutine = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/fetchroutine/master`);
+      setRoutine(response.data);
+    } catch (err) {
+      setRoutineError('Failed to load routine. Please try again later.');
+      console.log(routineError);
+    }
+  };
+
+  useEffect(() => {
+    fetchRoutine();
+  }, []);
+
   return (
     <div>
       <Header />
@@ -308,7 +324,12 @@ function Teacher() {
             <Notice />
           </div>
           <div className="col-8">
-            {/* Content for the right column */}
+            <h3><a className='text-black text-decoration-underline' href={`http://localhost:3001/public/routine/file/${routine.file1}`}>Master Routine</a></h3>
+            <img
+              className="img-fluid"
+              src={`http://localhost:3001/public/routine/image/${routine.file2}`}
+              // style={{ objectFit: 'cover', height: '500px' }}
+            />
           </div>
         </div>
       </div>

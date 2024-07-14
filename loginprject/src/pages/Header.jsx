@@ -61,15 +61,17 @@ function Header() {
           <a href="/" className={getNavLinkClass("/")}>Home</a>
           <a href="/About" className={getNavLinkClass("/About")}>About</a>
           <a href="/faculties" className={getNavLinkClass("/faculties")}>Faculties</a>
-          <a href="https://alumni-ete-cuet.netlify.app/?fbclid=IwAR0HCp0F7QXw-GWn8Y3F_O574PxSl4XH7M_TFkXJ1yWGPM8cQ-c4IrA9_eY"
-            className="nav-item nav-link">Alumni</a>
+          {/* <a href="https://alumni-ete-cuet.netlify.app/?fbclid=IwAR0HCp0F7QXw-GWn8Y3F_O574PxSl4XH7M_TFkXJ1yWGPM8cQ-c4IrA9_eY"
+            className="nav-item nav-link">Alumni</a> */}
           <a href="/photo" className={getNavLinkClass("/photo")}>Photo Gallery</a>
           <a href={profile} className={getNavLinkClass(`/${localStorage.getItem('role')}`)}>My Profile</a>
           <div className="nav-item dropdown">
             <a href="#" className="nav-link dropdown-toggle">More</a>
             <div className="dropdown-menu fade-up m-0">
-              <a href="#" className="dropdown-item">Offered Degrees</a>
+              {/* <a href="#" className="dropdown-item">Offered Degrees</a> */}
               <a href="/#Notice" className="dropdown-item">Notices</a>
+              <a href="https://alumni-ete-cuet.netlify.app/?fbclid=IwAR0HCp0F7QXw-GWn8Y3F_O574PxSl4XH7M_TFkXJ1yWGPM8cQ-c4IrA9_eY"
+                className="dropdown-item">Alumni</a>
               <a href="/contact" className="dropdown-item">Contact</a>
             </div>
           </div>

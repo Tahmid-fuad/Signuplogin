@@ -15,6 +15,7 @@ const ContactModel = require("./models/contact");
 const FacultyModel = require("./models/faculty");
 const OwlModel = require("./models/owllink");
 const PicModel = require("./models/piclib");
+const RoutineModel = require("./models/routine");
 
 const app = express();
 app.use(express.json());
@@ -757,6 +758,100 @@ app.delete('/pics/:id', async (req, res) => {
     await PicModel.findByIdAndDelete(id);
 
     res.status(200).json({ message: 'Pic deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+const storageFile = multer.diskStorage({
+  destination: (req, file, cb) => {
+    if (file.fieldname === 'file1') {
+      cb(null, 'public/routine/file');
+    } else if (file.fieldname === 'file2') {
+      cb(null, 'public/routine/image');
+    }
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload5 = multer({ storage: storageFile });
+
+app.use('/public', express.static('public'));
+
+app.post('/addroutine', upload5.fields([{ name: 'file1', maxCount: 1 }, { name: 'file2', maxCount: 1 }]), async (req, res) => {
+  const { dest } = req.body;
+  const file1 = req.files['file1'] ? req.files['file1'][0].filename : null;
+  const file2 = req.files['file2'] ? req.files['file2'][0].filename : null;
+
+  try {
+    const newRoutine = new RoutineModel({ file1, file2, dest });
+    const savedRoutine = await newRoutine.save();
+    res.status(201).json({ message: "Success" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/fetchroutine/:dest', async (req, res) => {
+  try {
+    const dest = req.params.dest;
+    const routine = await RoutineModel.findOne({ dest });
+    res.status(200).json(routine);
+  } catch (error) {
+    console.error('Error fetching routine:', error);
+    res.status(500).json({ message: 'Failed to retrieve routine.' });
+  }
+});
+
+app.use('/public/routine/file', express.static(path.join(__dirname, 'public/routine/file')));
+app.use('/public/routine/image', express.static(path.join(__dirname, 'public/routine/image')));
+
+app.get('/fetchroutines', async (req, res) => {
+  try {
+    const routines = await RoutineModel.find({});
+    res.status(200).json(routines);
+  } catch (error) {
+    console.error('Error fetching routines:', error);
+    res.status(500).json({ message: 'Failed to retrieve routines.' });
+  }
+});
+
+app.delete('/routine/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const routine = await RoutineModel.findById(id);
+
+    if (!routine) {
+      return res.status(404).json({ message: 'Routine not found' });
+    }
+
+    // Delete the associated file
+    if (routine.file1) {
+      const filePath1 = path.join(__dirname, 'public/routine/file', routine.file1);
+      console.log('Attempting to delete file:', filePath1);
+      fs.unlink(filePath1, (err) => {
+        if (err) {
+          console.error('Failed to delete routine file:', err);
+        }
+      });
+    }
+
+    if (routine.file2) {
+      const filePath2 = path.join(__dirname, 'public/routine/image', routine.file2);
+      console.log('Attempting to delete file:', filePath2);
+      fs.unlink(filePath2, (err) => {
+        if (err) {
+          console.error('Failed to delete routine image:', err);
+        }
+      });
+    }
+
+    await RoutineModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Routine deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

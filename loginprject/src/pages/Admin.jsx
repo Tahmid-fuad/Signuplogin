@@ -9,6 +9,7 @@ import termReplace from './termMap';
 import courseIdReplace from './courseCodeMap';
 import Signup from './Signup';
 import AddNotice from './AddNotice';
+import AddRoutine from './AddRoutine';
 import AddOwl from './AddOwl';
 import AddPic from './AddPic';
 
@@ -47,17 +48,22 @@ function Admin() {
   const [emails, setEmails] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState('');
   const [facultyVisibility, setFacultyVisibility] = useState({});
+  const [routines, setRoutines] = useState([]);
+  const [routinesError, setRoutinesError] = useState('');
 
   useEffect(() => {
-    // Fetch student marks data by course
-    axios.get('http://localhost:3001/getMarksByCourse')
-      .then(response => {
-        setMarksData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching student marks:', error);
-      });
+    fetchMarks();
   }, []);
+
+  const fetchMarks = async () => {
+    // Fetch student marks data by course
+    try {
+      const response = await axios.get('http://localhost:3001/getMarksByCourse')
+      setMarksData(response.data);
+    } catch (error) {
+      console.error('Error fetching student marks:', error);
+    }
+  }
 
   const fetchContacts = async () => {
     try {
@@ -334,6 +340,28 @@ function Admin() {
     }));
   };
 
+  const fetchRoutines = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/fetchroutines');
+      setRoutines(response.data);
+    } catch (err) {
+      setRoutinesError('Failed to load routines. Please try again later.');
+    }
+  };
+
+  useEffect(() => {
+    fetchRoutines();
+  }, []);
+
+  const deleteRoutine = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/routine/${id}`);
+      fetchRoutines();
+    } catch (err) {
+      console.log('Failed to delete routine. Please try again later.');
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -377,7 +405,15 @@ function Admin() {
       <div className="row m-2">
         {/* Display Marks Data */}
         <div className="container mt-5">
-          <h3 className="text-decoration-underline">Exam Results</h3>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h3 className="text-decoration-underline">Exam Results</h3>
+            <button
+              className="btn btn-primary mx-4"
+              onClick={() => fetchMarks()}
+            >
+              Refresh
+            </button>
+          </div>
           {Object.keys(marksData).length > 0 ? (
             Object.entries(marksData).map(([batchYear, terms]) => (
               <div key={batchYear} id={`batch-${batchYear}`} className="mb-5">
@@ -467,7 +503,7 @@ function Admin() {
       </div>
       <div>
         <div className="row mb-3">
-          <div className="col-4 float-start">
+          <div className="col-3 float-start">
             <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2">
               <div className="heading-sect">
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
@@ -494,8 +530,39 @@ function Admin() {
               </div>
             </div>
           </div>
-          <div className="col-8">
+          <div className="col-3">
             <AddNotice notices={notices} setNotices={setNotices} />
+          </div>
+          <div className="col-3">
+            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2">
+              <div className="heading-sect">
+                <h3 className="m-0 p-0 fs-6 fw-semibold">Routines</h3>
+              </div>
+              <div>
+                <ul className="latest-news-ul">
+                  {routinesError ? (
+                    <li>{routinesError}</li>
+                  ) : (
+                    routines
+                      .map((routine) => (
+                        <li key={routine._id}>
+                          <a
+                            className='text-black text-decoration-underline'
+                            href={`http://localhost:3001/public/routine/file/${routine.file1}`}
+                          >
+                            {routine.dest} Routine
+                          </a>
+                          {/* <button className='btn btn-secondary rounded-3 btn-sm ms-auto' >Delete</button> */}
+                          <i className="fa-solid fa-trash" onClick={() => deleteRoutine(routine._id)} style={{ cursor: 'pointer' }}></i>
+                        </li>
+                      ))
+                  )}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="col-3">
+            <AddRoutine setRoutines={setRoutines} />
           </div>
         </div>
       </div>
@@ -716,7 +783,7 @@ function Admin() {
                   <h3
                     className="text-decoration-underline m-0 p-0"
                     onClick={() => toggleFacultyVisibility(faculty._id)}
-                    style={{ cursor: 'pointer' }} 
+                    style={{ cursor: 'pointer' }}
                   >
                     {faculty.name}
                   </h3>

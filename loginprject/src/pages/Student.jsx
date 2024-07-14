@@ -11,11 +11,6 @@ import HeaderComponent from './HeaderComponent.jsx';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-const batchToRoutineComponent = {
-  '20': React.lazy(() => import('./Routine20.jsx')),
-  '21': React.lazy(() => import('./Routine21.jsx')),
-};
-
 function Student() {
   const [studentName, setStudentName] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
@@ -25,6 +20,8 @@ function Student() {
   const [studentMarks, setStudentMarks] = useState(null);
   const [termVisibility, setTermVisibility] = useState({});
   const [photoUrl, setPhotoUrl] = useState('');
+  const [routine, setRoutine] = useState([]);
+  const [routineError, setRoutineError] = useState('');
 
   const advisorEmail = getAdvisorEmail(studentBatch, studentId);
 
@@ -52,16 +49,19 @@ function Student() {
           console.error('Error fetching student details:', error);
         });
 
-      // Fetch student marks
-      axios.get(`http://localhost:3001/studentMarks/${studentId}`)
-        .then(response => {
-          setStudentMarks(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching student marks:', error);
-        });
+      fetchMarks();
     }
-  }, []);
+  }, [studentId]);
+
+  const fetchMarks = async () => {
+    // Fetch student marks data by course
+    try {
+      const response = await axios.get(`http://localhost:3001/studentMarks/${studentId}`)
+      setStudentMarks(response.data);
+    } catch (error) {
+      console.error('Error fetching student marks:', error);
+    }
+  }
 
   useEffect(() => {
     if (advisorEmail) {
@@ -95,8 +95,6 @@ function Student() {
     default:
     // academicYear = 'Unknown Batch';
   }
-
-  const RoutineComponent = batchToRoutineComponent[studentBatch] || null;
 
   // Function to print result with a header
   const printResultContent = async (studentId) => {
@@ -160,6 +158,20 @@ function Student() {
     }));
   };
 
+  const fetchRoutine = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/fetchroutine/${studentBatch}`);
+      setRoutine(response.data);
+    } catch (err) {
+      setRoutineError('Failed to load routine. Please try again later.');
+      console.log(routineError);
+    }
+  };
+
+  useEffect(() => {
+    fetchRoutine();
+  }, [studentBatch]);
+
   return (
     <div>
       <Header />
@@ -209,12 +221,12 @@ function Student() {
           <div className="col-4 float-start">
             <Notice />
           </div>
-          <div className="col-8">
-            {RoutineComponent && (
-              <Suspense fallback={<div></div>}>
-                <RoutineComponent />
-              </Suspense>
-            )}
+          <div className="col-8 mt-3">
+            <h4><a className='text-black text-decoration-underline' href={`http://localhost:3001/public/routine/file/${routine.file1}`}>Routine for {routine.dest} Batch</a></h4>
+            <img
+              className="img-fluid"
+              src={`http://localhost:3001/public/routine/image/${routine.file2}`}
+            />
           </div>
         </div>
         <div className="row m-2">
@@ -222,12 +234,20 @@ function Student() {
           <div className="col-12" id="result">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3>Exam Results of ID: {`${studentId}`}</h3>
-              <button
-                className="btn btn-primary mx-4"
-                onClick={() => printResultContent(studentId)}
-              >
-                Download
-              </button>
+              <div>
+                <button
+                  className="btn btn-primary mx-4"
+                  onClick={() => fetchMarks()}
+                >
+                  Refresh
+                </button>
+                <button
+                  className="btn btn-primary mx-4"
+                  onClick={() => printResultContent(studentId)}
+                >
+                  Download
+                </button>
+              </div>
             </div>
             {studentMarks ? (
               studentMarks.terms.map(term => (
