@@ -8,7 +8,7 @@ function getAdvisorEmail(studentBatch, studentId) {
           return 'azad@cuet.ac.bd';
         }
         if (id >= 2008031 && id <= 2008060) {
-          return 'saifulsir@gmail.com';
+          return 'saiful05eee@cuet.ac.bd';
         }
         break;
       case '21':
@@ -16,7 +16,7 @@ function getAdvisorEmail(studentBatch, studentId) {
           return 'azad@cuet.ac.bd';
         }
         if (id >= 2108031 && id <= 2108060) {
-          return 'saifulsir@gmail.com';
+          return 'saiful05eee@cuet.ac.bd';
         }
         break;
       default:

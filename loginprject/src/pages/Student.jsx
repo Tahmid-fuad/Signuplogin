@@ -16,7 +16,7 @@ function Student() {
   const [studentEmail, setStudentEmail] = useState('');
   const [studentId, setStudentId] = useState('');
   const [studentBatch, setStudentBatch] = useState('');
-  const [teacherName, setTeacherName] = useState('');
+  const [advisor, setAdvisor] = useState([]);
   const [studentMarks, setStudentMarks] = useState(null);
   const [termVisibility, setTermVisibility] = useState({});
   const [photoUrl, setPhotoUrl] = useState('');
@@ -67,7 +67,7 @@ function Student() {
     if (advisorEmail) {
       axios.get(`http://localhost:3001/teacherdata/${advisorEmail}`)
         .then(response => {
-          setTeacherName(response.data.name);
+          setAdvisor(response.data);
         })
         .catch(error => {
           console.error('Error fetching teacher details:', error);
@@ -210,8 +210,10 @@ function Student() {
             </div>
             <div className="col-2"></div>
             <div className="col-2">
-              <img src={`../assets/teacher/${advisorEmail}.jpg`} alt="" className="img-fluid" />
-              <h5>Name of the advisor:</h5>{teacherName}
+              <img src={`http://localhost:3001/public/images/${advisor.photo}`}
+                alt="" className="img-fluid"
+              />
+              <h5>Name of the advisor:</h5>{advisor.name}
             </div>
           </div>
         </div>
