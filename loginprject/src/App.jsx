@@ -27,7 +27,7 @@ import ResetPassword from './pages/ResetPassword';
 import Faculty from './pages/Faculty';
 import 'lightbox2/dist/css/lightbox.min.css';
 import 'lightbox2';
-import Isotope from 'isotope-layout';
+// import Isotope from 'isotope-layout';
 
 
 function App() {
