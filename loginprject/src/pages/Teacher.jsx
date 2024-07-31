@@ -22,7 +22,7 @@ function Teacher() {
   const [studentId, setStudentId] = useState('');
   const [marks, setMarks] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [marksData, setMarksData] = useState({});
+  const [marksData, setMarksData] = useState(null);
   const [batchVisibility, setBatchVisibility] = useState({});
   const [termVisibility, setTermVisibility] = useState({});
   const [photoUrl, setPhotoUrl] = useState('');
@@ -328,7 +328,7 @@ function Teacher() {
             <img
               className="img-fluid"
               src={`http://localhost:3001/public/routine/image/${routine.file2}`}
-              // style={{ objectFit: 'cover', height: '500px' }}
+            // style={{ objectFit: 'cover', height: '500px' }}
             />
           </div>
         </div>
@@ -345,7 +345,7 @@ function Teacher() {
               Refresh
             </button>
           </div>
-          {Object.keys(marksData).length > 0 ? (
+          {/* {Object.keys(marksData).length > 0 ? (
             Object.entries(marksData).map(([batchYear, terms]) => (
               <div key={batchYear} id={`batch-${batchYear}`} className="mb-5">
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -395,12 +395,9 @@ function Teacher() {
                                   <thead>
                                     <tr>
                                       <th>Student ID</th>
-                                      <th>CT-1</th>
-                                      <th>CT-2</th>
-                                      <th>CT-3</th>
-                                      <th>CT-4</th>
-                                      <th>CT-5</th>
-                                      <th>Term Final</th>
+                                      {students.map(({ exams }) => (
+                                        <th key={exams.examType}>{`${exams.examType}`}</th>
+                                      ))}
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -429,7 +426,92 @@ function Teacher() {
             ))
           ) : (
             <p>No marks data available.</p>
+          )} */}
+
+          {marksData ? (
+            marksData.batch.map(batch => (
+              <div key={batch.batchName} id={`batch-${batch.batchName}`} className="mb-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5
+                    className="text-decoration-underline m-0 p-0">
+                    Batch: {batch.batchName}
+                  </h5>
+                  <button
+                    className="btn btn-primary mx-4"
+                    onClick={() => printBatchContent(batch.batchName)}
+                  >
+                    Download
+                  </button>
+                </div>
+                {batch.terms.map(term => (
+                  <div key={term.term}>
+                    <h5 className="text-decoration-underline">{termReplace[term.term] || term.term}</h5>
+                    {term.courses.map(course => {
+                      const examTypes = [...new Set(course.students.flatMap(student => student.exams.map(exam => exam.examType)))];
+                      return (
+                        <div key={course.courseCode}>
+                          <h5 className="text-decoration-underline">{courseIdReplace[course.courseCode] || course.courseCode}</h5>
+                          <table className="table table-striped table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Student ID</th>
+                                {examTypes.map(examType => (
+                                  <th key={examType}>{examType}</th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {course.students.map(student => (
+                                <tr key={student.studentId}>
+                                  <td>{student.studentId}</td>
+                                  {examTypes.map(examType => {
+                                    const exam = student.exams.find(e => e.examType === examType);
+                                    return <td key={examType}>{exam ? exam.marks : ''}</td>;
+                                  })}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            ))
+          ) : (
+            <p>No marks data available.</p>
           )}
+          {/* {marksData ? (
+            marksData.batch.map(batch => (
+              <div key={batch.batchName} id={`batch-${batch.batchName}`} className="mb-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5
+                    className="text-decoration-underline m-0 p-0"
+                    onClick={() => toggleBatchVisibility(batch.batchName)}>
+                    Batch: {batch.batchName}
+                  </h5>
+                  <button
+                    className="btn btn-primary mx-4"
+                    onClick={() => printBatchContent(batch.batchName)}
+                  >
+                    Download
+                  </button>
+                </div>
+                {batchVisibility[batch.batchName] && (
+                  {
+                    batch.terms.map(term => (
+                      <div key={term.term}>
+
+                      </div>
+                    ))
+                  }
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No marks available</p>
+          )} */}
         </div>
       </div>
       <div className="row">

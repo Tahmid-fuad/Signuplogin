@@ -252,53 +252,78 @@ function Student() {
               </div>
             </div>
             {studentMarks ? (
-              studentMarks.terms.map(term => (
-                <div key={term.term} className="mb-4">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h4
-                      className="text-decoration-underline m-0 p-0"
-                      onClick={() => toggleTermVisibility(term.term)}>
-                      {termReplace[term.term]}
-                    </h4>
-                    <button
-                      className="btn btn-primary mx-4"
-                      onClick={() => printTermContent(studentId, term.term)}
-                    >
-                      Download
-                    </button>
-                  </div>
-                  {termVisibility[term.term] && (
-                    <div id={`term-${term.term}`}>
-                      <table className="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th>Course</th>
-                            {/* {term.courses[0].exams.map(exam => (
-                            <th key={exam.examType}>{exam.examType}</th>
-                          ))} */}
-                            <th>CT-1</th>
-                            <th>CT-2</th>
-                            <th>CT-3</th>
-                            <th>CT-4</th>
-                            <th>CT-5</th>
-                            <th>Term Final</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {term.courses.map(course => (
-                            <tr key={course.courseCode}>
-                              <td>{courseIdReplace[course.courseCode] || course.courseCode}</td>
-                              {course.exams.map(exam => (
-                                <td key={exam.examType}>{exam.marks[0].marks}</td>
+              studentMarks.terms.map(term => {
+                const theoryExamTypes = Array.from(new Set(term.courses.filter(course => course.courseType === 'theory').flatMap(course => course.exams.map(exam => exam.examType))));
+                const labExamTypes = Array.from(new Set(term.courses.filter(course => course.courseType === 'lab').flatMap(course => course.exams.map(exam => exam.examType))));
+                return (
+                  <div key={term.term} className="mb-4">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h4
+                        className="text-decoration-underline m-0 p-0"
+                        onClick={() => toggleTermVisibility(term.term)}
+                      >
+                        {termReplace[term.term]}
+                      </h4>
+                      <button
+                        className="btn btn-primary mx-4"
+                        onClick={() => printTermContent(studentId, term.term)}
+                      >
+                        Download
+                      </button>
+                    </div>
+                    {termVisibility[term.term] && (
+                      <div id={`term-${term.term}`}>
+                        <table className="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Theory Courses</th>
+                              {theoryExamTypes.map(examType => (
+                                <th key={examType}>{examType}</th>
                               ))}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
-              ))
+                          </thead>
+                          <tbody>
+                            {term.courses.map(course => (
+                              course.courseType === 'theory' && (
+                                <tr key={course.courseCode}>
+                                  <td>{courseIdReplace[course.courseCode] || course.courseCode}</td>
+                                  {theoryExamTypes.map(examType => {
+                                    const exam = course.exams.find(exam => exam.examType === examType);
+                                    return <td key={examType}>{exam ? exam.marks[0].marks : '-'}</td>;
+                                  })}
+                                </tr>
+                              )
+                            ))}
+                          </tbody>
+                        </table>
+                        <table className="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Lab Courses</th>
+                              {labExamTypes.map(examType => (
+                                <th key={examType}>{examType}</th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {term.courses.map(course => (
+                              course.courseType === 'lab' && (
+                                <tr key={course.courseCode}>
+                                  <td>{courseIdReplace[course.courseCode] || course.courseCode}</td>
+                                  {labExamTypes.map(examType => {
+                                    const exam = course.exams.find(exam => exam.examType === examType);
+                                    return <td key={examType}>{exam ? exam.marks[0].marks : '-'}</td>;
+                                  })}
+                                </tr>
+                              )
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             ) : (
               <p>No marks available</p>
             )}

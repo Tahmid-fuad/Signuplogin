@@ -24,7 +24,7 @@ app.use(cors({
   credentials: true
 }));
 
-const uri = "mongodb+srv://tahmidfuad18:eVpuJvt1jwyTx8cQ@cluster0.gsamudi.mongodb.net/";
+const uri = "mongodb://localhost:27017/";
 
 mongoose.connect(uri)
   .then(() => {
@@ -195,7 +195,7 @@ app.get('/teacherdata/:email', async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ message: 'Teacher not found' });
     }
-    res.status(200).json( teacher );
+    res.status(200).json(teacher);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
@@ -203,7 +203,7 @@ app.get('/teacherdata/:email', async (req, res) => {
 
 // Mark submission
 app.post('/submitMarks', async (req, res) => {
-  const { batch, term, course, exam, studentId, marks, teacherEmail } = req.body;
+  const { batch, term, course, courseCrdt, courseTyp, exam, studentId, marks, teacherEmail } = req.body;
 
   try {
     // Ensure batch document exists
@@ -241,7 +241,7 @@ app.post('/submitMarks', async (req, res) => {
     // Find or create course entry
     let courseEntry = semester.courses.find(c => c.courseCode === course);
     if (!courseEntry) {
-      courseEntry = { courseCode: course, exams: [] };
+      courseEntry = { courseCode: course, courseCredit: courseCrdt, courseType: courseTyp, exams: [] };
       semester.courses.push(courseEntry);
       await batchDoc.save(); // Save to ensure nested document structure
     }
@@ -308,41 +308,68 @@ app.get('/getMarksByCourse', async (req, res) => {
       return res.status(404).json({ message: 'No marks data found' });
     }
 
-    const dataByBatch = {};
+    const batchData = [];
+
     marksData.forEach(batch => {
-      const batchYear = batch.batchYear;
-      if (!dataByBatch[batchYear]) {
-        dataByBatch[batchYear] = {};
-      }
+      const batchObj = {
+        batchName: batch.batchYear,
+        terms: []
+      };
 
       batch.students.forEach(student => {
         student.terms.forEach(term => {
-          const termName = term.term;
-          if (!dataByBatch[batchYear][termName]) {
-            dataByBatch[batchYear][termName] = {};
+          let termObj = batchObj.terms.find(t => t.term === term.term);
+          if (!termObj) {
+            termObj = {
+              term: term.term,
+              courses: []
+            };
+            batchObj.terms.push(termObj);
           }
 
           term.courses.forEach(course => {
-            if (!dataByBatch[batchYear][termName][course.courseCode]) {
-              dataByBatch[batchYear][termName][course.courseCode] = [];
+            let courseObj = termObj.courses.find(c => c.courseCode === course.courseCode);
+            if (!courseObj) {
+              courseObj = {
+                courseCode: course.courseCode,
+                courseCredit: course.courseCredit || "",
+                courseType: course.courseType || "",
+                students: []
+              };
+              termObj.courses.push(courseObj);
             }
 
-            const studentData = { studentId: student.studentId };
+            let studentObj = courseObj.students.find(s => s.studentId === student.studentId);
+            if (!studentObj) {
+              studentObj = {
+                studentId: student.studentId,
+                exams: []
+              };
+              courseObj.students.push(studentObj);
+            }
+
             course.exams.forEach(exam => {
-              studentData[exam.examType] = exam.marks.map(m => m.marks).join(', ');
+              const examObj = {
+                examType: exam.examType,
+                marks: exam.marks.map(m => m.marks).join(', ')
+              };
+              studentObj.exams.push(examObj);
             });
-            dataByBatch[batchYear][termName][course.courseCode].push(studentData);
           });
         });
       });
+
+      batchData.push(batchObj);
     });
 
-    res.json(dataByBatch);
+    res.json({ batch: batchData });
   } catch (error) {
-    console.error('Error fetching marks:', error);
-    res.status(500).json({ message: 'Server error', error });
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
 
 
 const storages = multer.diskStorage({

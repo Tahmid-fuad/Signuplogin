@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import courseCredit from './courseCredit';
+import courseType from './courseType';
 
 const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, setCourse, exam, setExam, studentId, setStudentId, marks, setMarks, setMarksData, successMessage, setSuccessMessage }) => {
     const [formErrors, setFormErrors] = useState({});
+    const courseCrdt = courseCredit[course];
+    const courseTyp = courseType[course];
     const handleSubmit = (e) => {
         e.preventDefault();
         const errors = validate(batch, term, course, exam, studentId, marks);
@@ -10,12 +14,15 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
         // Clear success message before submission
         setSuccessMessage('');
 
+
         if (Object.keys(errors).length === 0) {
             // Data to be sent to the backend
             const data = {
                 batch,
                 term,
                 course,
+                courseCrdt,
+                courseTyp,
                 exam,
                 studentId,
                 marks,
@@ -123,9 +130,14 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="">Select Course</option>
                         <option value="301">ETE 301</option>
                         <option value="303">ETE 303</option>
+                        <option value="304">ETE 304</option>
                         <option value="305">ETE 305</option>
+                        <option value="306">ETE 306</option>
                         <option value="307">ETE 307</option>
+                        <option value="308">ETE 308</option>
                         <option value="309">ETE 309</option>
+                        <option value="310">ETE 310</option>
+                        <option value="c380">CSE 380</option>
                     </select>
                     {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
@@ -164,22 +176,48 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
             )}
-            <div className='mb-2'>
-                <select
-                    className='form-control'
-                    value={exam}
-                    onChange={(e) => setExam(e.target.value)}
-                >
-                    <option value="">Exam</option>
-                    <option value="ct1">CT-1</option>
-                    <option value="ct2">CT-2</option>
-                    <option value="ct3">CT-3</option>
-                    <option value="ct4">CT-4</option>
-                    <option value="ct5">CT-5</option>
-                    <option value="term">Term Final</option>
-                </select>
-                {formErrors.exam && <p className="text-danger">{formErrors.exam}</p>}
-            </div>
+            {courseTyp === 'theory' && (
+                <div className='mb-2'>
+                    <select
+                        className='form-control'
+                        value={exam}
+                        onChange={(e) => setExam(e.target.value)}
+                    >
+                        <option value="">Exam</option>
+                        <option value="CT-1">CT-1</option>
+                        <option value="CT-2">CT-2</option>
+                        <option value="CT-3">CT-3</option>
+                        <option value="CT-4">CT-4</option>
+                        <option value="CT-5">CT-5</option>
+                        <option value="Term Final">Term Final</option>
+                    </select>
+                    {formErrors.exam && <p className="text-danger">{formErrors.exam}</p>}
+                </div>
+            )}
+            {courseTyp === 'lab' && (
+                <div className='mb-2'>
+                    <select
+                        className='form-control'
+                        value={exam}
+                        onChange={(e) => setExam(e.target.value)}
+                    >
+                        <option value="">Lab no.</option>
+                        <option value="Lab-1">Lab-1</option>
+                        <option value="Lab-2">Lab-2</option>
+                        <option value="Lab-3">Lab-3</option>
+                        <option value="Lab-4">Lab-4</option>
+                        <option value="Lab-5">Lab-5</option>
+                        <option value="Lab-6">Lab-6</option>
+                        <option value="Lab-7">Lab-7</option>
+                        <option value="Lab-8">Lab-8</option>
+                        <option value="Lab-9">Lab-9</option>
+                        <option value="Lab-10">Lab-10</option>
+                        <option value="Quiz">Quiz</option>
+                        <option value="Viva">Viva</option>
+                    </select>
+                    {formErrors.exam && <p className="text-danger">{formErrors.exam}</p>}
+                </div>
+            )}
             <div className='mb-2'>
                 <input
                     type="number"
