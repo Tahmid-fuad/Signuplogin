@@ -189,6 +189,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="CT-3">CT-3</option>
                         <option value="CT-4">CT-4</option>
                         <option value="CT-5">CT-5</option>
+                        <option value="Attendance">Attendance</option>
                         <option value="Term Final">Term Final</option>
                     </select>
                     {formErrors.exam && <p className="text-danger">{formErrors.exam}</p>}
@@ -212,6 +213,7 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="Lab-8">Lab-8</option>
                         <option value="Lab-9">Lab-9</option>
                         <option value="Lab-10">Lab-10</option>
+                        <option value="Attendance">Attendance</option>
                         <option value="Quiz">Quiz</option>
                         <option value="Viva">Viva</option>
                     </select>

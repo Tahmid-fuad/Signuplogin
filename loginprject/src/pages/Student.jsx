@@ -172,6 +172,76 @@ function Student() {
     fetchRoutine();
   }, [studentBatch]);
 
+  const calculateBestMarks = (course) => {
+    const courseCredit = parseFloat(course.courseCredit);
+    const ctMarks = course.exams
+      .filter(exam => exam.examType.startsWith('CT'))
+      .map(exam => parseFloat(exam.marks[0].marks));
+
+    const bestN = courseCredit === 3 ? 3 : courseCredit === 4 ? 4 : ctMarks.length;
+    const bestMarks = ctMarks
+      .sort((a, b) => b - a)
+      .slice(0, bestN)
+      .reduce((acc, mark) => acc + mark, 0);
+
+    const attendanceMarks = parseFloat(course.exams.find(exam => exam.examType === 'Attendance')?.marks[0].marks || 0);
+    const termFinalMarks = parseFloat(course.exams.find(exam => exam.examType === 'Term Final')?.marks[0].marks || 0);
+
+    return (bestMarks + attendanceMarks + termFinalMarks).toFixed(2);
+  };
+
+  const calculateLabTotal = (course) => {
+    const labMarks = course.exams
+      .filter(exam => exam.examType.startsWith('Lab'))
+      .map(exam => parseFloat(exam.marks[0].marks) || 0);
+
+    const averageLabMarks = labMarks.reduce((acc, mark) => acc + mark, 0) / labMarks.length;
+
+    const quizMark = parseFloat(course.exams.find(exam => exam.examType === 'Quiz')?.marks[0].marks) || 0;
+    const vivaMark = parseFloat(course.exams.find(exam => exam.examType === 'Viva')?.marks[0].marks) || 0;
+    const attendanceMark = parseFloat(course.exams.find(exam => exam.examType === 'Attendance')?.marks[0].marks) || 0;
+
+    const totalMarks = (averageLabMarks * course.courseCredit * 6) + quizMark + vivaMark + attendanceMark;
+
+    return totalMarks.toFixed(2);
+  };
+
+  const calculateGrade = (course, totalMarks) => {
+    const courseCredit = course.courseCredit;
+    const maxMarks = courseCredit * 100;
+    const percentage = totalMarks / maxMarks;
+
+    const attendanceMark = parseFloat(course.exams.find(exam => exam.examType === 'Attendance')?.marks[0].marks) || 0;
+    const minAttendanceMark = courseCredit * 6;
+
+    if (attendanceMark < minAttendanceMark) {
+      return 'F';
+    }
+
+    if (percentage > 0.8) {
+      return 'A+';
+    } else if (percentage >= 0.75) {
+      return 'A';
+    } else if (percentage >= 0.70) {
+      return 'A-';
+    } else if (percentage >= 0.65) {
+      return 'B+';
+    } else if (percentage >= 0.60) {
+      return 'B';
+    } else if (percentage >= 0.55) {
+      return 'B-';
+    } else if (percentage >= 0.50) {
+      return 'C+';
+    } else if (percentage >= 0.45) {
+      return 'C';
+    } else if (percentage >= 0.40) {
+      return 'D';
+    } else {
+      return 'F';
+    }
+  };
+
+
   return (
     <div>
       <Header />
@@ -280,6 +350,8 @@ function Student() {
                               {theoryExamTypes.map(examType => (
                                 <th key={examType}>{examType}</th>
                               ))}
+                              <th>Total</th>
+                              <th>Grade</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -291,11 +363,14 @@ function Student() {
                                     const exam = course.exams.find(exam => exam.examType === examType);
                                     return <td key={examType}>{exam ? exam.marks[0].marks : '-'}</td>;
                                   })}
+                                  <td>{calculateBestMarks(course)}</td>
+                                  <td>{calculateGrade(course, calculateBestMarks(course))}</td>
                                 </tr>
                               )
                             ))}
                           </tbody>
                         </table>
+
                         <table className="table table-bordered">
                           <thead>
                             <tr>
@@ -303,6 +378,8 @@ function Student() {
                               {labExamTypes.map(examType => (
                                 <th key={examType}>{examType}</th>
                               ))}
+                              <th>Total</th>
+                              <th>Grade</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -314,6 +391,8 @@ function Student() {
                                     const exam = course.exams.find(exam => exam.examType === examType);
                                     return <td key={examType}>{exam ? exam.marks[0].marks : '-'}</td>;
                                   })}
+                                  <td>{calculateLabTotal(course)}</td>
+                                  <td>{calculateGrade(course, calculateLabTotal(course))}</td>
                                 </tr>
                               )
                             ))}
