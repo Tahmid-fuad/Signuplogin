@@ -4,7 +4,7 @@ import Footer from './Footer';
 import Header from './Header';
 import 'lightbox2/dist/css/lightbox.min.css';
 import 'lightbox2';
-import Isotope from 'isotope-layout';
+// import Isotope from 'isotope-layout';
 import axios from 'axios';
 import imagesLoaded from 'imagesloaded';
 
