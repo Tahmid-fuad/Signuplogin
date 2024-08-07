@@ -10,6 +10,16 @@ const courseType = {
     '308': 'lab',
     '310': 'lab',
     'c380': 'lab',
+    '311': 'theory',
+    '313': 'theory',
+    '315': 'theory',
+    '317': 'theory',
+    '319': 'theory',
+    '300': 'lab',
+    '314': 'lab',
+    '316': 'lab',
+    '318': 'lab',
+    '320': 'lab',
 };
 
 export default courseType;
