@@ -11,6 +11,8 @@ const ExamSchema = new mongoose.Schema({
 
 const CourseSchema = new mongoose.Schema({
     courseCode: { type: String, required: true },
+    courseCredit: { type: Number, },
+    courseType: { type: String, },
     exams: [ExamSchema]
 });
 
