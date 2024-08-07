@@ -241,6 +241,43 @@ function Student() {
     }
   };
 
+  const gradeToGpa = {
+    'A+': 4.0,
+    'A': 3.75,
+    'A-': 3.5,
+    'B+': 3.25,
+    'B': 3.0,
+    'B-': 2.75,
+    'C+': 2.5,
+    'C': 2.25,
+    'D': 2.0,
+    'F': 0.0,
+  };
+
+  const calculateGpa = (courses) => {
+    let totalGradePoints = 0;
+    let totalCredits = 0;
+
+    courses.forEach(course => {
+      if (course.courseType === "theory") {
+        const grade = calculateGrade(course, calculateBestMarks(course));
+        const gradePoint = gradeToGpa[grade];
+        const courseCredit = course.courseCredit;
+        totalGradePoints += gradePoint * courseCredit;
+        totalCredits += courseCredit;
+      }
+      else if(course.courseType==="lab"){
+        const grade = calculateGrade(course, calculateLabTotal(course));
+        const gradePoint = gradeToGpa[grade];
+        const courseCredit = course.courseCredit;
+        console.log(gradePoint, courseCredit);
+        totalGradePoints += gradePoint * courseCredit;
+        totalCredits += courseCredit;
+      }
+    });
+
+    return (totalGradePoints / totalCredits).toFixed(2);
+  };
 
   return (
     <div>
@@ -334,6 +371,7 @@ function Student() {
                       >
                         {termReplace[term.term]}
                       </h4>
+                      <p className='fw-bold fs-5'>GPA:  {calculateGpa(term.courses)}</p>
                       <button
                         className="btn btn-primary mx-4"
                         onClick={() => printTermContent(studentId, term.term)}
