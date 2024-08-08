@@ -266,16 +266,41 @@ function Student() {
         totalGradePoints += gradePoint * courseCredit;
         totalCredits += courseCredit;
       }
-      else if(course.courseType==="lab"){
+      else if (course.courseType === "lab") {
         const grade = calculateGrade(course, calculateLabTotal(course));
         const gradePoint = gradeToGpa[grade];
         const courseCredit = course.courseCredit;
-        console.log(gradePoint, courseCredit);
         totalGradePoints += gradePoint * courseCredit;
         totalCredits += courseCredit;
       }
     });
 
+    if (totalCredits === 0) return "0.00";
+    return (totalGradePoints / totalCredits).toFixed(2);
+  };
+
+  const calculateCgpa = (terms) => {
+    let totalGradePoints = 0;
+    let totalCredits = 0;
+
+
+    terms.forEach(term => {
+      const courses = term.courses;
+      courses.forEach(course => {
+        let grade;
+        if (course.courseType === "theory") {
+          grade = calculateGrade(course, calculateBestMarks(course));
+        } else if (course.courseType === "lab") {
+          grade = calculateGrade(course, calculateLabTotal(course));
+        }
+
+        const gradePoint = gradeToGpa[grade];
+        totalGradePoints += gradePoint * course.courseCredit;
+        totalCredits += course.courseCredit;
+      });
+    });
+
+    if (totalCredits === 0) return "0.00";
     return (totalGradePoints / totalCredits).toFixed(2);
   };
 
@@ -343,6 +368,11 @@ function Student() {
           <div className="col-12" id="result">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3>Exam Results of ID: {`${studentId}`}</h3>
+              {studentMarks ? (
+                <p className='fw-bold fs-5'>CGPA: {calculateCgpa(studentMarks.terms)}</p>
+              ) : (
+                <p>Loading...</p>
+              )}
               <div>
                 <button
                   className="btn btn-primary mx-4"
