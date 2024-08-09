@@ -332,8 +332,6 @@ app.get('/getMarksByCourse', async (req, res) => {
             if (!courseObj) {
               courseObj = {
                 courseCode: course.courseCode,
-                courseCredit: course.courseCredit || "",
-                courseType: course.courseType || "",
                 students: []
               };
               termObj.courses.push(courseObj);
@@ -343,6 +341,8 @@ app.get('/getMarksByCourse', async (req, res) => {
             if (!studentObj) {
               studentObj = {
                 studentId: student.studentId,
+                courseCredit: course.courseCredit || "",
+                courseType: course.courseType || "",
                 exams: []
               };
               courseObj.students.push(studentObj);
