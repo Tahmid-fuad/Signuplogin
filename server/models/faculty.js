@@ -15,6 +15,8 @@ const FacultySchema = new mongoose.Schema({
         info: String,
         year: Number,
     }],
+    facebook: String,
+    linkedin: String,
 });
 
 const FacultyModel = mongoose.model('faculty', FacultySchema);

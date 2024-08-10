@@ -497,7 +497,7 @@ const storage2 = multer.diskStorage({
 const upload2 = multer({ storage: storage2 });
 
 app.post('/facultydetails', upload2.single('photo'), async (req, res) => {
-  const { name, email, number, desig, foi, quali, title, authors, info, year } = req.body;
+  const { name, email, number, facebook, linkedin, desig, foi, quali, title, authors, info, year } = req.body;
   const photo = req.file ? req.file.filename : null;
   try {
     const existingUser = await FacultyModel.findOne({ email });
@@ -507,6 +507,8 @@ app.post('/facultydetails', upload2.single('photo'), async (req, res) => {
         name,
         email,
         number,
+        facebook,
+        linkedin,
         desig,
         foi,
         quali,
@@ -535,6 +537,12 @@ app.post('/facultydetails', upload2.single('photo'), async (req, res) => {
       }
       if (number) {
         existingUser.number = number;
+      }
+      if (facebook) {
+        existingUser.facebook = facebook;
+      }
+      if (linkedin) {
+        existingUser.linkedin = linkedin;
       }
       if (desig) {
         existingUser.desig = desig;

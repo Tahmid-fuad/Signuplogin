@@ -35,6 +35,8 @@ function Admin() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [number, setNumber] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [linkedin, setLinkedin] = useState('');
   const [desig, setDesig] = useState('');
   const [foi, setFoi] = useState('');
   const [quali, setQuali] = useState('');
@@ -227,6 +229,8 @@ function Admin() {
       formData.append('name', name);
       formData.append('email', email);
       formData.append('number', number);
+      formData.append('facebook', facebook);
+      formData.append('linkedin', linkedin);
       formData.append('desig', desig);
       formData.append('foi', foi);
       formData.append('quali', quali);
@@ -260,6 +264,8 @@ function Admin() {
   const resetForm = () => {
     setName('');
     setNumber('');
+    setFacebook('');
+    setLinkedin('');
     setDesig('');
     setFoi('');
     setQuali('');
@@ -754,6 +760,28 @@ function Admin() {
                   className='form-control'
                   value={number}
                   onChange={(e) => setNumber(e.target.value)}
+                />
+                {/* {formErrors.number && <p className="text-danger">{formErrors.number}</p>} */}
+              </div>
+              <div className='mb-2'>
+                <label htmlFor="number">Facebook Link</label>
+                <input
+                  type="text"
+                  placeholder='Enter Facebook Link'
+                  className='form-control'
+                  value={facebook}
+                  onChange={(e) => setFacebook(e.target.value)}
+                />
+                {/* {formErrors.number && <p className="text-danger">{formErrors.number}</p>} */}
+              </div>
+              <div className='mb-2'>
+                <label htmlFor="number">LinkedIn link</label>
+                <input
+                  type="text"
+                  placeholder='Enter LinkedIn Link'
+                  className='form-control'
+                  value={linkedin}
+                  onChange={(e) => setLinkedin(e.target.value)}
                 />
                 {/* {formErrors.number && <p className="text-danger">{formErrors.number}</p>} */}
               </div>

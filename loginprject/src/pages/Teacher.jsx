@@ -26,6 +26,8 @@ function Teacher() {
   const [batchVisibility, setBatchVisibility] = useState({});
   const [termVisibility, setTermVisibility] = useState({});
   const [photoUrl, setPhotoUrl] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [linkedin, setLinkedin] = useState('');
   const [title, setTitle] = useState('');
   const [authors, setAuthors] = useState('');
   const [info, setInfo] = useState('');
@@ -141,7 +143,7 @@ function Teacher() {
   };
 
   // Function to print course content with a header
-  const printCourseContent = async (batchYear,term, courseCode) => {
+  const printCourseContent = async (batchYear, term, courseCode) => {
     const courseElement = document.getElementById(`course-${batchYear}-${term}-${courseCode}`);
     const canvasContent = await html2canvas(courseElement);
     const imgContentData = canvasContent.toDataURL('image/png');
@@ -191,6 +193,8 @@ function Teacher() {
     setServerError('');
 
     const formData = new FormData();
+    formData.append('facebook', facebook);
+    formData.append('linkedin', linkedin);
     formData.append('email', teacherEmail);
     formData.append('title', title);
     formData.append('authors', authors);
@@ -219,6 +223,8 @@ function Teacher() {
 
   const resetForm = () => {
     setTitle('');
+    setFacebook('');
+    setLinkedin('');
     setAuthors('');
     setInfo('');
     setYear('');
@@ -441,7 +447,7 @@ function Teacher() {
                           </h5>
                           <button
                             className="btn btn-primary mx-4"
-                            onClick={() => printTermContent(batch.batchName,term.term)}
+                            onClick={() => printTermContent(batch.batchName, term.term)}
                           >
                             Download
                           </button>
@@ -453,14 +459,14 @@ function Teacher() {
                               return (
                                 <div key={course.courseCode} id={`course-${batch.batchName}-${term.term}-${course.courseCode}`}>
                                   <div className="d-flex justify-content-between align-items-center mb-3">
-                                  <h5 className="text-decoration-underline">{courseIdReplace[course.courseCode] || course.courseCode}</h5>
-                                  <button
-                                    className="btn btn-primary mx-4"
-                                    onClick={() => printCourseContent(batch.batchName,term.term, course.courseCode)}
-                                  >
-                                    Download
-                                  </button>
-                                </div>
+                                    <h5 className="text-decoration-underline">{courseIdReplace[course.courseCode] || course.courseCode}</h5>
+                                    <button
+                                      className="btn btn-primary mx-4"
+                                      onClick={() => printCourseContent(batch.batchName, term.term, course.courseCode)}
+                                    >
+                                      Download
+                                    </button>
+                                  </div>
                                   <table className="table table-striped table-bordered">
                                     <thead>
                                       <tr>
@@ -515,6 +521,27 @@ function Teacher() {
         <div className="col-4">
           <div className='w-100 p-4 rounded bg-white'>
             <form onSubmit={handleSubmit}>
+              <h5 className='text-center'>Update My Social Link</h5>
+              <div className='mb-2'>
+                <label htmlFor="number">Facebook Link</label>
+                <input
+                  type="text"
+                  placeholder='Enter Facebook Link'
+                  className='form-control'
+                  value={facebook}
+                  onChange={(e) => setFacebook(e.target.value)}
+                />
+              </div>
+              <div className='mb-2'>
+                <label htmlFor="number">LinkedIn link</label>
+                <input
+                  type="text"
+                  placeholder='Enter LinkedIn Link'
+                  className='form-control'
+                  value={linkedin}
+                  onChange={(e) => setLinkedin(e.target.value)}
+                />
+              </div>
               <h5 className='text-center'>Update My Research</h5>
               <div className="form-floating mb-2">
                 <textarea
