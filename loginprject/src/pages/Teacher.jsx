@@ -275,7 +275,6 @@ function Teacher() {
 
     const attendanceMarks = parseFloat(student.exams.find(exam => exam.examType === 'Attendance')?.marks || 0);
     const termFinalMarks = parseFloat(student.exams.find(exam => exam.examType === 'Term Final')?.marks || 0);
-    // console.log(bestMarks + attendanceMarks + termFinalMarks);
     return (bestMarks + attendanceMarks + termFinalMarks).toFixed(2);
   };
 

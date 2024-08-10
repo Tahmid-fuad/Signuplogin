@@ -1,7 +1,6 @@
 import ProtectedRoute from './ProtectedRoute';
 import Footer from "./Footer";
 import Header from "./Header";
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import MarkSubForm from './MarkSubForm';
@@ -12,6 +11,9 @@ import AddNotice from './AddNotice';
 import AddRoutine from './AddRoutine';
 import AddOwl from './AddOwl';
 import AddPic from './AddPic';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import HeaderComponent from './HeaderComponent';
 
 function Admin() {
   const [teacherEmail, setTeacherEmail] = useState('');
@@ -133,7 +135,7 @@ function Admin() {
   };
 
   // Function to print course content with a header
-  const printCourseContent = async (batchYear, courseCode) => {
+  const printCourseContent = async (batchYear, term, courseCode) => {
     const courseElement = document.getElementById(`course-${batchYear}-${term}-${courseCode}`);
     const canvasContent = await html2canvas(courseElement);
     const imgContentData = canvasContent.toDataURL('image/png');
@@ -362,6 +364,74 @@ function Admin() {
     }
   };
 
+  const calculateBestMarks = (student) => {
+    const courseCredit = parseFloat(student.courseCredit);
+    const ctMarks = student.exams
+      .filter(exam => exam.examType.startsWith('CT'))
+      .map(exam => parseFloat(exam.marks));
+    const bestN = courseCredit === 3 ? 3 : courseCredit === 4 ? 4 : ctMarks.length;
+    const bestMarks = ctMarks
+      .sort((a, b) => b - a)
+      .slice(0, bestN)
+      .reduce((acc, mark) => acc + mark, 0);
+
+
+    const attendanceMarks = parseFloat(student.exams.find(exam => exam.examType === 'Attendance')?.marks || 0);
+    const termFinalMarks = parseFloat(student.exams.find(exam => exam.examType === 'Term Final')?.marks || 0);
+    return (bestMarks + attendanceMarks + termFinalMarks).toFixed(2);
+  };
+
+  const calculateLabTotal = (course) => {
+    const labMarks = course.exams
+      .filter(exam => exam.examType.startsWith('Lab'))
+      .map(exam => parseFloat(exam.marks) || 0);
+
+    const averageLabMarks = labMarks.reduce((acc, mark) => acc + mark, 0) / labMarks.length;
+
+    const quizMark = parseFloat(course.exams.find(exam => exam.examType === 'Quiz')?.marks) || 0;
+    const vivaMark = parseFloat(course.exams.find(exam => exam.examType === 'Viva')?.marks) || 0;
+    const attendanceMark = parseFloat(course.exams.find(exam => exam.examType === 'Attendance')?.marks) || 0;
+
+    const totalMarks = (averageLabMarks * course.courseCredit * 6) + quizMark + vivaMark + attendanceMark;
+
+    return totalMarks.toFixed(2);
+  };
+
+  const calculateGrade = (student, totalMarks) => {
+    const courseCredit = student.courseCredit;
+    const maxMarks = courseCredit * 100;
+    const percentage = totalMarks / maxMarks;
+
+    const attendanceMark = parseFloat(student.exams.find(exam => exam.examType === 'Attendance')?.marks) || 0;
+    const minAttendanceMark = courseCredit * 6;
+
+    if (attendanceMark < minAttendanceMark) {
+      return 'F';
+    }
+
+    if (percentage > 0.8) {
+      return 'A+';
+    } else if (percentage >= 0.75) {
+      return 'A';
+    } else if (percentage >= 0.70) {
+      return 'A-';
+    } else if (percentage >= 0.65) {
+      return 'B+';
+    } else if (percentage >= 0.60) {
+      return 'B';
+    } else if (percentage >= 0.55) {
+      return 'B-';
+    } else if (percentage >= 0.50) {
+      return 'C+';
+    } else if (percentage >= 0.45) {
+      return 'C';
+    } else if (percentage >= 0.40) {
+      return 'D';
+    } else {
+      return 'F';
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -414,80 +484,89 @@ function Admin() {
               Refresh
             </button>
           </div>
-          {Object.keys(marksData).length > 0 ? (
-            Object.entries(marksData).map(([batchYear, terms]) => (
-              <div key={batchYear} id={`batch-${batchYear}`} className="mb-5">
+          {marksData && marksData.batch ? (
+            marksData.batch.map(batch => (
+              <div key={batch.batchName} id={`batch-${batch.batchName}`} className="mb-5">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h5
                     className="text-decoration-underline m-0 p-0"
-                    onClick={() => toggleBatchVisibility(batchYear)}>
-                    Batch: {batchYear}
+                    onClick={() => toggleBatchVisibility(batch.batchName)}>
+                    Batch: {batch.batchName}
                   </h5>
                   <button
                     className="btn btn-primary mx-4"
-                    onClick={() => printBatchContent(batchYear)}
+                    onClick={() => printBatchContent(batch.batchName)}
                   >
                     Download
                   </button>
                 </div>
-                {batchVisibility[batchYear] && (
+                {batchVisibility[batch.batchName] && (
                   <>
-                    {Object.entries(terms).map(([termName, courses]) => (
-                      <div key={termName} id={`term-${batchYear}-${termName}`} className="mb-4">
+                    {batch.terms.map(term => (
+                      <div key={term.term} id={`term-${batch.batchName}-${term.term}`}>
                         <div className="d-flex justify-content-between align-items-center mb-3">
-                          <h5
-                            className="text-decoration-underline"
-                            onClick={() => toggleTermVisibility(batchYear, termName)}>
-                            {termReplace[termName]}
+                          <h5 className="text-decoration-underline"
+                            onClick={() => toggleTermVisibility(batch.batchName, term.term)}>
+                            {termReplace[term.term] || term.term}
                           </h5>
                           <button
                             className="btn btn-primary mx-4"
-                            onClick={() => printTermContent(batchYear, termName)}
+                            onClick={() => printTermContent(batch.batchName, term.term)}
                           >
                             Download
                           </button>
                         </div>
-                        {termVisibility[batchYear] && termVisibility[batchYear][termName] && (
+                        {termVisibility[batch.batchName] && termVisibility[batch.batchName][term.term] && (
                           <>
-                            {Object.entries(courses).map(([courseCode, students]) => (
-                              <div key={courseCode} id={`course-${batchYear}-${termName}-${courseCode}`} className="mb-4">
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                  <h5 className="m-0">{courseIdReplace[courseCode] || courseCode}</h5>
-                                  <button
-                                    className="btn btn-primary mx-4"
-                                    onClick={() => printCourseContent(batchYear, courseCode)}
-                                  >
-                                    Download
-                                  </button>
-                                </div>
-                                <table className="table table-striped table-bordered">
-                                  <thead>
-                                    <tr>
-                                      <th>Student ID</th>
-                                      <th>CT-1</th>
-                                      <th>CT-2</th>
-                                      <th>CT-3</th>
-                                      <th>CT-4</th>
-                                      <th>CT-5</th>
-                                      <th>Term Final</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {students.map((student, index) => (
-                                      <tr key={index}>
-                                        <td>{student.studentId}</td>
-                                        <td>{student['ct1'] || ''}</td>
-                                        <td>{student['ct2'] || ''}</td>
-                                        <td>{student['ct3'] || ''}</td>
-                                        <td>{student['ct4'] || ''}</td>
-                                        <td>{student['ct5'] || ''}</td>
-                                        <td>{student['term'] || ''}</td>
+                            {term.courses.map(course => {
+                              const examTypes = [...new Set(course.students.flatMap(student => student.exams.map(exam => exam.examType)))];
+                              return (
+                                <div key={course.courseCode} id={`course-${batch.batchName}-${term.term}-${course.courseCode}`}>
+                                  <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 className="text-decoration-underline">{courseIdReplace[course.courseCode] || course.courseCode}</h5>
+                                    <button
+                                      className="btn btn-primary mx-4"
+                                      onClick={() => printCourseContent(batch.batchName, term.term, course.courseCode)}
+                                    >
+                                      Download
+                                    </button>
+                                  </div>
+                                  <table className="table table-striped table-bordered">
+                                    <thead>
+                                      <tr>
+                                        <th>Student ID</th>
+                                        {examTypes.map(examType => (
+                                          <th key={examType}>{examType}</th>
+                                        ))}
+                                        <th>Total</th>
+                                        <th>Grade</th>
                                       </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              </div>
-                            ))}
+                                    </thead>
+                                    <tbody>
+                                      {course.students.map(student => (
+                                        <tr key={student.studentId}>
+                                          <td>{student.studentId}</td>
+                                          {examTypes.map(examType => {
+                                            const exam = student.exams.find(e => e.examType === examType);
+                                            return <td key={examType}>{exam ? exam.marks : ''}</td>;
+                                          })}
+                                          <td>
+                                            {student.courseType === 'theory'
+                                              ? calculateBestMarks(student)
+                                              : calculateLabTotal(student)}
+                                          </td>
+                                          <td>
+                                            {student.courseType === 'theory'
+                                              ? calculateGrade(student, calculateBestMarks(student))
+                                              : calculateGrade(student, calculateLabTotal(student))}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              );
+                            })}
                           </>
                         )}
                       </div>
@@ -780,13 +859,13 @@ function Admin() {
             {faculties.map((faculty, index) => (
               <div key={index}>
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h3
+                  <h4
                     className="text-decoration-underline m-0 p-0"
                     onClick={() => toggleFacultyVisibility(faculty._id)}
                     style={{ cursor: 'pointer' }}
                   >
                     {faculty.name}
-                  </h3>
+                  </h4>
                   <div>
                     <button
                       className="btn btn-primary m-1"
@@ -843,6 +922,9 @@ function Admin() {
         </div>
       </div>
       <Footer />
+      <div id="pdf-header" style={{ position: 'absolute', top: '-99999999px' }}>
+        <HeaderComponent />
+      </div>
     </div>
   );
 }
