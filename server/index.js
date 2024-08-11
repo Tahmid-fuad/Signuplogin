@@ -332,8 +332,6 @@ app.get('/getMarksByCourse', async (req, res) => {
             if (!courseObj) {
               courseObj = {
                 courseCode: course.courseCode,
-                courseCredit: course.courseCredit || "",
-                courseType: course.courseType || "",
                 students: []
               };
               termObj.courses.push(courseObj);
@@ -343,6 +341,8 @@ app.get('/getMarksByCourse', async (req, res) => {
             if (!studentObj) {
               studentObj = {
                 studentId: student.studentId,
+                courseCredit: course.courseCredit || "",
+                courseType: course.courseType || "",
                 exams: []
               };
               courseObj.students.push(studentObj);
@@ -497,7 +497,7 @@ const storage2 = multer.diskStorage({
 const upload2 = multer({ storage: storage2 });
 
 app.post('/facultydetails', upload2.single('photo'), async (req, res) => {
-  const { name, email, number, desig, foi, quali, title, authors, info, year } = req.body;
+  const { name, email, number, facebook, linkedin, desig, foi, quali, title, authors, info, year } = req.body;
   const photo = req.file ? req.file.filename : null;
   try {
     const existingUser = await FacultyModel.findOne({ email });
@@ -507,6 +507,8 @@ app.post('/facultydetails', upload2.single('photo'), async (req, res) => {
         name,
         email,
         number,
+        facebook,
+        linkedin,
         desig,
         foi,
         quali,
@@ -535,6 +537,12 @@ app.post('/facultydetails', upload2.single('photo'), async (req, res) => {
       }
       if (number) {
         existingUser.number = number;
+      }
+      if (facebook) {
+        existingUser.facebook = facebook;
+      }
+      if (linkedin) {
+        existingUser.linkedin = linkedin;
       }
       if (desig) {
         existingUser.desig = desig;
@@ -881,6 +889,19 @@ app.delete('/routine/:id', async (req, res) => {
     res.status(200).json({ message: 'Routine deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+app.post('/searchStudent/:studentId', async (req, res) => {
+  const studentId = req.params.studentId;
+  try {
+    const student = await StudentModel.findOne({ id: studentId });
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+    res.json({ message: "Student found" });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
   }
 });
 

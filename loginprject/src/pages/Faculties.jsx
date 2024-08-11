@@ -1,14 +1,46 @@
 import { useNavigate } from "react-router-dom";
-import Breadcrumb from "./Breadcrumb"
-import Footer from "./Footer"
-import Header from "./Header"
+import Breadcrumb from "./Breadcrumb";
+import Footer from "./Footer";
+import Header from "./Header";
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 function Faculties() {
+    const [faculties, setFaculties] = useState([]);
     const navigate = useNavigate();
 
     const redirectToFaculty = (email) => {
         navigate(`/faculty/${email}`);
+    };
+
+    const fetchFaculties = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/faculties');
+            const facultiesWithPhotos = response.data.map(faculty => ({
+                ...faculty,
+                photoUrl: `http://localhost:3001/teacher-photo/${faculty.email}`
+            }));
+            setFaculties(facultiesWithPhotos);
+        } catch (error) {
+            console.error('Error fetching faculty data', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchFaculties();
+    }, []);
+
+    const groupedFaculties = [];
+    for (let i = 0; i < faculties.length; i += 3) {
+        groupedFaculties.push(faculties.slice(i, i + 3));
     }
+
+    const designation = {
+        '1': 'Professor',
+        '2': 'Associate Professor',
+        '3': 'Assistant Professor',
+        '4': 'Lecturer',
+    };
 
     return (
         <div>
@@ -20,7 +52,44 @@ function Faculties() {
                         <div className="section-title text-center">
                             <h1 className="display-5 mb-5">Our Faculties</h1>
                         </div>
-                        <div className="row g-4 p-3">
+                        {groupedFaculties.map((facultyGroup, rowIndex) => (
+                            <div className="row g-4 p-3" key={rowIndex}>
+                                {facultyGroup.map((faculty, index) => (
+                                    <div
+                                        className="col-md-6 col-lg-4 wow fadeInUp"
+                                        key={index}
+                                    >
+                                        <div className="team-item">
+                                            <div className="overflow-hidden position-relative">
+                                                {faculty.photoUrl ? (
+                                                    <img src={faculty.photoUrl} className="img-fluid" alt={faculty.name} />
+                                                ) : (
+                                                    <div>Loading photo...</div>
+                                                )}
+                                                <div className="team-social">
+                                                    <a className="btn btn-square" href={faculty.facebook}><i className="fab fa-facebook-f"></i></a>
+                                                    <a className="btn btn-square" href={faculty.linkedin}><i className="fab fa-linkedin-in"></i></a>
+                                                    <a className="btn btn-square" href={`mailto:${faculty.email}`}><i className="fa fa-envelope" aria-hidden="true"></i></a>
+                                                </div>
+                                            </div>
+                                            <div className="p-4 text-center border border-5 border-light border-top-0">
+                                                <h4 className="mb-3">{faculty.name}</h4>
+                                                <p>{designation[faculty.desig]}</p>
+                                                <a
+                                                    className="fw-medium"
+                                                    onClick={() => redirectToFaculty(`${faculty.email}`)}
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    Read More
+                                                    <i className="fa fa-arrow-right ms-2"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                        {/* <div className="row g-4 p-3">
                             <div className="col-md-6 col-lg-4 wow fadeInUp">
                                 <div className="team-item">
                                     <div className="overflow-hidden position-relative">
@@ -37,7 +106,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("azad@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -61,7 +130,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("jahed@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -85,7 +154,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("saiful05eee@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -111,7 +180,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("piyas@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -135,7 +204,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("anisur.rahaman@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -159,7 +228,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("nursad.mamun@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -185,7 +254,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("taieba.athay@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -209,7 +278,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("khadija.ete@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -233,7 +302,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("farhad.hossain@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -259,7 +328,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("eftekhar.13ete@gmail.com")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -283,7 +352,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("priyanti.ete@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -307,7 +376,7 @@ function Faculties() {
                                         <a
                                             className="fw-medium"
                                             onClick={() => redirectToFaculty("arif.ete@cuet.ac.bd")}
-                                            style={{ cursor: 'pointer' }} 
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             Read More
                                             <i className="fa fa-arrow-right ms-2"></i>
@@ -315,13 +384,13 @@ function Faculties() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
             <Footer />
         </div>
-    )
+    );
 }
 
-export default Faculties
+export default Faculties;

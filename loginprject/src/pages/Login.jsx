@@ -17,7 +17,7 @@ function Login() {
         axios.post('http://localhost:3001/login', { email, password })
             .then(result => {
                 if (result.data.message === "Success") {
-                    localStorage.setItem('role', result.data.role); // Store role in local storage
+                    localStorage.setItem('role', result.data.role); 
                     localStorage.setItem('id', result.data.id); 
                     localStorage.setItem('email', result.data.email); 
                     if (result.data.role === 'admin') {
@@ -28,14 +28,14 @@ function Login() {
                         navigate('/student');
                     }
                 } else {
-                    setErrorMessage(result.data.message); // Use the error message from the server
+                    setErrorMessage(result.data.message); 
                 }
             })
             .catch(err => {
                 if (err.response && err.response.data && err.response.data.message) {
-                    setErrorMessage(err.response.data.message); // Display server error message
+                    setErrorMessage(err.response.data.message); 
                 } else {
-                    setErrorMessage("An error occurred. Please try again."); // Fallback error message
+                    setErrorMessage("An error occurred. Please try again."); 
                 }
             });
     };
