@@ -11,12 +11,10 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
         e.preventDefault();
         const errors = validate(batch, term, course, exam, studentId, marks);
         setFormErrors(errors);
-        // Clear success message before submission
         setSuccessMessage('');
 
 
         if (Object.keys(errors).length === 0) {
-            // Data to be sent to the backend
             const data = {
                 batch,
                 term,
@@ -29,7 +27,6 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                 teacherEmail,
             };
 
-            // Send data to the backend
             axios.post('http://localhost:3001/submitMarks', data)
                 .then(response => {
                     setSuccessMessage('Marks submitted successfully');

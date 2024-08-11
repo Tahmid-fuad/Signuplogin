@@ -892,6 +892,19 @@ app.delete('/routine/:id', async (req, res) => {
   }
 });
 
+app.post('/searchStudent/:studentId', async (req, res) => {
+  const studentId = req.params.studentId;
+  try {
+    const student = await StudentModel.findOne({ id: studentId });
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+    res.json({ message: "Student found" });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
 // Define port and start server
 const port = 3001;
 app.listen(port, () => {

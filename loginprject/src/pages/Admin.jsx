@@ -14,6 +14,7 @@ import AddPic from './AddPic';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import HeaderComponent from './HeaderComponent';
+import SearchStudent from './SearchStudent';
 
 function Admin() {
   const [teacherEmail, setTeacherEmail] = useState('');
@@ -473,6 +474,9 @@ function Admin() {
                   successMessage={successMessage}
                   setSuccessMessage={setSuccessMessage}
                 />
+              </div>
+              <div className='w-100 p-3 rounded bg-white mt-2'>
+                <SearchStudent />
               </div>
             </div>
           </div>

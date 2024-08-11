@@ -5,7 +5,6 @@ const ProtectedRoute = ({ allowedRoles, handleLogout }) => {
     const role = localStorage.getItem('role');
 
     if (!(role && allowedRoles.includes(role))) {
-        // Redirect unauthorized users to the login page
         return <Navigate to="/login" replace />;
     }
 

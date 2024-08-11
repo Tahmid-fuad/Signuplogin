@@ -27,7 +27,7 @@ import ResetPassword from './pages/ResetPassword';
 import Faculty from './pages/Faculty';
 import 'lightbox2/dist/css/lightbox.min.css';
 import 'lightbox2';
-// import Isotope from 'isotope-layout';
+import StudentDetails from './pages/StudentDetails';
 
 
 function App() {
@@ -75,6 +75,11 @@ function App() {
           <Route element={<ProtectedRoute allowedRoles={['student']} />}>
             <Route path='/student' element={<Student />} />
           </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={['teacher', 'admin']} />}>
+            <Route path="/profile/:studentId" element={<StudentDetails />} />
+          </Route>
+
         </Routes>
       </BrowserRouter>
     </div>

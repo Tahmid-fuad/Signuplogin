@@ -10,6 +10,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import HeaderComponent from './HeaderComponent';
 import MarkSubForm from './MarkSubForm';
+import SearchStudent from './SearchStudent';
 
 function Teacher() {
   const [teacherName, setTeacherName] = useState('');
@@ -396,6 +397,7 @@ function Teacher() {
         <div className="row">
           <div className="col-4 float-start">
             <Notice />
+            <SearchStudent />
           </div>
           <div className="col-8">
             <h3><a className='text-black text-decoration-underline' href={`http://localhost:3001/public/routine/file/${routine.file1}`}>Master Routine</a></h3>
