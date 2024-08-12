@@ -1,3 +1,4 @@
+import Events from "./Events";
 import Footer from "./Footer"
 import Header from "./Header"
 import Notice from "./Notice"
@@ -74,23 +75,8 @@ function Home() {
       <div className="d-flex" id="Notice">
         <div className="container-xxl py-2 my-4">
           <div className="col-6 float-start">
-            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2" style={{ height: "350px" }}>
-              <div className="heading-sect">
-                <h3 className="m-0 p-0 fs-6 fw-semibold">Upcoming Events</h3>
-              </div>
-              <ul className="upcoming-event-list">
-                <li><span className="event-date">3 <br />
-                  Mar</span><span> Admission Test</span> </li>
-                <li><span className="event-date">7 <br />
-                  Mar</span><span> Bangabandhu's speech</span> </li>
-                <li><span className="event-date">13 <br />
-                  Mar</span><span> Important birthday</span> </li>
-                <li><span className="event-date">17 <br />
-                  Mar</span><span> Bangabandhu's birthday</span> </li>
-              </ul>
-            </div>
+            <Events/>
           </div>
-
           <div className="col-6 float-start">
             <Notice />
           </div>

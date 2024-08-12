@@ -16,6 +16,7 @@ const FacultyModel = require("./models/faculty");
 const OwlModel = require("./models/owllink");
 const PicModel = require("./models/piclib");
 const RoutineModel = require("./models/routine");
+const EventModel = require("./models/events");
 
 const app = express();
 app.use(express.json());
@@ -902,6 +903,46 @@ app.post('/searchStudent/:studentId', async (req, res) => {
     res.json({ message: "Student found" });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+app.post('/event', async (req, res) => {
+  const { eventName, eventDay, eventMonth } = req.body;
+
+  try {
+    const newEvent = new EventModel({ eventName, eventDay, eventMonth });
+    const savedEvent = await newEvent.save();
+    res.status(201).json({ Event: savedEvent });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/fetchEvent', async (req, res) => {
+  try {
+    const events = await EventModel.find({});
+    res.status(200).json(events);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    res.status(500).json({ message: 'Failed to retrieve events.' });
+  }
+});
+
+app.delete('/events/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const event = await EventModel.findById(id);
+
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    await EventModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

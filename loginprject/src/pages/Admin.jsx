@@ -55,6 +55,13 @@ function Admin() {
   const [facultyVisibility, setFacultyVisibility] = useState({});
   const [routines, setRoutines] = useState([]);
   const [routinesError, setRoutinesError] = useState('');
+  const [eventName, setEventName] = useState('');
+  const [eventDay, setEventDay] = useState('');
+  const [eventMonth, setEventMonth] = useState('');
+  const [eventSuccessMessage, setEventSuccessMessage] = useState('');
+  const [eventError, setEventError] = useState('');
+  const [eventFetchError, setEventFetchError] = useState('');
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     fetchMarks();
@@ -439,6 +446,73 @@ function Admin() {
     }
   };
 
+  const handleEventSubmit = (e) => {
+    e.preventDefault();
+    setEventSuccessMessage('');
+
+    const data = {
+      eventName,
+      eventDay,
+      eventMonth
+    };
+
+    axios.post('http://localhost:3001/event', data)
+      .then(response => {
+        setEventSuccessMessage('Event added successfully');
+        axios.get('http://localhost:3001/fetchEvent')
+          .then(response => {
+            setEvents(response.data);
+            resetEventForm();
+          });
+      })
+      .catch(error => {
+        setEventError('Error submitting events:', error);
+      });
+  };
+
+  const resetEventForm = () => {
+    setEventName('');
+    setEventDay('');
+    setEventMonth('');
+  };
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/fetchEvent');
+      setEvents(response.data);
+    } catch (err) {
+      setEventFetchError('Failed to load events. Please try again later.');
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const month = {
+    '1': 'Jan',
+    '2': 'Feb',
+    '3': 'Mar',
+    '4': 'Apr',
+    '5': 'May',
+    '6': 'Jun',
+    '7': 'Jul',
+    '8': 'Aug',
+    '9': 'Sep',
+    '10': 'Oct',
+    '11': 'Nov',
+    '12': 'Dec',
+  };
+
+  const deleteEvent = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/events/${id}`);
+      fetchEvents();
+    } catch (err) {
+      setError('Failed to delete event. Please try again later.');
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -656,52 +730,137 @@ function Admin() {
         </div>
       </div>
       <div className="row m-2">
-        <div className="container mt-5">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h3 className="text-decoration-underline">Contact Messages</h3>
-            <button
-              className="btn btn-primary"
-              onClick={() => fetchContacts()}
-            >
-              Refresh
-            </button>
-          </div>
-          {contactError ? (
-            <p>Error getting contacts.</p>
-          ) : (
-            contacts.length === 0 ? (
-              <p>No messages available.</p>
+        <div className="col-6">
+          <div className="container mt-5">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h3 className="text-decoration-underline">Contact Messages</h3>
+              <button
+                className="btn btn-primary"
+                onClick={() => fetchContacts()}
+              >
+                Refresh
+              </button>
+            </div>
+            {contactError ? (
+              <p>Error getting contacts.</p>
             ) : (
-              <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th style={{ width: "15%" }}>Name</th>
-                    <th style={{ width: "15%" }}>Email</th>
-                    <th style={{ width: "20%" }}>Subject</th>
-                    <th style={{ width: "45%" }}>Message</th>
-                    <th style={{ width: "5%" }}>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {contacts.map((contact) => (
-                    <tr key={contact._id}>
-                      <td>{contact.name}</td>
-                      <td>{contact.email}</td>
-                      <td>{contact.subject}</td>
-                      <td>{contact.message}</td>
-                      <td>
-                        <button
-                          className='btn btn-secondary rounded-3 btn-sm ms-auto'
-                          onClick={() => deleteMessage(contact._id)}>
-                          Delete
-                        </button>
-                      </td>
+              contacts.length === 0 ? (
+                <p>No messages available.</p>
+              ) : (
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "15%" }}>Name</th>
+                      <th style={{ width: "15%" }}>Email</th>
+                      <th style={{ width: "20%" }}>Subject</th>
+                      <th style={{ width: "45%" }}>Message</th>
+                      <th style={{ width: "5%" }}>Delete</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )
-          )}
+                  </thead>
+                  <tbody>
+                    {contacts.map((contact) => (
+                      <tr key={contact._id}>
+                        <td>{contact.name}</td>
+                        <td>{contact.email}</td>
+                        <td>{contact.subject}</td>
+                        <td>{contact.message}</td>
+                        <td>
+                          <button
+                            className='btn btn-secondary rounded-3 btn-sm ms-auto'
+                            onClick={() => deleteMessage(contact._id)}>
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )
+            )}
+          </div>
+        </div>
+        <div className="col-3">
+          <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2" style={{ height: "350px" }}>
+            <div className="heading-sect">
+              <h3 className="m-0 p-0 fs-6 fw-semibold">Upcoming Events</h3>
+            </div>
+            <ul className="upcoming-event-list">
+              {eventFetchError ? (
+                <li>{eventFetchError}</li>
+              ) : (
+                events
+                  .map((event) => (
+                    <li key={event._id}>
+                      <span className="event-date">
+                        {event.eventDay} <br />
+                        {month[event.eventMonth]}</span>
+                      <span>
+                        {event.eventName}
+                        <i className="fa-solid fa-trash" onClick={() => deleteEvent(event._id)} style={{ cursor: 'pointer' }}></i>
+                      </span>
+                    </li>
+                  ))
+              )}
+            </ul>
+          </div>
+        </div>
+        <div className="col-3">
+          <div className="section-title text-start">
+            <h3 className="mb-3 mt-4">Add Event</h3>
+            <form onSubmit={handleEventSubmit}>
+              <div className="row g-3">
+                <div className="col-12">
+                  <div className='mb-2'>
+                    <label htmlFor="event name">Enter Event Name</label>
+                    <input
+                      type="text"
+                      placeholder='Event Name'
+                      className='form-control'
+                      value={eventName}
+                      onChange={(e) => setEventName(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label htmlFor="day">Enter Event Day</label>
+                    <input
+                      type="number" id="day" name="day" min="1" max="31" placeholder="DD"
+                      className='form-control'
+                      value={eventDay}
+                      onChange={(e) => setEventDay(e.target.value)}
+                    />
+                    <div className="mb-2">
+                      <label htmlFor="month">Enter Event Month</label>
+                      <select id="month" name="month"
+                        className='form-control'
+                        value={eventMonth}
+                        onChange={(e) => setEventMonth(e.target.value)}>
+                        <option value="">Select Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                      </select>
+                    </div>
+                    {eventSuccessMessage && <p className="text-success">{eventSuccessMessage}</p>}
+                  </div>
+                </div>
+                <div className="col-12">
+                  <button className='btn btn-primary w-100 py-3' type="submit">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </form>
+            {eventError && <div className="alert alert-danger mt-3">{eventError}</div>}
+          </div>
         </div>
       </div>
       <div className="row">
