@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProtectedRoute from './ProtectedRoute';
 import Footer from "./Footer";
@@ -431,14 +431,21 @@ function Student() {
                                     const exam = course.exams.find(exam => exam.examType === examType);
                                     return <td key={examType}>{exam ? exam.marks[0].marks : '-'}</td>;
                                   })}
-                                  <td>{calculateBestMarks(course)}</td>
-                                  <td>{calculateGrade(course, calculateBestMarks(course))}</td>
+                                  <td>
+                                    {course.exams.some(exam => exam.examType === "Term Final")
+                                      ? calculateBestMarks(course)
+                                      : 'N/A'}
+                                  </td>
+                                  <td>
+                                    {course.exams.some(exam => exam.examType === "Term Final")
+                                      ? calculateGrade(course, calculateBestMarks(course))
+                                      : 'N/A'}
+                                  </td>
                                 </tr>
                               )
                             ))}
                           </tbody>
                         </table>
-
                         <table className="table table-bordered">
                           <thead>
                             <tr>
@@ -459,8 +466,14 @@ function Student() {
                                     const exam = course.exams.find(exam => exam.examType === examType);
                                     return <td key={examType}>{exam ? exam.marks[0].marks : '-'}</td>;
                                   })}
-                                  <td>{calculateLabTotal(course)}</td>
-                                  <td>{calculateGrade(course, calculateLabTotal(course))}</td>
+                                  <td>{course.exams.some(exam => exam.examType === "Quiz") && course.exams.some(exam => exam.examType === "Viva")
+                                    ? calculateLabTotal(course)
+                                    : 'N/A'}
+                                  </td>
+                                  <td>{course.exams.some(exam => exam.examType === "Quiz") && course.exams.some(exam => exam.examType === "Viva")
+                                    ? calculateGrade(course, calculateLabTotal(course))
+                                    : 'N/A'}
+                                  </td>
                                 </tr>
                               )
                             ))}
