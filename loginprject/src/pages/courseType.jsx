@@ -32,7 +32,7 @@ const courseType = {
     'e181': 'theory',
     'm181': 'theory',
     'm183': 'theory',
-    'c181': 'theory',
+    'ch181': 'theory',
     'h181': 'theory',
     'e182': 'lab',
     'c182': 'lab',
