@@ -109,10 +109,36 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         onChange={(e) => setCourse(e.target.value)}
                     >
                         <option value="">Select Course</option>
+                        <option value="400">ETE 400</option>
+                        <option value="480">ETE 480</option>
                         <option value="401">ETE 401</option>
+                        <option value="402">ETE 402</option>
                         <option value="403">ETE 403</option>
+                        <option value="404">ETE 404</option>
                         <option value="405">ETE 405</option>
+                        <option value="406">ETE 406</option>
                         <option value="407">ETE 407</option>
+                        <option value="408">ETE 408</option>
+                    </select>
+                    {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
+                </div>
+            )}
+            {term === '42' && (
+                <div className='mb-2'>
+                    <select
+                        className='form-control'
+                        value={course}
+                        onChange={(e) => setCourse(e.target.value)}
+                    >
+                        <option value="">Select Course</option>
+                        <option value="400">ETE 400</option>
+                        <option value="411">ETE 411</option>
+                        <option value="412">ETE 412</option>
+                        <option value="413">ETE 413</option>
+                        <option value="414">ETE 414</option>
+                        <option value="415">ETE 415</option>
+                        <option value="416">ETE 416</option>
+                        <option value="417">ETE 417</option>
                     </select>
                     {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
