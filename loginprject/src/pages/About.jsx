@@ -80,7 +80,7 @@ function About() {
                                         </div>
                                     </div>
                                 </div>
-                                <a href="" className="btn btn-primary py-3 px-5">Explore More</a>
+                                <a href="https://cuet.ac.bd/dept/ete" className="btn btn-primary py-3 px-5">Explore More</a>
                             </div>
                         </div>
                     </div>
@@ -102,8 +102,8 @@ function About() {
                                     <img className="img-fluid" src="assets/njr.jpg" alt="" />
                                     <div className="team-social">
                                         <a className="btn btn-square" href=""><i className="fab fa-facebook-f"></i></a>
-                                        <a className="btn btn-square" href=""><i className="fab fa-twitter"></i></a>
-                                        <a className="btn btn-square" href=""><i className="fab fa-instagram"></i></a>
+                                        <a className="btn btn-square" href="https://www.instagram.com/njr.jahan.7/"><i className="fab fa-instagram"></i></a>
+                                        <a className="btn btn-square" href="mailto:u2008056@student.cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                 <div className="text-center border border-5 border-light border-top-0 p-4">
@@ -118,8 +118,9 @@ function About() {
                                     <img className="img-fluid" src="assets/tf.jpg" alt="" />
                                     <div className="team-social">
                                         <a className="btn btn-square" href="https://facebook.com/tahmidfk"><i className="fab fa-facebook-f"></i></a>
-                                        <a className="btn btn-square" href=""><i className="fab fa-twitter"></i></a>
-                                        <a className="btn btn-square" href=""><i className="fab fa-instagram"></i></a>
+                                        <a className="btn btn-square" href="https://x.com/TFkhan0"><i class="fa-brands fa-x-twitter"></i></a>
+                                        <a className="btn btn-square" href="https://www.instagram.com/tahmid.fuad/"><i className="fab fa-instagram"></i></a>
+                                        <a className="btn btn-square" href="mailto:u2008055@student.cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                 <div className="text-center border border-5 border-light border-top-0 p-4">

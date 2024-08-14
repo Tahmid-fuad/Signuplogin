@@ -14,17 +14,17 @@ function Footer() {
               <p className="mb-2"><i className="fa fa-phone-alt me-3"></i>+8801783756981</p>
               <p className="mb-2"><i className="fa fa-envelope me-3"></i>azad@cuet.ac.bd</p>
               <div className="d-flex pt-2">
-                <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-twitter"></i></a>
-                <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-facebook-f"></i></a>
-                <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-youtube"></i></a>
+                <a className="btn btn-outline-light btn-social" href=""><i class="fa-brands fa-x-twitter"></i></a>
+                <a className="btn btn-outline-light btn-social" href="https://www.facebook.com/cuetete2012"><i className="fab fa-facebook-f"></i></a>
+                <a className="btn btn-outline-light btn-social" href="https://www.youtube.com/@cuetete4770"><i className="fab fa-youtube"></i></a>
                 <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-linkedin-in"></i></a>
               </div>
             </div>
             <div className="col-lg-4 col-md-6">
               <h4 className="text-light mb-4">Quick Links</h4>
-              <a className="btn btn-link" href="about.html">About Us</a>
-              <a className="btn btn-link" href="contact.html">Contact Us</a>
-              <a className="btn btn-link" href="Faculties.html">Our Faculties</a>
+              <a className="btn btn-link" href="/About">About Us</a>
+              <a className="btn btn-link" href="/contact">Contact Us</a>
+              <a className="btn btn-link" href="/faculties">Our Faculties</a>
               <a className="btn btn-link" href="https://cuet.ac.bd">CUET Website</a>
             </div>
             <div className="col-lg-4 col-md-6">
@@ -50,7 +50,7 @@ function Footer() {
                 &copy; All Right Reserved.
               </div>
               <div className="col-md-6 text-center text-md-end">
-                Developed By <a className="border-bottom" href="">Nusrat and Tahmid</a>
+                Developed By Nusrat and Tahmid
               </div>
             </div>
           </div>
