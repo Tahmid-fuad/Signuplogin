@@ -54,6 +54,23 @@ const courseIdReplace = {
     '212': 'ETE212 (Control System Engineering Sessional)',
     'c284': 'CSE284 (Object Oriented Programming)',
     'h283': 'HUM283 (Economics and Sociology)',
+    '400': 'ETE400 (Project and Thesis)',
+    '480': 'ETE480 (Industrial Training(2 Weeks))',
+    '401': 'ETE401 (Telecommunication Networks and Switching)',
+    '402': 'ETE402 (Telecommunication Networks and Switching Sessional)',
+    '403': 'ETE403 (VLSI Technology)',
+    '404': 'ETE404 (VLSI Technology Sessional)',
+    '405': 'ETE405 (Wireless and Mobile Communication)',
+    '406': 'ETE406 (Wireless and Mobile Communication Sessional)',
+    '407': 'ETE407 (Multimedia Communication)',
+    '408': 'ETE408 (Multimedia Communication Sessional)',
+    '411': 'ETE411 (Optical Fiber Communications)',
+    '412': 'ETE412 (Optical Fiber Communications Sessional)',
+    '413': 'ETE413 (Satellite Communications and RADAR)',
+    '414': 'ETE414 (Satellite Communications and RADAR Sessional)',
+    '415': 'ETE415 (IOT and Industrial Automation)',
+    '416': 'ETE416 (IOT and Industrial Automation Sessional)',
+    '417': 'ETE417 (Engineering Ethics and Entrepreneurship)',
   };
   
   export default courseIdReplace;

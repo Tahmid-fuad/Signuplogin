@@ -170,10 +170,54 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     >
                         <option value="">Select Course</option>
                         <option value="201">ETE 201</option>
+                        <option value="202">ETE 202</option>
                         <option value="203">ETE 203</option>
+                        <option value="204">ETE 204</option>
                         <option value="c281">CSE 281</option>
+                        <option value="c281">CSE 282</option>
                         <option value="m281">Math 281</option>
                         <option value="h281">Hum 281</option>
+                    </select>
+                    {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
+                </div>
+            )}
+            {term === '22' && (
+                <div className='mb-2'>
+                    <select
+                        className='form-control'
+                        value={course}
+                        onChange={(e) => setCourse(e.target.value)}
+                    >
+                        <option value="">Select Course</option>
+                        <option value="205">ETE 205</option>
+                        <option value="206">ETE 206</option>
+                        <option value="207">ETE 207</option>
+                        <option value="209">ETE 209</option>
+                        <option value="210">ETE 210</option>
+                        <option value="211">ETE 211</option>
+                        <option value="212">ETE 212</option>
+                        <option value="c284">CSE 284</option>
+                        <option value="h283">HUM 283</option>
+                    </select>
+                    {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
+                </div>
+            )}
+            {term === '11' && (
+                <div className='mb-2'>
+                    <select
+                        className='form-control'
+                        value={course}
+                        onChange={(e) => setCourse(e.target.value)}
+                    >
+                        <option value="">Select Course</option>
+                        <option value="e181">EEE 181</option>
+                        <option value="e182">EEE 182</option>
+                        <option value="m181">MATH 181</option>
+                        <option value="m183">MATH 183</option>
+                        <option value="ch181">CHEM 181</option>
+                        <option value="ch182">CHEM 182</option>
+                        <option value="h181">HUM 317</option>
+                        <option value="me182">ME 182</option>
                     </select>
                     {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
@@ -187,10 +231,14 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     >
                         <option value="">Select Course</option>
                         <option value="101">ETE 101</option>
+                        <option value="102">ETE 102</option>
                         <option value="e183">EEE 183</option>
+                        <option value="e184">EEE 184</option>
                         <option value="c181">CSE 181</option>
+                        <option value="c182">CSE 182</option>
                         <option value="m185">Math 185</option>
                         <option value="p181">Phy 181</option>
+                        <option value="p182">Phy 182</option>
                     </select>
                     {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
