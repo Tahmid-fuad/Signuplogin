@@ -148,15 +148,15 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                     >
                         <option value="">Select Course</option>
                         <option value="300">ETE 300</option>
-                        <option value="311">ETE 303</option>
-                        <option value="313">ETE 305</option>
-                        <option value="314">ETE 307</option>
-                        <option value="315">ETE 309</option>
-                        <option value="316">ETE 309</option>
-                        <option value="317">ETE 309</option>
-                        <option value="318">ETE 309</option>
-                        <option value="319">ETE 309</option>
-                        <option value="320">ETE 309</option>
+                        <option value="311">ETE 311</option>
+                        <option value="313">ETE 313</option>
+                        <option value="314">ETE 314</option>
+                        <option value="315">ETE 315</option>
+                        <option value="316">ETE 316</option>
+                        <option value="317">ETE 317</option>
+                        <option value="318">ETE 318</option>
+                        <option value="319">ETE 319</option>
+                        <option value="320">ETE 320</option>
                     </select>
                     {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
