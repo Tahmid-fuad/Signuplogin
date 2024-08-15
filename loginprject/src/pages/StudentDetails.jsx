@@ -22,12 +22,10 @@ function StudentDetails() {
     const [photoUrl, setPhotoUrl] = useState('');
 
     const advisorEmail = getAdvisorEmail(studentBatch, studentId);
-    console.log(studentId);
 
     useEffect(() => {
 
         if (studentId) {
-            console.log(studentId);
             axios.get(`http://localhost:3001/studentdata/${studentId}`)
                 .then(response => {
                     setStudentName(response.data.name);
