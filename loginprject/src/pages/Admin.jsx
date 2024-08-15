@@ -423,7 +423,7 @@ function Admin() {
       return 'F';
     }
 
-    if (percentage > 0.8) {
+    if (percentage >= 0.8) {
       return 'A+';
     } else if (percentage >= 0.75) {
       return 'A';
@@ -635,18 +635,31 @@ function Admin() {
                                             return <td key={examType}>{exam ? exam.marks : ''}</td>;
                                           })}
                                           <td>
-                                            {student.courseType === 'theory'
+                                            {student.courseType === 'theory' && student.exams.some(e => e.examType === 'Term Final')
                                               ? calculateBestMarks(student)
-                                              : calculateLabTotal(student)}
+                                              : student.courseType === 'theory'
+                                                ? 'N/A'
+                                                : student.courseType === 'lab' && student.exams.some(e => e.examType === 'Quiz') && student.exams.some(e => e.examType === 'Viva')
+                                                  ? calculateLabTotal(student)
+                                                  : student.courseType === 'lab'
+                                                    ? 'N/A'
+                                                    : ''}
                                           </td>
                                           <td>
-                                            {student.courseType === 'theory'
+                                            {student.courseType === 'theory' && student.exams.some(e => e.examType === 'Term Final')
                                               ? calculateGrade(student, calculateBestMarks(student))
-                                              : calculateGrade(student, calculateLabTotal(student))}
+                                              : student.courseType === 'theory'
+                                                ? 'N/A'
+                                                : student.courseType === 'lab' && student.exams.some(e => e.examType === 'Quiz') && student.exams.some(e => e.examType === 'Viva')
+                                                  ? calculateGrade(student, calculateLabTotal(student))
+                                                  : student.courseType === 'lab'
+                                                    ? 'N/A'
+                                                    : ''}
                                           </td>
                                         </tr>
                                       ))}
                                     </tbody>
+
                                   </table>
                                 </div>
                               );

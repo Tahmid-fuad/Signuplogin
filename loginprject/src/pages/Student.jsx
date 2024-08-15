@@ -218,7 +218,7 @@ function Student() {
       return 'F';
     }
 
-    if (percentage > 0.8) {
+    if (percentage >= 0.8) {
       return 'A+';
     } else if (percentage >= 0.75) {
       return 'A';

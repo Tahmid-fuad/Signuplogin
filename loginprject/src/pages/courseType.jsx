@@ -24,7 +24,7 @@ const courseType = {
     'e183': 'theory',
     'p181': 'theory',
     'm185': 'theory',
-    'ch181': 'theory',
+    'c181': 'theory',
     '102': 'lab',
     'e184': 'lab',
     'p182': 'lab',
