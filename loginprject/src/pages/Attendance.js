@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 const batch = '20';
-const term = '12';
-const course = 'p182';
-const courseCrdt = 1.5;
+const term = '22';
+const course = '212';
+const courseCrdt = 0.75;
 const courseTyp = 'lab';
 const exam = 'Attendance';
 const teacherEmail = 'azad@cuet.ac.bd';
-const marks=10;
+const marks = 5;
 
 let studentId = 2008001;
 // const marksArray = [15, 12, 14, 17, 19, 11, 14, 16, 13, 14, 15, 15, 12];
@@ -20,7 +20,7 @@ const submitMarks = async (studentId, marks) => {
         courseCrdt,
         courseTyp,
         exam,
-        studentId:`${studentId}`,
+        studentId: `${studentId}`,
         marks,
         teacherEmail
     };
@@ -35,8 +35,8 @@ const submitMarks = async (studentId, marks) => {
 };
 
 const submitAllMarks = async () => {
-    while (studentId<=2008061) {
-        if (studentId === 2008041) {
+    while (studentId <= 2008061) {
+        if (studentId === 2008041 || studentId === 2008028 || studentId === 2008052) {
             studentId++;
             continue;
         }

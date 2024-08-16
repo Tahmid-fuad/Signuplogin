@@ -1,75 +1,73 @@
 import axios from 'axios';
 
 const batch = '20';
-const term = '12';
-const course = 'p182';
-const courseCrdt = 1.5;
+const term = '22';
+const course = '212';
+const courseCrdt = 0.75;
 const courseTyp = 'lab';
 const exam = 'Quiz';
 const teacherEmail = 'azad@cuet.ac.bd';
 
 let studentId = 2008001;
 
-const grades = `A-
-A
-A
-A-
-A
-A-
-A-
-A-
-B+
-A-
+const grades = `A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
 F
-A
-A
-A
-A
-A-
-A-
-B+
-B
-A-
-B
-B+
-A
-B+
-A-
-A-
-A-
-F
-A-
-B+
-A
-A-
-A-
-B+
+A+
+A+
+A+
+A+
+A+
 A+
 A
-A-
-A-
-B+
-A-
-A-
-A-
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
 A
-A-
+A+
+A+
+A+
 A
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
+A+
 A
-A
-A-
-A
-B+
-F
-A-
-A
-A-
-A-
-A-
-A-
-A-
-A-
-A-`;
+A+
+A+`;
 
 const marksArray = grades
     .trim() // Remove any extra whitespace from start and end
@@ -90,35 +88,35 @@ const marksArray = grades
 // };
 
 //for 1.5 credit
-const abcd = {
-    "A+": 65,
-    "A": 57.5,
-    "A-": 50,
-    "B+": 42.5,
-    "B": 35,
-    "B-": 27.5,
-    "C+": 20,
-    "C": 12.5,
-    "D": 5,
-    "F": 0
-};
-
-//for 0.75 credit
 // const abcd = {
-//     "A+": 32.5,
-//     "A": 28.75,
-//     "A-": 25,
-//     "B+": 21.25,
-//     "B": 17.5,
-//     "B-": 13.75,
-//     "C+": 10,
-//     "C": 6.25,
-//     "D": 2.5,
+//     "A+": 65,
+//     "A": 57.5,
+//     "A-": 50,
+//     "B+": 42.5,
+//     "B": 35,
+//     "B-": 27.5,
+//     "C+": 20,
+//     "C": 12.5,
+//     "D": 5,
 //     "F": 0
 // };
 
+//for 0.75 credit
+const abcd = {
+    "A+": 32.5,
+    "A": 28.75,
+    "A-": 25,
+    "B+": 21.25,
+    "B": 17.5,
+    "B-": 13.75,
+    "C+": 10,
+    "C": 6.25,
+    "D": 2.5,
+    "F": 0
+};
 
-//for 4 credit 
+
+// for 4 credit 
 // const abcd = {
 //     "A+": 280,
 //     "A": 260,
@@ -157,7 +155,7 @@ const submitMarks = async (studentId, marks) => {
 const submitAllMarks = async () => {
     let index = 0;
     while (index < marksArray.length) {
-        if (studentId === 2008041) {
+        if (studentId === 2008041 || studentId === 2008028 || studentId === 2008052) {
             studentId++;
             continue;
         }
