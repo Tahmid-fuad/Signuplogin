@@ -14,7 +14,7 @@ function Footer() {
               <p className="mb-2"><i className="fa fa-phone-alt me-3"></i>+8801783756981</p>
               <p className="mb-2"><i className="fa fa-envelope me-3"></i>azad@cuet.ac.bd</p>
               <div className="d-flex pt-2">
-                <a className="btn btn-outline-light btn-social" href=""><i class="fa-brands fa-x-twitter"></i></a>
+                <a className="btn btn-outline-light btn-social" href=""><i className="fa-brands fa-x-twitter"></i></a>
                 <a className="btn btn-outline-light btn-social" href="https://www.facebook.com/cuetete2012"><i className="fab fa-facebook-f"></i></a>
                 <a className="btn btn-outline-light btn-social" href="https://www.youtube.com/@cuetete4770"><i className="fab fa-youtube"></i></a>
                 <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-linkedin-in"></i></a>

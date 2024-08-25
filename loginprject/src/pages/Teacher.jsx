@@ -26,6 +26,7 @@ function Teacher() {
   const [marksData, setMarksData] = useState(null);
   const [batchVisibility, setBatchVisibility] = useState({});
   const [termVisibility, setTermVisibility] = useState({});
+  const [courseVisibility, setCourseVisibility] = useState({});
   const [photoUrl, setPhotoUrl] = useState('');
   const [facebook, setFacebook] = useState('');
   const [linkedin, setLinkedin] = useState('');
@@ -187,6 +188,21 @@ function Teacher() {
       }
     }));
   };
+
+  const toggleCourseVisibility = (batchYear, termName, courseCode) => {
+    setCourseVisibility((prev) => ({
+      ...prev,
+      [batchYear]: {
+        ...prev[batchYear],
+        [termName]: {
+          ...prev[batchYear]?.[termName], 
+          [courseCode]: !prev[batchYear]?.[termName]?.[courseCode]
+        }
+      }
+    }));
+  };
+  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -461,7 +477,9 @@ function Teacher() {
                               return (
                                 <div key={course.courseCode} id={`course-${batch.batchName}-${term.term}-${course.courseCode}`}>
                                   <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 className="text-decoration-underline">{courseIdReplace[course.courseCode] || course.courseCode}</h5>
+                                    <h5 className="text-decoration-underline"
+                                      onClick={() => toggleCourseVisibility(batch.batchName, term.term, course.courseCode)}>
+                                      {courseIdReplace[course.courseCode] || course.courseCode}</h5>
                                     <button
                                       className="btn btn-primary mx-4"
                                       onClick={() => printCourseContent(batch.batchName, term.term, course.courseCode)}
@@ -469,51 +487,56 @@ function Teacher() {
                                       Download
                                     </button>
                                   </div>
-                                  <table className="table table-striped table-bordered">
-                                    <thead>
-                                      <tr>
-                                        <th>Student ID</th>
-                                        {examTypes.map(examType => (
-                                          <th key={examType}>{examType}</th>
-                                        ))}
-                                        <th>Total</th>
-                                        <th>Grade</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {course.students.map(student => (
-                                        <tr key={student.studentId}>
-                                          <td>{student.studentId}</td>
-                                          {examTypes.map(examType => {
-                                            const exam = student.exams.find(e => e.examType === examType);
-                                            return <td key={examType}>{exam ? exam.marks : ''}</td>;
-                                          })}
-                                          <td>
-                                            {student.courseType === 'theory' && student.exams.some(e => e.examType === 'Term Final')
-                                              ? calculateBestMarks(student)
-                                              : student.courseType === 'theory'
-                                                ? 'N/A'
-                                                : student.courseType === 'lab' && student.exams.some(e => e.examType === 'Quiz') && student.exams.some(e => e.examType === 'Viva')
-                                                  ? calculateLabTotal(student)
-                                                  : student.courseType === 'lab'
+                                  {courseVisibility[batch.batchName] && courseVisibility[batch.batchName][term.term] && courseVisibility[batch.batchName][term.term][course.courseCode] && (
+                                    <>
+                                      <table className="table table-striped table-bordered">
+                                        <thead>
+                                          <tr>
+                                            <th>Student ID</th>
+                                            {examTypes.map(examType => (
+                                              <th key={examType}>{examType}</th>
+                                            ))}
+                                            <th>Total</th>
+                                            <th>Grade</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {course.students.map(student => (
+                                            <tr key={student.studentId}>
+                                              <td>{student.studentId}</td>
+                                              {examTypes.map(examType => {
+                                                const exam = student.exams.find(e => e.examType === examType);
+                                                return <td key={examType}>{exam ? exam.marks : ''}</td>;
+                                              })}
+                                              <td>
+                                                {student.courseType === 'theory' && student.exams.some(e => e.examType === 'Term Final')
+                                                  ? calculateBestMarks(student)
+                                                  : student.courseType === 'theory'
                                                     ? 'N/A'
-                                                    : ''}
-                                          </td>
-                                          <td>
-                                            {student.courseType === 'theory' && student.exams.some(e => e.examType === 'Term Final')
-                                              ? calculateGrade(student, calculateBestMarks(student))
-                                              : student.courseType === 'theory'
-                                                ? 'N/A'
-                                                : student.courseType === 'lab' && student.exams.some(e => e.examType === 'Quiz') && student.exams.some(e => e.examType === 'Viva')
-                                                  ? calculateGrade(student, calculateLabTotal(student))
-                                                  : student.courseType === 'lab'
+                                                    : student.courseType === 'lab' && student.exams.some(e => e.examType === 'Quiz') && student.exams.some(e => e.examType === 'Viva')
+                                                      ? calculateLabTotal(student)
+                                                      : student.courseType === 'lab'
+                                                        ? 'N/A'
+                                                        : ''}
+                                              </td>
+                                              <td>
+                                                {student.courseType === 'theory' && student.exams.some(e => e.examType === 'Term Final')
+                                                  ? calculateGrade(student, calculateBestMarks(student))
+                                                  : student.courseType === 'theory'
                                                     ? 'N/A'
-                                                    : ''}
-                                          </td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
+                                                    : student.courseType === 'lab' && student.exams.some(e => e.examType === 'Quiz') && student.exams.some(e => e.examType === 'Viva')
+                                                      ? calculateGrade(student, calculateLabTotal(student))
+                                                      : student.courseType === 'lab'
+                                                        ? 'N/A'
+                                                        : ''}
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+
+                                      </table>
+                                    </>
+                                  )}
                                 </div>
                               );
                             })}

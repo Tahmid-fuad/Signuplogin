@@ -118,7 +118,7 @@ function About() {
                                     <img className="img-fluid" src="assets/tf.jpg" alt="" />
                                     <div className="team-social">
                                         <a className="btn btn-square" href="https://facebook.com/tahmidfk"><i className="fab fa-facebook-f"></i></a>
-                                        <a className="btn btn-square" href="https://x.com/TFkhan0"><i class="fa-brands fa-x-twitter"></i></a>
+                                        <a className="btn btn-square" href="https://x.com/TFkhan0"><i className="fa-brands fa-x-twitter"></i></a>
                                         <a className="btn btn-square" href="https://www.instagram.com/tahmid.fuad/"><i className="fab fa-instagram"></i></a>
                                         <a className="btn btn-square" href="mailto:u2008055@student.cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                     </div>
