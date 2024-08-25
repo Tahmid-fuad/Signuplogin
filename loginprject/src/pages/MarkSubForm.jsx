@@ -119,6 +119,16 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="406">ETE 406</option>
                         <option value="407">ETE 407</option>
                         <option value="408">ETE 408</option>
+                        <option value="421">ETE 421</option>
+                        <option value="422">ETE 422</option>
+                        <option value="423">ETE 423</option>
+                        <option value="424">ETE 424</option>
+                        <option value="425">ETE 425</option>
+                        <option value="426">ETE 426</option>
+                        <option value="429">ETE 429</option>
+                        <option value="430">ETE 430</option>
+                        <option value="431">ETE 431</option>
+                        <option value="432">ETE 432</option>
                     </select>
                     {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
@@ -139,6 +149,20 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                         <option value="415">ETE 415</option>
                         <option value="416">ETE 416</option>
                         <option value="417">ETE 417</option>
+                        <option value="451">ETE 451</option>
+                        <option value="452">ETE 452</option>
+                        <option value="453">ETE 453</option>
+                        <option value="454">ETE 454</option>
+                        <option value="409">ETE 409</option>
+                        <option value="410">ETE 410</option>
+                        <option value="457">ETE 457</option>
+                        <option value="458">ETE 458</option>
+                        <option value="459">ETE 459</option>
+                        <option value="460">ETE 460</option>
+                        <option value="461">ETE 461</option>
+                        <option value="462">ETE 462</option>
+                        <option value="455">ETE 455</option>
+                        <option value="456">ETE 456</option>
                     </select>
                     {formErrors.course && <p className="text-danger">{formErrors.course}</p>}
                 </div>
