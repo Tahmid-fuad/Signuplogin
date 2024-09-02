@@ -90,85 +90,94 @@ function Teacher() {
       break;
   }
 
-  // Function to print batch content
+  const addContentWithHeader = (pdf, contentCanvas, headerCanvas, startY) => {
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const contentHeight = contentCanvas.height;
+    const contentWidth = contentCanvas.width;
+    const headerHeight = headerCanvas.height * (pdfWidth / headerCanvas.width);
+
+    let remainingHeight = contentHeight;
+    let currentY = startY;
+
+    while (remainingHeight > 0) {
+      const availableHeight = pdfHeight - currentY - 10; // 10 is for bottom margin
+      const sliceHeight = Math.min(availableHeight, remainingHeight);
+      const scaleRatio = pdfWidth / contentWidth;
+
+      // Adjust sliceHeight according to the scale ratio
+      const adjustedSliceHeight = sliceHeight / scaleRatio;
+
+      const pageContent = contentCanvas.getContext('2d').getImageData(0, contentHeight - remainingHeight, contentWidth, adjustedSliceHeight);
+
+      // Create a new canvas for this part of the content
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = contentWidth;
+      tempCanvas.height = adjustedSliceHeight;
+      tempCanvas.getContext('2d').putImageData(pageContent, 0, 0);
+
+      const pageData = tempCanvas.toDataURL('image/png');
+      pdf.addImage(pageData, 'PNG', 10, currentY, pdfWidth - 20, adjustedSliceHeight * scaleRatio);
+
+      remainingHeight -= adjustedSliceHeight;
+
+      if (remainingHeight > 0) {
+        pdf.addPage();
+        currentY = 10; // Reset Y position for new page
+        pdf.addImage(headerCanvas.toDataURL('image/png'), 'PNG', 10, currentY, pdfWidth - 20, headerHeight);
+        currentY += headerHeight + 10; // Adjust Y for new content
+      }
+    }
+  };
+
   const printBatchContent = async (batchYear) => {
     const batchElement = document.getElementById(`batch-${batchYear}`);
-    const canvas = await html2canvas(batchElement);
-    const imgData = canvas.toDataURL('image/png');
+    const contentCanvas = await html2canvas(batchElement);
 
-    // Render header to canvas
     const headerElement = document.getElementById('pdf-header');
     const headerCanvas = await html2canvas(headerElement);
-    const headerImgData = headerCanvas.toDataURL('image/png');
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new jsPDF('p', 'mm', 'a4', true);
     const pdfWidth = pdf.internal.pageSize.getWidth();
+    const headerHeight = headerCanvas.height * (pdfWidth / headerCanvas.width);
 
-    // Add header
-    const headerImgProps = pdf.getImageProperties(headerImgData);
-    const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
-    pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+    pdf.addImage(headerCanvas.toDataURL('image/png'), 'PNG', 10, 10, pdfWidth - 20, headerHeight);
 
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-    pdf.addImage(imgData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, pdfHeight);
+    addContentWithHeader(pdf, contentCanvas, headerCanvas, 20 + headerHeight);
     pdf.save(`Batch_${batchYear}_Report.pdf`);
   };
 
-  // Function to print term content with a header
   const printTermContent = async (batchYear, termName) => {
     const courseElement = document.getElementById(`term-${batchYear}-${termName}`);
-    const canvasContent = await html2canvas(courseElement);
-    const imgContentData = canvasContent.toDataURL('image/png');
+    const contentCanvas = await html2canvas(courseElement);
 
-    // Render header to canvas
     const headerElement = document.getElementById('pdf-header');
     const headerCanvas = await html2canvas(headerElement);
-    const headerImgData = headerCanvas.toDataURL('image/png');
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new jsPDF('p', 'mm', 'a4', true);
     const pdfWidth = pdf.internal.pageSize.getWidth();
+    const headerHeight = headerCanvas.height * (pdfWidth / headerCanvas.width);
 
-    // Add header
-    const headerImgProps = pdf.getImageProperties(headerImgData);
-    const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
-    pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+    pdf.addImage(headerCanvas.toDataURL('image/png'), 'PNG', 10, 10, pdfWidth - 20, headerHeight);
 
-    // Add content
-    const imgContentProps = pdf.getImageProperties(imgContentData);
-    const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
-    // pdf.addImage(imgContentData, 'PNG', 10, 10, pdfWidth - 20, contentHeight);
-    pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
-
+    addContentWithHeader(pdf, contentCanvas, headerCanvas, 20 + headerHeight);
     pdf.save(`Batch_${batchYear}_Term_${termName}_Report.pdf`);
   };
 
-  // Function to print course content with a header
   const printCourseContent = async (batchYear, term, courseCode) => {
     const courseElement = document.getElementById(`course-${batchYear}-${term}-${courseCode}`);
-    const canvasContent = await html2canvas(courseElement);
-    const imgContentData = canvasContent.toDataURL('image/png');
+    const contentCanvas = await html2canvas(courseElement);
 
-    // Render header to canvas
     const headerElement = document.getElementById('pdf-header');
     const headerCanvas = await html2canvas(headerElement);
-    const headerImgData = headerCanvas.toDataURL('image/png');
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new jsPDF('p', 'mm', 'a4', true);
     const pdfWidth = pdf.internal.pageSize.getWidth();
+    const headerHeight = headerCanvas.height * (pdfWidth / headerCanvas.width);
 
-    // Add header
-    const headerImgProps = pdf.getImageProperties(headerImgData);
-    const headerHeight = (headerImgProps.height * pdfWidth) / headerImgProps.width;
-    pdf.addImage(headerImgData, 'PNG', 10, 10, pdfWidth - 20, headerHeight);
+    pdf.addImage(headerCanvas.toDataURL('image/png'), 'PNG', 10, 10, pdfWidth - 20, headerHeight);
 
-    // Add content
-    const imgContentProps = pdf.getImageProperties(imgContentData);
-    const contentHeight = (imgContentProps.height * pdfWidth) / imgContentProps.width;
-    // pdf.addImage(imgContentData, 'PNG', 10, 10, pdfWidth - 20, contentHeight);
-    pdf.addImage(imgContentData, 'PNG', 10, 20 + headerHeight, pdfWidth - 20, contentHeight);
-
+    addContentWithHeader(pdf, contentCanvas, headerCanvas, 20 + headerHeight);
     pdf.save(`Course_${courseCode}_Batch_${batchYear}_Report.pdf`);
   };
 
@@ -195,13 +204,13 @@ function Teacher() {
       [batchYear]: {
         ...prev[batchYear],
         [termName]: {
-          ...prev[batchYear]?.[termName], 
+          ...prev[batchYear]?.[termName],
           [courseCode]: !prev[batchYear]?.[termName]?.[courseCode]
         }
       }
     }));
   };
-  
+
 
 
   const handleSubmit = (e) => {
@@ -489,7 +498,7 @@ function Teacher() {
                                   </div>
                                   {courseVisibility[batch.batchName] && courseVisibility[batch.batchName][term.term] && courseVisibility[batch.batchName][term.term][course.courseCode] && (
                                     <>
-                                      <table className="table table-striped table-bordered">
+                                      <table className="table table-bordered">
                                         <thead>
                                           <tr>
                                             <th>Student ID</th>
