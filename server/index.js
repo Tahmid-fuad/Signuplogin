@@ -947,7 +947,7 @@ app.delete('/events/:id', async (req, res) => {
 });
 
 // Define port and start server
-const port = 3001;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);
 });
