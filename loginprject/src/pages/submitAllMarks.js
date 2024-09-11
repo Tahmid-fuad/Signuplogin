@@ -145,7 +145,7 @@ const submitMarks = async (studentId, marks) => {
 
     try {
         console.log(data);
-        const response = await axios.post('http://localhost:3001/submitMarks', data);
+        const response = await axios.post('https://signuplogin-backend.onrender.com/submitMarks', data);
         // console.log(`Marks for Student ID ${studentId} submitted successfully:`, response.data);
     } catch (error) {
         console.error(`Error submitting marks for Student ID ${studentId}:`, error.response ? error.response.data : error.message);

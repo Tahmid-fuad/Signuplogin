@@ -19,12 +19,12 @@ const AddRoutine = ({ setRoutines }) => {
         formData.append('dest', dest);
 
         try {
-            await axios.post('http://localhost:3001/addroutine', formData, {
+            await axios.post('https://signuplogin-backend.onrender.com/addroutine', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            const response = await axios.get('http://localhost:3001/fetchroutines');
+            const response = await axios.get('https://signuplogin-backend.onrender.com/fetchroutines');
             setRoutines(response.data);
         } catch (err) {
             setServerError(err.response ? err.response.data.message : 'An error occurred');

@@ -15,10 +15,10 @@ function Faculties() {
 
     const fetchFaculties = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/faculties');
+            const response = await axios.get('https://signuplogin-backend.onrender.com/faculties');
             const facultiesWithPhotos = response.data.map(faculty => ({
                 ...faculty,
-                photoUrl: `http://localhost:3001/teacher-photo/${faculty.email}`
+                photoUrl: `https://signuplogin-backend.onrender.com/teacher-photo/${faculty.email}`
             }));
             setFaculties(facultiesWithPhotos);
         } catch (error) {

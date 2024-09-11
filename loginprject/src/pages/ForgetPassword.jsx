@@ -10,7 +10,7 @@ function ForgetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/forgot-password', { email });
+      const response = await axios.post('https://signuplogin-backend.onrender.com/forgot-password', { email });
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response.data.message);

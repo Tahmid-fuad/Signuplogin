@@ -18,14 +18,14 @@ function Faculty() {
     useEffect(() => {
         const fetchFaculty = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/faculty/${email}`);
+                const response = await axios.get(`https://signuplogin-backend.onrender.com/faculty/${email}`);
                 setName(response.data.name);
                 setNumber(response.data.number);
                 setDesig(response.data.desig);
                 setFoi(response.data.foi);
                 setQuali(response.data.quali);
                 setPublication(response.data.publications);
-                setPhotoUrl(`http://localhost:3001/teacher-photo/${email}`);
+                setPhotoUrl(`https://signuplogin-backend.onrender.com/teacher-photo/${email}`);
             } catch (error) {
                 console.error('Error fetching faculty data', error);
             }

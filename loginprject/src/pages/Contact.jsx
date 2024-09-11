@@ -15,7 +15,7 @@ function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSuccessMessage('');
-    axios.post('http://localhost:3001/contact', { name, email, subject, message })
+    axios.post('https://signuplogin-backend.onrender.com/contact', { name, email, subject, message })
       .then(result => {        
         setSuccessMessage('Message sent successfully');
       })

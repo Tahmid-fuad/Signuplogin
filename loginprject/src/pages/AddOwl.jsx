@@ -11,7 +11,7 @@ const AddOwl = ({ }) => {
 
     const fetchOwls = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/fetchowls');
+            const response = await axios.get('https://signuplogin-backend.onrender.com/fetchowls');
             setOwls(response.data);
         } catch (err) {
             setError('Failed to load Owl. Please try again later.');
@@ -24,7 +24,7 @@ const AddOwl = ({ }) => {
 
     const deleteOwl = async (id) => {
         try {
-            await axios.delete(`http://localhost:3001/owls/${id}`);
+            await axios.delete(`https://signuplogin-backend.onrender.com/owls/${id}`);
             fetchOwls();
         } catch (err) {
             setError('Failed to delete owl. Please try again later.');
@@ -40,7 +40,7 @@ const AddOwl = ({ }) => {
         formData.append('file', file);
 
         try {
-            await axios.post('http://localhost:3001/addowl', formData, {
+            await axios.post('https://signuplogin-backend.onrender.com/addowl', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -68,7 +68,7 @@ const AddOwl = ({ }) => {
                     ) : (
                         owls.map((owl) => (
                             <li key={owl._id} >
-                                <a className='text-black text-decoration-underline' href={`http://localhost:3001/public/owlimage/${owl.file}`}>{owl.file}</a>
+                                <a className='text-black text-decoration-underline' href={`https://signuplogin-backend.onrender.com/public/owlimage/${owl.file}`}>{owl.file}</a>
                                 <i className="fa-solid fa-trash" onClick={() => deleteOwl(owl._id)} style={{ cursor: 'pointer' }}></i>
                             </li>
                         ))

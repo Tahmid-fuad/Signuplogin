@@ -9,7 +9,7 @@ function Notice() {
     useEffect(() => {
         const fetchNotices = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/fetchnotices');
+                const response = await axios.get('https://signuplogin-backend.onrender.com/fetchnotices');
                 setNotices(response.data);
             } catch (err) {
                 setError('Failed to load notices. Please try again later.');
@@ -36,7 +36,7 @@ function Notice() {
                                     <li key={notice._id}>
                                         <a
                                             className={notice.file ? 'text-black text-decoration-underline' : 'text-black'}
-                                            href={notice.file ? `http://localhost:3001/public/noticefile/${notice.file}` : '#'}>
+                                            href={notice.file ? `https://signuplogin-backend.onrender.com/public/noticefile/${notice.file}` : '#'}>
                                             {notice.notice + " "}
                                         </a>
                                     </li>

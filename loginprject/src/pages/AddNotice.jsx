@@ -17,12 +17,12 @@ const AddNotice = ({ notices, setNotices, setError }) => {
         formData.append('file', file);
 
         try {
-            await axios.post('http://localhost:3001/addnotice', formData, {
+            await axios.post('https://signuplogin-backend.onrender.com/addnotice', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            const response = await axios.get('http://localhost:3001/fetchnotices');
+            const response = await axios.get('https://signuplogin-backend.onrender.com/fetchnotices');
             setNotices(response.data);
         } catch (err) {
             setServerError(err.response ? err.response.data.message : 'An error occurred');

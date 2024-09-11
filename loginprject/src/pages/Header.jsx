@@ -17,7 +17,7 @@ function Header() {
   };
 
   const handleLogout = () => {
-    axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
+    axios.post('https://signuplogin-backend.onrender.com/logout', {}, { withCredentials: true })
       .then(() => {
         localStorage.removeItem('role');
         localStorage.removeItem('id');

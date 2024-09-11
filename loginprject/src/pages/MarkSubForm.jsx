@@ -27,10 +27,10 @@ const MarkSubForm = ({ teacherEmail, batch, setBatch, term, setTerm, course, set
                 teacherEmail,
             };
 
-            axios.post('http://localhost:3001/submitMarks', data)
+            axios.post('https://signuplogin-backend.onrender.com/submitMarks', data)
                 .then(response => {
                     setSuccessMessage('Marks submitted successfully');
-                    axios.get('http://localhost:3001/getMarksByCourse')
+                    axios.get('https://signuplogin-backend.onrender.com/getMarksByCourse')
                         .then(response => {
                             setMarksData(response.data);
                         });
