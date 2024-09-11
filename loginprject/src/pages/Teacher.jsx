@@ -434,7 +434,7 @@ function Teacher() {
           </div>
         </div>
       </div>
-      <div className="row m-2">
+      <div className="row m-2 bg-dark bg-opacity-10">
         {/* Display Marks Data */}
         <div className="container mt-5">
           <div className="d-flex justify-content-between align-items-center mb-3">

@@ -707,9 +707,9 @@ function Admin() {
         </div>
       </div>
       <div>
-        <div className="row mb-3">
+        <div className="row mb-3 bg-dark bg-opacity-10">
           <div className="col-3 float-start">
-            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2">
+            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
               <div className="heading-sect">
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
               </div>
@@ -739,7 +739,7 @@ function Admin() {
             <AddNotice notices={notices} setNotices={setNotices} />
           </div>
           <div className="col-3">
-            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2">
+            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
               <div className="heading-sect">
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Routines</h3>
               </div>

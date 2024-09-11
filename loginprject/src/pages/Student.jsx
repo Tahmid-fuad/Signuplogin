@@ -387,7 +387,7 @@ function Student() {
         </div>
         <div className="row m-2">
           {/* Display student marks */}
-          <div className="col-12" id="result">
+          <div className="col-12 bg-dark bg-opacity-10" id="result">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3>Exam Results of ID: {`${studentId}`}</h3>
               {studentMarks ? (
