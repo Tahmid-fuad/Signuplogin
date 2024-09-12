@@ -45,12 +45,12 @@ function Teacher() {
     const teacherEmail = localStorage.getItem('email');
 
     if (teacherEmail) {
-      axios.get(`http://localhost:3001/teacherdata/${teacherEmail}`)
+      axios.get(`https://signuplogin-backend.onrender.com/teacherdata/${teacherEmail}`)
         .then(response => {
           setTeacherName(response.data.name);
           setTeacherEmail(response.data.email);
           setTeacherDesig(response.data.desig);
-          setPhotoUrl(`http://localhost:3001/user-photo/${teacherEmail}`);
+          setPhotoUrl(`https://signuplogin-backend.onrender.com/user-photo/${teacherEmail}`);
         })
         .catch(error => {
           console.error('Error fetching teacher details:', error);
@@ -64,7 +64,7 @@ function Teacher() {
   const fetchMarks = async () => {
     // Fetch student marks data by course
     try {
-      const response = await axios.get('http://localhost:3001/getMarksByCourse')
+      const response = await axios.get('https://signuplogin-backend.onrender.com/getMarksByCourse')
       setMarksData(response.data);
     } catch (error) {
       console.error('Error fetching student marks:', error);
@@ -227,7 +227,7 @@ function Teacher() {
     formData.append('info', info);
     formData.append('year', year);
 
-    axios.post('http://localhost:3001/facultydetails', formData, {
+    axios.post('https://signuplogin-backend.onrender.com/facultydetails', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -262,7 +262,7 @@ function Teacher() {
 
   const fetchFaculty = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/faculty/${teacherEmail}`);
+      const response = await axios.get(`https://signuplogin-backend.onrender.com/faculty/${teacherEmail}`);
       setPublication(response.data.publications);
       setFacultyId(response.data._id);
     } catch (error) {
@@ -272,7 +272,7 @@ function Teacher() {
 
   const deleteFacultyrecord = async (facultyId, publicationId) => {
     try {
-      await axios.delete(`http://localhost:3001/facultyrecord/${facultyId}/publication/${publicationId}`);
+      await axios.delete(`https://signuplogin-backend.onrender.com/facultyrecord/${facultyId}/publication/${publicationId}`);
       fetchFaculty();
     } catch (err) {
       setError('Failed to delete publication. Please try again later.');
@@ -281,7 +281,7 @@ function Teacher() {
 
   const fetchRoutine = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/fetchroutine/master`);
+      const response = await axios.get(`https://signuplogin-backend.onrender.com/fetchroutine/master`);
       setRoutine(response.data);
     } catch (err) {
       setRoutineError('Failed to load routine. Please try again later.');
@@ -425,16 +425,16 @@ function Teacher() {
             <SearchStudent />
           </div>
           <div className="col-8">
-            <h3><a className='text-black text-decoration-underline' href={`http://localhost:3001/public/routine/file/${routine.file1}`}>Master Routine</a></h3>
+            <h3><a className='text-black text-decoration-underline' href={`https://signuplogin-backend.onrender.com/public/routine/file/${routine.file1}`}>Master Routine</a></h3>
             <img
               className="img-fluid"
-              src={`http://localhost:3001/public/routine/image/${routine.file2}`}
+              src={`https://signuplogin-backend.onrender.com/public/routine/image/${routine.file2}`}
             // style={{ objectFit: 'cover', height: '500px' }}
             />
           </div>
         </div>
       </div>
-      <div className="row m-2">
+      <div className="row m-2 bg-dark bg-opacity-10">
         {/* Display Marks Data */}
         <div className="container mt-5">
           <div className="d-flex justify-content-between align-items-center mb-3">

@@ -8,7 +8,7 @@ function Events() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/fetchEvent');
+                const response = await axios.get('https://signuplogin-backend.onrender.com/fetchEvent');
                 setEvents(response.data);
             } catch (err) {
                 setError('Failed to load events. Please try again later.');

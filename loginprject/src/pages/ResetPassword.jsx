@@ -18,7 +18,7 @@ function ResetPassword() {
 
     if (Object.keys(errors).length === 0) {
       try {
-        await axios.post(`http://localhost:3001/reset-password/${token}`, { password });
+        await axios.post(`https://signuplogin-backend.onrender.com/reset-password/${token}`, { password });
         setMessage('Password reset successfully');
         setTimeout(() => {
           navigate('/login');

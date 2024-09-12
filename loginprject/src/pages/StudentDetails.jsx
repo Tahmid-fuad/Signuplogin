@@ -26,7 +26,7 @@ function StudentDetails() {
     useEffect(() => {
 
         if (studentId) {
-            axios.get(`http://localhost:3001/studentdata/${studentId}`)
+            axios.get(`https://signuplogin-backend.onrender.com/studentdata/${studentId}`)
                 .then(response => {
                     setStudentName(response.data.name);
                     setStudentEmail(response.data.email);
@@ -52,7 +52,7 @@ function StudentDetails() {
     const fetchMarks = async () => {
         // Fetch student marks data by course
         try {
-            const response = await axios.get(`http://localhost:3001/studentMarks/${studentId}`)
+            const response = await axios.get(`https://signuplogin-backend.onrender.com/studentMarks/${studentId}`)
             setStudentMarks(response.data);
         } catch (error) {
             console.error('Error fetching student marks:', error);
@@ -61,7 +61,7 @@ function StudentDetails() {
 
     useEffect(() => {
         if (advisorEmail) {
-            axios.get(`http://localhost:3001/teacherdata/${advisorEmail}`)
+            axios.get(`https://signuplogin-backend.onrender.com/teacherdata/${advisorEmail}`)
                 .then(response => {
                     setAdvisor(response.data);
                 })
@@ -73,7 +73,7 @@ function StudentDetails() {
 
     useEffect(() => {
         if (studentEmail) {
-            setPhotoUrl(`http://localhost:3001/user-photo/${studentEmail}`);
+            setPhotoUrl(`https://signuplogin-backend.onrender.com/user-photo/${studentEmail}`);
         }
     }, [studentEmail]);
 
@@ -346,7 +346,7 @@ function StudentDetails() {
                         </div>
                         <div className="col-2"></div>
                         <div className="col-2">
-                            <img src={`http://localhost:3001/public/images/${advisor.photo}`}
+                            <img src={`https://signuplogin-backend.onrender.com/public/images/${advisor.photo}`}
                                 alt="" className="img-fluid"
                             />
                             <h5>Name of the advisor:</h5>{advisor.name}

@@ -20,7 +20,7 @@ const AddOwl = ({ }) => {
         formData.append('filter', filter);
 
         try {
-            await axios.post('http://localhost:3001/addpic', formData, {
+            await axios.post('https://signuplogin-backend.onrender.com/addpic', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

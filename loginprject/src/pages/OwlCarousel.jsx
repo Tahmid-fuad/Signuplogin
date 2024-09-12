@@ -21,7 +21,7 @@ const Carousel = () => {
 
     const fetchOwls = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/fetchowls');
+            const response = await axios.get('https://signuplogin-backend.onrender.com/fetchowls');
             setOwls(response.data);
         } catch (err) {
             setError('Failed to load Owl. Please try again later.');
@@ -48,7 +48,7 @@ const Carousel = () => {
                             <div key={owl._id} className="owl-carousel-item position-relative">
                                 <img
                                     className="img-fluid"
-                                    src={`http://localhost:3001/public/owlimage/${owl.file}`}
+                                    src={`https://signuplogin-backend.onrender.com/public/owlimage/${owl.file}`}
                                 />
                             </div>
                         ))

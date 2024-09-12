@@ -71,7 +71,7 @@ function Admin() {
   const fetchMarks = async () => {
     // Fetch student marks data by course
     try {
-      const response = await axios.get('http://localhost:3001/getMarksByCourse')
+      const response = await axios.get('https://signuplogin-backend.onrender.com/getMarksByCourse')
       setMarksData(response.data);
     } catch (error) {
       console.error('Error fetching student marks:', error);
@@ -80,7 +80,7 @@ function Admin() {
 
   const fetchContacts = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/fetchcontacts');
+      const response = await axios.get('https://signuplogin-backend.onrender.com/fetchcontacts');
       setContacts(response.data);
     } catch (err) {
       setContactError('Failed to load notices. Please try again later.');
@@ -216,7 +216,7 @@ function Admin() {
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/fetchnotices');
+        const response = await axios.get('https://signuplogin-backend.onrender.com/fetchnotices');
         setNotices(response.data);
       } catch (err) {
         setError('Failed to load notices. Please try again later.');
@@ -228,7 +228,7 @@ function Admin() {
 
   const deleteNotice = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/notices/${id}`);
+      await axios.delete(`https://signuplogin-backend.onrender.com/notices/${id}`);
       setNotices(notices.filter(notice => notice._id !== id));
     } catch (err) {
       setError('Failed to delete notice. Please try again later.');
@@ -237,7 +237,7 @@ function Admin() {
 
   const deleteMessage = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/contacts/${id}`);
+      await axios.delete(`https://signuplogin-backend.onrender.com/contacts/${id}`);
       setContacts(contacts.filter(contact => contact._id !== id));
     } catch (err) {
       setError('Failed to delete contact. Please try again later.');
@@ -271,7 +271,7 @@ function Admin() {
       formData.append('info', info);
       formData.append('year', year);
 
-      axios.post('http://localhost:3001/facultydetails', formData, {
+      axios.post('https://signuplogin-backend.onrender.com/facultydetails', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -330,7 +330,7 @@ function Admin() {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/faculties');
+      const response = await axios.get('https://signuplogin-backend.onrender.com/faculties');
       setFaculties(response.data);
     } catch (error) {
       console.error('Error fetching faculty data', error);
@@ -342,7 +342,7 @@ function Admin() {
 
   const fetchEmails = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/emails');
+      const response = await axios.get('https://signuplogin-backend.onrender.com/emails');
       setEmails(response.data.map(entry => entry.email));
     } catch (error) {
       console.error('Error fetching emails', error);
@@ -355,7 +355,7 @@ function Admin() {
 
   const deleteFacultyrecord = async (facultyId, publicationId) => {
     try {
-      await axios.delete(`http://localhost:3001/facultyrecord/${facultyId}/publication/${publicationId}`);
+      await axios.delete(`https://signuplogin-backend.onrender.com/facultyrecord/${facultyId}/publication/${publicationId}`);
       fetchFaculties();
     } catch (err) {
       setError('Failed to delete publication. Please try again later.');
@@ -364,7 +364,7 @@ function Admin() {
 
   const deleteFaculty = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/dltfaculty/${id}`);
+      await axios.delete(`https://signuplogin-backend.onrender.com/dltfaculty/${id}`);
       fetchFaculties();
       fetchEmails();
     } catch (err) {
@@ -381,7 +381,7 @@ function Admin() {
 
   const fetchRoutines = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/fetchroutines');
+      const response = await axios.get('https://signuplogin-backend.onrender.com/fetchroutines');
       setRoutines(response.data);
     } catch (err) {
       setRoutinesError('Failed to load routines. Please try again later.');
@@ -394,7 +394,7 @@ function Admin() {
 
   const deleteRoutine = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/routine/${id}`);
+      await axios.delete(`https://signuplogin-backend.onrender.com/routine/${id}`);
       fetchRoutines();
     } catch (err) {
       console.log('Failed to delete routine. Please try again later.');
@@ -479,10 +479,10 @@ function Admin() {
       eventMonth
     };
 
-    axios.post('http://localhost:3001/event', data)
+    axios.post('https://signuplogin-backend.onrender.com/event', data)
       .then(response => {
         setEventSuccessMessage('Event added successfully');
-        axios.get('http://localhost:3001/fetchEvent')
+        axios.get('https://signuplogin-backend.onrender.com/fetchEvent')
           .then(response => {
             setEvents(response.data);
             resetEventForm();
@@ -501,7 +501,7 @@ function Admin() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/fetchEvent');
+      const response = await axios.get('https://signuplogin-backend.onrender.com/fetchEvent');
       setEvents(response.data);
     } catch (err) {
       setEventFetchError('Failed to load events. Please try again later.');
@@ -529,7 +529,7 @@ function Admin() {
 
   const deleteEvent = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/events/${id}`);
+      await axios.delete(`https://signuplogin-backend.onrender.com/events/${id}`);
       fetchEvents();
     } catch (err) {
       setError('Failed to delete event. Please try again later.');
@@ -707,9 +707,9 @@ function Admin() {
         </div>
       </div>
       <div>
-        <div className="row mb-3">
+        <div className="row mb-3 bg-dark bg-opacity-10">
           <div className="col-3 float-start">
-            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2">
+            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
               <div className="heading-sect">
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
               </div>
@@ -724,7 +724,7 @@ function Admin() {
                         <li key={notice._id}>
                           <a
                             className={notice.file ? 'text-black text-decoration-underline' : 'text-black'}
-                            href={notice.file ? `http://localhost:3001/public/noticefile/${notice.file}` : '#'}>
+                            href={notice.file ? `https://signuplogin-backend.onrender.com/public/noticefile/${notice.file}` : '#'}>
                             {notice.notice + " "}
                           </a>
                           <button className='btn btn-secondary rounded-3 btn-sm ms-auto' onClick={() => deleteNotice(notice._id)}>Delete</button>
@@ -739,7 +739,7 @@ function Admin() {
             <AddNotice notices={notices} setNotices={setNotices} />
           </div>
           <div className="col-3">
-            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2">
+            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
               <div className="heading-sect">
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Routines</h3>
               </div>
@@ -753,7 +753,7 @@ function Admin() {
                         <li key={routine._id}>
                           <a
                             className='text-black text-decoration-underline'
-                            href={`http://localhost:3001/public/routine/file/${routine.file1}`}
+                            href={`https://signuplogin-backend.onrender.com/public/routine/file/${routine.file1}`}
                           >
                             {routine.dest} Routine
                           </a>

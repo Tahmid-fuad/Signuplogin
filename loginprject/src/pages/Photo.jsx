@@ -16,7 +16,7 @@ function Photo() {
 
     const fetchPics = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/fetchpics');
+            const response = await axios.get('https://signuplogin-backend.onrender.com/fetchpics');
             setPics(response.data);
             setIsLoading(false);
         } catch (err) {
@@ -60,7 +60,7 @@ function Photo() {
 
     const deletePic = async (id) => {
         try {
-            await axios.delete(`http://localhost:3001/pics/${id}`);
+            await axios.delete(`https://signuplogin-backend.onrender.com/pics/${id}`);
             fetchPics();
         } catch (err) {
             setDeleteError('Failed to delete pic. Please try again later.');
@@ -106,10 +106,10 @@ function Photo() {
                                         <div key={pic._id} className={`col-lg-4 col-md-6 portfolio-item ${pic.filter} wow fadeInUp`}>
                                             <div className="card h-100">
                                                 <div className="position-relative overflow-hidden">
-                                                    <img className="card-img-top" src={`http://localhost:3001/public/piclib/${pic.file}`} alt={pic.name} style={{ objectFit: 'contain', height: '200px' }} />
+                                                    <img className="card-img-top" src={`https://signuplogin-backend.onrender.com/public/piclib/${pic.file}`} alt={pic.name} style={{ objectFit: 'contain', height: '200px' }} />
                                                     <div className="portfolio-overlay d-flex align-items-center justify-content-center">
-                                                        <a className="btn btn-square btn-outline-light mx-1" href={`http://localhost:3001/public/piclib/${pic.file}`} data-lightbox="portfolio"><i className="fa fa-eye"></i></a>
-                                                        <a className="btn btn-square btn-outline-light mx-1" href={`http://localhost:3001/public/piclib/${pic.file}`}><i className="fa fa-link"></i></a>
+                                                        <a className="btn btn-square btn-outline-light mx-1" href={`https://signuplogin-backend.onrender.com/public/piclib/${pic.file}`} data-lightbox="portfolio"><i className="fa fa-eye"></i></a>
+                                                        <a className="btn btn-square btn-outline-light mx-1" href={`https://signuplogin-backend.onrender.com/public/piclib/${pic.file}`}><i className="fa fa-link"></i></a>
                                                         {localStorage.getItem('role') === 'admin' && (
                                                             <a className="btn btn-square btn-outline-light mx-1" onClick={() => deletePic(pic._id)}><i className="fa-solid fa-trash"></i></a>
                                                         )}

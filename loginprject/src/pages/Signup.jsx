@@ -38,7 +38,7 @@ function Signup() {
             formData.append('desig', desig);
             formData.append('photo', photo);
 
-            axios.post('http://localhost:3001/register', formData, {
+            axios.post('https://signuplogin-backend.onrender.com/register', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

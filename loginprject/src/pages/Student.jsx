@@ -29,7 +29,7 @@ function Student() {
     const studentId = localStorage.getItem('id');
 
     if (studentId) {
-      axios.get(`http://localhost:3001/studentdata/${studentId}`)
+      axios.get(`https://signuplogin-backend.onrender.com/studentdata/${studentId}`)
         .then(response => {
           setStudentName(response.data.name);
           setStudentEmail(response.data.email);
@@ -56,7 +56,7 @@ function Student() {
   const fetchMarks = async () => {
     // Fetch student marks data by course
     try {
-      const response = await axios.get(`http://localhost:3001/studentMarks/${studentId}`)
+      const response = await axios.get(`https://signuplogin-backend.onrender.com/studentMarks/${studentId}`)
       setStudentMarks(response.data);
     } catch (error) {
       console.error('Error fetching student marks:', error);
@@ -65,7 +65,7 @@ function Student() {
 
   useEffect(() => {
     if (advisorEmail) {
-      axios.get(`http://localhost:3001/teacherdata/${advisorEmail}`)
+      axios.get(`https://signuplogin-backend.onrender.com/teacherdata/${advisorEmail}`)
         .then(response => {
           setAdvisor(response.data);
         })
@@ -77,7 +77,7 @@ function Student() {
 
   useEffect(() => {
     if (studentEmail) {
-      setPhotoUrl(`http://localhost:3001/user-photo/${studentEmail}`);
+      setPhotoUrl(`https://signuplogin-backend.onrender.com/user-photo/${studentEmail}`);
     }
   }, [studentEmail]);
 
@@ -182,7 +182,7 @@ function Student() {
 
   const fetchRoutine = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/fetchroutine/${studentBatch}`);
+      const response = await axios.get(`https://signuplogin-backend.onrender.com/fetchroutine/${studentBatch}`);
       setRoutine(response.data);
     } catch (err) {
       setRoutineError('Failed to load routine. Please try again later.');
@@ -364,7 +364,7 @@ function Student() {
             </div>
             <div className="col-2"></div>
             <div className="col-2">
-              <img src={`http://localhost:3001/public/images/${advisor.photo}`}
+              <img src={`https://signuplogin-backend.onrender.com/public/images/${advisor.photo}`}
                 alt="" className="img-fluid"
               />
               <h5>Name of the advisor:</h5>{advisor.name}
@@ -378,16 +378,16 @@ function Student() {
             <Notice />
           </div>
           <div className="col-8 mt-3">
-            <h4><a className='text-black text-decoration-underline' href={`http://localhost:3001/public/routine/file/${routine.file1}`}>Routine for {routine.dest} Batch</a></h4>
+            <h4><a className='text-black text-decoration-underline' href={`https://signuplogin-backend.onrender.com/public/routine/file/${routine.file1}`}>Routine for {routine.dest} Batch</a></h4>
             <img
               className="img-fluid"
-              src={`http://localhost:3001/public/routine/image/${routine.file2}`}
+              src={`https://signuplogin-backend.onrender.com/public/routine/image/${routine.file2}`}
             />
           </div>
         </div>
         <div className="row m-2">
           {/* Display student marks */}
-          <div className="col-12" id="result">
+          <div className="col-12 bg-dark bg-opacity-10" id="result">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3>Exam Results of ID: {`${studentId}`}</h3>
               {studentMarks ? (

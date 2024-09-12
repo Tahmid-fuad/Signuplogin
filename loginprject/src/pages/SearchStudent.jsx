@@ -16,7 +16,7 @@ function SearchStudent() {
 
         if (Object.keys(errors).length === 0) {
             try {
-                await axios.post(`http://localhost:3001/searchStudent/${studentId}`)
+                await axios.post(`https://signuplogin-backend.onrender.com/searchStudent/${studentId}`)
                     .then(response => {
                         if (response.data.message === "Student found") {
                             navigate(`/profile/${studentId}`);
