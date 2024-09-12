@@ -424,7 +424,7 @@ app.delete('/notices/:id', async (req, res) => {
     // Delete the associated file
     if (notice.file) {
       const filePath = path.join(__dirname, 'public/noticefile', notice.file);
-      console.log('Attempting to delete file:', filePath);
+      // console.log('Attempting to delete file:', filePath);
       fs.unlink(filePath, (err) => {
         if (err) {
           console.error('Failed to delete file:', err);
@@ -716,7 +716,7 @@ app.delete('/owls/:id', async (req, res) => {
     // Delete the associated file
     if (owl.file) {
       const filePath = path.join(__dirname, 'public/owlimage', owl.file);
-      console.log('Attempting to delete file:', filePath);
+      // console.log('Attempting to delete file:', filePath);
       fs.unlink(filePath, (err) => {
         if (err) {
           console.error('Failed to delete file:', err);
@@ -783,7 +783,7 @@ app.delete('/pics/:id', async (req, res) => {
     // Delete the associated file
     if (pic.file) {
       const filePath = path.join(__dirname, 'public/piclib', pic.file);
-      console.log('Attempting to delete file:', filePath);
+      // console.log('Attempting to delete file:', filePath);
       fs.unlink(filePath, (err) => {
         if (err) {
           console.error('Failed to delete file:', err);
@@ -867,7 +867,7 @@ app.delete('/routine/:id', async (req, res) => {
     // Delete the associated file
     if (routine.file1) {
       const filePath1 = path.join(__dirname, 'public/routine/file', routine.file1);
-      console.log('Attempting to delete file:', filePath1);
+      // console.log('Attempting to delete file:', filePath1);
       fs.unlink(filePath1, (err) => {
         if (err) {
           console.error('Failed to delete routine file:', err);
@@ -877,7 +877,7 @@ app.delete('/routine/:id', async (req, res) => {
 
     if (routine.file2) {
       const filePath2 = path.join(__dirname, 'public/routine/image', routine.file2);
-      console.log('Attempting to delete file:', filePath2);
+      // console.log('Attempting to delete file:', filePath2);
       fs.unlink(filePath2, (err) => {
         if (err) {
           console.error('Failed to delete routine image:', err);

@@ -5,7 +5,7 @@ const axios = require('axios');
 // OAuth 2.0 credentials
 const CLIENT_ID = '258684989971-bccvu9qhqpms87pau3v293v1kq1jh3f1.apps.googleusercontent.com';
 const CLIENT_SECRET = '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';
-const REDIRECT_URI = 'http://localhost:3000/auth/google/callback';
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
 
 // Google API scopes for sending emails
 const SCOPES = ['https://mail.google.com/'];
@@ -24,7 +24,7 @@ async function getOAuth2Tokens() {
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
       grant_type: 'refresh_token',
-      refresh_token: '1//04UVx3qaHIa6zCgYIARAAGAQSNwF-L9IrbXlfFtedkVNggk6Yeds4Ow3I3cBbPYmqMrembVTkNiJnXmvxa2ZI7_SSLxyE7nkhAHQ' // Replace with your actual refresh token
+      refresh_token: '1//04eRbyb5S1oeKCgYIARAAGAQSNwF-L9Irwxk9O2ofbju_bGS5tAwB4wUosRlZaonef8GGEv8LOFbycJbt9t0Dq2bkqxOBx8c7hF8' // Replace with your actual refresh token
     });
 
     const accessToken = data.access_token;
@@ -47,7 +47,7 @@ async function setupTransporter() {
         user: 'cuetps.tf@gmail.com', 
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
-        refreshToken: '1//04UVx3qaHIa6zCgYIARAAGAQSNwF-L9IrbXlfFtedkVNggk6Yeds4Ow3I3cBbPYmqMrembVTkNiJnXmvxa2ZI7_SSLxyE7nkhAHQ', // Replace with your actual refresh token
+        refreshToken: '1//04eRbyb5S1oeKCgYIARAAGAQSNwF-L9Irwxk9O2ofbju_bGS5tAwB4wUosRlZaonef8GGEv8LOFbycJbt9t0Dq2bkqxOBx8c7hF8', // Replace with your actual refresh token
         accessToken: accessToken
       },
     });

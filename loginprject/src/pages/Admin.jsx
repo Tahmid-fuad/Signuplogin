@@ -707,8 +707,8 @@ function Admin() {
         </div>
       </div>
       <div>
-        <div className="row mb-3 bg-dark bg-opacity-10">
-          <div className="col-3 float-start">
+        <div className="row mb-3 p-3 bg-dark bg-opacity-10">
+          <div className="col-6 float-start">
             <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
               <div className="heading-sect">
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
@@ -735,10 +735,97 @@ function Admin() {
               </div>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-6">
             <AddNotice notices={notices} setNotices={setNotices} />
           </div>
-          <div className="col-3">
+        </div>
+        <div className="row mb-3">
+          <div className="col-6">
+            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2" style={{ height: "350px" }}>
+              <div className="heading-sect">
+                <h3 className="m-0 p-0 fs-6 fw-semibold">Upcoming Events</h3>
+              </div>
+              <ul className="upcoming-event-list">
+                {eventFetchError ? (
+                  <li>{eventFetchError}</li>
+                ) : (
+                  events
+                    .map((event) => (
+                      <li key={event._id}>
+                        <span className="event-date">
+                          {event.eventDay} <br />
+                          {month[event.eventMonth]}</span>
+                        <span>
+                          {event.eventName}
+                          <i className="fa-solid fa-trash" onClick={() => deleteEvent(event._id)} style={{ cursor: 'pointer' }}></i>
+                        </span>
+                      </li>
+                    ))
+                )}
+              </ul>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="section-title text-start">
+              <h3 className="mb-3 mt-4">Add Event</h3>
+              <form onSubmit={handleEventSubmit}>
+                <div className="row g-3">
+                  <div className="col-12">
+                    <div className='mb-2'>
+                      <label htmlFor="event name">Enter Event Name</label>
+                      <input
+                        type="text"
+                        placeholder='Event Name'
+                        className='form-control'
+                        value={eventName}
+                        onChange={(e) => setEventName(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <label htmlFor="day">Enter Event Day</label>
+                      <input
+                        type="number" id="day" name="day" min="1" max="31" placeholder="DD"
+                        className='form-control'
+                        value={eventDay}
+                        onChange={(e) => setEventDay(e.target.value)}
+                      />
+                      <div className="mb-2">
+                        <label htmlFor="month">Enter Event Month</label>
+                        <select id="month" name="month"
+                          className='form-control'
+                          value={eventMonth}
+                          onChange={(e) => setEventMonth(e.target.value)}>
+                          <option value="">Select Month</option>
+                          <option value="1">January</option>
+                          <option value="2">February</option>
+                          <option value="3">March</option>
+                          <option value="4">April</option>
+                          <option value="5">May</option>
+                          <option value="6">June</option>
+                          <option value="7">July</option>
+                          <option value="8">August</option>
+                          <option value="9">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </select>
+                      </div>
+                      {eventSuccessMessage && <p className="text-success">{eventSuccessMessage}</p>}
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <button className='btn btn-primary w-100 py-3' type="submit">
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </form>
+              {eventError && <div className="alert alert-danger mt-3">{eventError}</div>}
+            </div>
+          </div>
+        </div>
+        <div className="row mb-3 p-3 bg-dark bg-opacity-10">
+          <div className="col-6">
             <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
               <div className="heading-sect">
                 <h3 className="m-0 p-0 fs-6 fw-semibold">Routines</h3>
@@ -766,14 +853,14 @@ function Admin() {
               </div>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-6">
             <AddRoutine setRoutines={setRoutines} />
           </div>
         </div>
       </div>
-      <div className="row m-2">
-        <div className="col-6">
-          <div className="container mt-5">
+      <div className="row m-3">
+        <div className="col-12 p-3">
+          <div className="container">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3 className="text-decoration-underline">Contact Messages</h3>
               <button
@@ -819,89 +906,6 @@ function Admin() {
                 </table>
               )
             )}
-          </div>
-        </div>
-        <div className="col-3">
-          <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2" style={{ height: "350px" }}>
-            <div className="heading-sect">
-              <h3 className="m-0 p-0 fs-6 fw-semibold">Upcoming Events</h3>
-            </div>
-            <ul className="upcoming-event-list">
-              {eventFetchError ? (
-                <li>{eventFetchError}</li>
-              ) : (
-                events
-                  .map((event) => (
-                    <li key={event._id}>
-                      <span className="event-date">
-                        {event.eventDay} <br />
-                        {month[event.eventMonth]}</span>
-                      <span>
-                        {event.eventName}
-                        <i className="fa-solid fa-trash" onClick={() => deleteEvent(event._id)} style={{ cursor: 'pointer' }}></i>
-                      </span>
-                    </li>
-                  ))
-              )}
-            </ul>
-          </div>
-        </div>
-        <div className="col-3">
-          <div className="section-title text-start">
-            <h3 className="mb-3 mt-4">Add Event</h3>
-            <form onSubmit={handleEventSubmit}>
-              <div className="row g-3">
-                <div className="col-12">
-                  <div className='mb-2'>
-                    <label htmlFor="event name">Enter Event Name</label>
-                    <input
-                      type="text"
-                      placeholder='Event Name'
-                      className='form-control'
-                      value={eventName}
-                      onChange={(e) => setEventName(e.target.value)}
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <label htmlFor="day">Enter Event Day</label>
-                    <input
-                      type="number" id="day" name="day" min="1" max="31" placeholder="DD"
-                      className='form-control'
-                      value={eventDay}
-                      onChange={(e) => setEventDay(e.target.value)}
-                    />
-                    <div className="mb-2">
-                      <label htmlFor="month">Enter Event Month</label>
-                      <select id="month" name="month"
-                        className='form-control'
-                        value={eventMonth}
-                        onChange={(e) => setEventMonth(e.target.value)}>
-                        <option value="">Select Month</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                      </select>
-                    </div>
-                    {eventSuccessMessage && <p className="text-success">{eventSuccessMessage}</p>}
-                  </div>
-                </div>
-                <div className="col-12">
-                  <button className='btn btn-primary w-100 py-3' type="submit">
-                    Add
-                  </button>
-                </div>
-              </div>
-            </form>
-            {eventError && <div className="alert alert-danger mt-3">{eventError}</div>}
           </div>
         </div>
       </div>
