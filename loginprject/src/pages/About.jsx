@@ -5,15 +5,87 @@ import Header from "./Header"
 function About() {
     return (
         <div>
-            <Header/>
-            <Breadcrumb/>
+            <Header />
+            <Breadcrumb />
+            <section id="About" className="about_section m-4">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-6 ">
+                            <div className="img-box">
+                                <img src="/assets/picture-1.jpg" alt="" />
+                            </div>
+                        </div>
+                        <div className="col-lg-6 about-text wow fadeIn">
+                            <div className="p-lg-5 pe-lg-0">
+                                <div className="section-title text-start">
+                                    <h1 className="display-5 mb-4">About Us</h1>
+                                </div>
+                                <p className="mb-4 pb-2">The Department of Electronics and Telecommunication Engineering (ETE) at CUET, launched in 2012, aims to produce resourceful engineers with strong research and development skills. The department offers a comprehensive curriculum with specialized faculty in areas like Embedded Systems, VLSI Design, and Applied Electronics. Students gain practical exposure through advanced labs and innovative teaching methodologies. The program prepares graduates for careers in electronics, communication, and computing by providing a solid foundation in engineering fundamentals, physical sciences, and hands-on experience with cutting-edge technologies, addressing both current and future challenges in the field.
+                                </p>
+                                <h5>Dr. Md. Azad Hossain</h5>
+                                <p>Head<br />Email : azad@cuet.ac.bd</p>
+                                <br />
+                                <div className="row g-4 mb-4 pb-2">
+                                    <div className="col-sm-6 wow fadeIn">
+                                        <div className="d-flex align-items-center">
+                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{ width: "60px", height: "60px" }}>
+                                                <i className="fa fa-chalkboard fa-2x text-primary"></i>
+                                            </div>
+                                            <div className="ms-3">
+                                                <h2 className="text-primary mb-1">20</h2>
+                                                <p className="fw-medium mb-0">Total Teachers</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6 wow fadeIn">
+                                        <div className="d-flex align-items-center">
+                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{ width: "60px", height: "60px" }}>
+                                                <i className="fa fa-users fa-2x text-primary"></i>
+                                            </div>
+                                            <div className="ms-3">
+                                                <h2 className="text-primary mb-1">300</h2>
+                                                <p className="fw-medium mb-0">Total Students</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row g-4 mb-4 pb-2">
+                                    <div className="col-sm-6 wow fadeIn">
+                                        <div className="d-flex align-items-center">
+                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{ width: "60px", height: "60px" }}>
+                                                <i className="fa fa-microchip fa-2x text-primary"></i>
+                                            </div>
+                                            <div className="ms-3">
+                                                <h2 className="text-primary mb-1">4</h2>
+                                                <p className="fw-medium mb-0">Total Lab</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6 wow fadeIn">
+                                        <div className="d-flex align-items-center">
+                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{ width: "60px", height: "60px" }}>
+                                                <i className="fa fa-laptop fa-2x text-primary"></i>
+                                            </div>
+                                            <div className="ms-3">
+                                                <h2 className="text-primary mb-1">60</h2>
+                                                <p className="fw-medium mb-0">Total Computer</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="https://cuet.ac.bd/dept/ete" className="btn btn-primary py-3 px-5">Explore More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             {/* About Start */}
-            <div className="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+            {/* <div className="container-fluid bg-light overflow-hidden my-5 px-lg-0">
                 <div className="container about px-lg-0">
                     <div className="row g-0 mx-lg-0">
                         <div className="col-lg-6 ps-lg-0" >
                             <div className="position-relative h-100">
-                                <img className="position-absolute img-fluid w-100 h-100" src="assets/picture-1.jpg" style={{objectFit:"cover"}} alt="" />
+                                <img className="position-absolute img-fluid w-100 h-100" src="assets/picture-1.jpg" style={{ objectFit: "cover" }} alt="" />
                             </div>
                         </div>
                         <div className="col-lg-6 about-text wow fadeIn">
@@ -35,7 +107,7 @@ function About() {
                                 <div className="row g-4 mb-4 pb-2">
                                     <div className="col-sm-6 wow fadeIn">
                                         <div className="d-flex align-items-center">
-                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{width: "60px", height: "60px"}}>
+                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{ width: "60px", height: "60px" }}>
                                                 <i className="fa fa-chalkboard fa-2x text-primary"></i>
                                             </div>
                                             <div className="ms-3">
@@ -46,7 +118,7 @@ function About() {
                                     </div>
                                     <div className="col-sm-6 wow fadeIn">
                                         <div className="d-flex align-items-center">
-                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{width: "60px", height: "60px"}}>
+                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{ width: "60px", height: "60px" }}>
                                                 <i className="fa fa-users fa-2x text-primary"></i>
                                             </div>
                                             <div className="ms-3">
@@ -59,7 +131,7 @@ function About() {
                                 <div className="row g-4 mb-4 pb-2">
                                     <div className="col-sm-6 wow fadeIn">
                                         <div className="d-flex align-items-center">
-                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{width: "60px", height: "60px"}}>
+                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{ width: "60px", height: "60px" }}>
                                                 <i className="fa fa-microchip fa-2x text-primary"></i>
                                             </div>
                                             <div className="ms-3">
@@ -70,7 +142,7 @@ function About() {
                                     </div>
                                     <div className="col-sm-6 wow fadeIn">
                                         <div className="d-flex align-items-center">
-                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{width: "60px", height: "60px"}}>
+                                            <div className="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style={{ width: "60px", height: "60px" }}>
                                                 <i className="fa fa-laptop fa-2x text-primary"></i>
                                             </div>
                                             <div className="ms-3">
@@ -85,7 +157,7 @@ function About() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             {/* About End */}
 
 
@@ -101,7 +173,7 @@ function About() {
                                 <div className="overflow-hidden position-relative">
                                     <img className="img-fluid" src="assets/njr.jpg" alt="" />
                                     <div className="team-social">
-                                        <a className="btn btn-square" href=""><i className="fab fa-facebook-f"></i></a>
+                                        <a className="btn btn-square" href="https://www.facebook.com/profile.php?id=61561535323996"><i className="fab fa-facebook-f"></i></a>
                                         <a className="btn btn-square" href="https://www.instagram.com/njr.jahan.7/"><i className="fab fa-instagram"></i></a>
                                         <a className="btn btn-square" href="mailto:u2008056@student.cuet.ac.bd"><i className="fa fa-envelope" aria-hidden="true"></i></a>
                                     </div>
@@ -133,7 +205,7 @@ function About() {
                 </div>
             </div>
             {/* Team End */}
-        <Footer/>
+            <Footer />
         </div>
     )
 }

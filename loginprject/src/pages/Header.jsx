@@ -69,7 +69,7 @@ function Header() {
             <a href="#" className="nav-link dropdown-toggle">More</a>
             <div className="dropdown-menu fade-up m-0">
               {/* <a href="#" className="dropdown-item">Offered Degrees</a> */}
-              <a href="/#Notice" className="dropdown-item">Notices</a>
+              <a href="/Notices" className="dropdown-item">Notices</a>
               <a href="https://alumni-ete-cuet.netlify.app/?fbclid=IwAR0HCp0F7QXw-GWn8Y3F_O574PxSl4XH7M_TFkXJ1yWGPM8cQ-c4IrA9_eY"
                 className="dropdown-item">Alumni</a>
               <a href="/contact" className="dropdown-item">Contact</a>

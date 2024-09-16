@@ -20,7 +20,7 @@ function Photo() {
             setPics(response.data);
             setIsLoading(false);
         } catch (err) {
-            setError('Failed to load Owl. Please try again later.');
+            setError('Failed to load photos. Please try again later.');
             setIsLoading(false);
         }
     };

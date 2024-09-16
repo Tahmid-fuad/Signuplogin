@@ -16,6 +16,7 @@ import Faculty from './pages/Faculty';
 import 'lightbox2/dist/css/lightbox.min.css';
 import 'lightbox2';
 import StudentDetails from './pages/StudentDetails';
+import Notices from './pages/Notices';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path='/forgot-password' element={<ForgetPassword />} />
           <Route path='/reset-password/:token' element={<ResetPassword />} />
           <Route path="/faculty/:email" element={<Faculty />} />
+          <Route path="notices" element={<Notices />} />
 
 
 

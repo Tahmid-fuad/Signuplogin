@@ -305,7 +305,7 @@
     align-items: center;
     justify-content: center;
     color: #FFFFFF;
-    background: transparent;
+    background: #974e09;
     border: 1px solid #FFFFFF;
     font-size: 22px;
     transition: .5s;
@@ -334,7 +334,7 @@
     margin: 0 5px;
     width: 15px;
     height: 15px;
-    background: transparent;
+    background: #974e09;
     border: 1px solid #FFFFFF;
     transition: .5s;
 }
@@ -356,8 +356,9 @@
 }
 
 .page-header {
-    background: linear-gradient(rgba(53, 53, 53, .7), rgba(53, 53, 53, .7)), url(/assets/bg.jpg) center center no-repeat;
+    /* background: linear-gradient(rgba(53, 53, 53, .7), rgba(53, 53, 53, .7)), url(/assets/bg.jpg) center center no-repeat; */
     background-size: cover;
+    background: linear-gradient(120deg,#743d0a, #ffffff);
 }
 
 .breadcrumb-item+.breadcrumb-item::before {

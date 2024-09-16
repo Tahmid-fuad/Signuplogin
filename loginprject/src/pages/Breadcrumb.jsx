@@ -22,6 +22,9 @@ function Breadcrumb() {
         case '/contact':
           setBreadcrumbText('Contact');
           break;
+          case '/Notices':
+            setBreadcrumbText('Notices');
+            break;
         default:
           setBreadcrumbText('Home');
       }
@@ -30,8 +33,8 @@ function Breadcrumb() {
   }, []);
   return (
     <div>
-      <div className="container-fluid page-header py-5 mb-5" style={{ height: "25rem" }}>
-        <div className="container py-5">
+      <div className="container-fluid page-header py-1 mb-3" style={{ height: "10rem" }}>
+        <div className="container py-2">
           <h1 className="display-3 text-white mb-3 animated slideInDown">{breadcrumbText}</h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb">

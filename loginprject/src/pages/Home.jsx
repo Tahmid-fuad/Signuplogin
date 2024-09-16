@@ -1,9 +1,13 @@
+import ReactOwlCarousel from "react-owl-carousel";
 import Events from "./Events";
 import Footer from "./Footer"
 import Header from "./Header"
 import Notice from "./Notice"
 import Carousel from "./OwlCarousel"
+import OwlCarousel from 'react-owl-carousel';
 import { useSpring, animated } from "react-spring";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 function Number({ n }) {
   const { number } = useSpring({
@@ -15,7 +19,37 @@ function Number({ n }) {
   return <animated.div>{number.to((n) => n.toFixed(0))}</animated.div>;
 }
 
+const options = {
+  autoplay: true,
+  smartSpeed: 1500,
+  items: 1,
+  dots: true,
+  loop: true,
+  nav: true,
+  navText: [
+    '<i class="bi bi-chevron-left"></i>',
+    '<i class="bi bi-chevron-right"></i>'
+  ]
+};
+
 function Home() {
+
+  const [revents, setRevents] = useState([]);
+  const [reventError, setReventError] = useState('');
+
+  const fetchrevents = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/fetchrevents');
+      setRevents(response.data);
+    } catch (err) {
+      setReventError('Failed to load recent events. Please try again later.');
+    }
+  };
+
+  useEffect(() => {
+    fetchrevents();
+  }, []);
+
   return (
     <div>
       <Header></Header>
@@ -37,7 +71,7 @@ function Home() {
         </div>
       </div>
       {/* About start */}
-      <section id="About" className="about_section m-4">
+      {/* <section id="About" className="about_section m-4">
         <div className="container">
           <div className="row">
             <div className="col-md-6">
@@ -65,7 +99,38 @@ function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      {/* Carousel Start */}
+      <div>
+        <div className="section-title text-center">
+          <h1 className="display-5 mt-5 mb-5">
+            <a href="/">Recent Events</a>
+          </h1>
+        </div>
+        <div className="container-fluid p-0 pb-5">
+          <OwlCarousel className="owl-theme header-carousel" {...options}>
+            {reventError ? (
+              <li>{reventError}</li>
+            ) : (
+              revents
+                .sort((a, b) => b._id.localeCompare(a._id))
+                .map((revent) => (
+                  <div key={revent._id} className="card d-flex justify-content-center align-items-center text-center" style={{ marginBottom: "5rem" }}>
+                    <img src={`http://localhost:3001/public/reventfile/${revent.file}`} className="card-img-top w-75" alt="..." />
+                    <div className="card-body">
+                      {/* <h5 className="card-title">Card title</h5> */}
+                      <p className="card-text">{revent.revent}</p>
+                      {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+                    </div>
+                  </div>
+                ))
+            )}
+          </OwlCarousel>
+        </div>
+      </div>
+      {/*  Carousel End  */}
+
       {/* Notice Start */}
       <div className="section-title text-center" id="Notice">
         <h1 className="display-5 mt-5">
@@ -75,7 +140,7 @@ function Home() {
       <div className="d-flex" id="Notice">
         <div className="container-xxl py-2 my-4">
           <div className="col-6 float-start">
-            <Events/>
+            <Events />
           </div>
           <div className="col-6 float-start">
             <Notice />
@@ -84,7 +149,50 @@ function Home() {
       </div>
       {/* Notice End */}
 
-
+      {/* Feature Start */}
+      <div className="container-xxl py-5">
+        <div className="container">
+          <div className="row g-5">
+            <div className="col-md-6 col-lg-3 wow fadeIn">
+              <div className="d-flex align-items-center justify-content-evenly mb-2">
+                <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
+                  <i className="fa fa-chalkboard fa-2x text-primary"></i>
+                </div>
+                <h1 className="display-2 text-primary mb-0"><Number n={20} /></h1>
+              </div>
+              <h5 className="text-center">Total Teachers</h5>
+            </div>
+            <div className="col-md-6 col-lg-3 wow fadeIn">
+              <div className="d-flex align-items-center justify-content-evenly mb-2">
+                <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
+                  <i className="fa fa-users fa-2x text-primary"></i>
+                </div>
+                <h1 className="display-2 text-primary mb-0"><Number n={300} /></h1>
+              </div>
+              <h5 className="text-center">Total Students</h5>
+            </div>
+            <div className="col-md-6 col-lg-3 wow fadeIn">
+              <div className="d-flex align-items-center justify-content-evenly mb-2">
+                <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
+                  <i className="fa fa-microchip fa-2x text-primary"></i>
+                </div>
+                <h1 className="display-2 text-primary mb-0"><Number n={4} /></h1>
+              </div>
+              <h5 className="text-center">Total Labs</h5>
+            </div>
+            <div className="col-md-6 col-lg-3 wow fadeIn">
+              <div className="d-flex align-items-center justify-content-evenly mb-2">
+                <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
+                  <i className="fa fa-laptop fa-2x text-primary"></i>
+                </div>
+                <h1 className="display-2 text-primary mb-0"><Number n={60} /></h1>
+              </div>
+              <h5 className="text-center">Total Computer</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Feature End */}
 
       {/* Faculty Start */}
       <div className="container-xxl py-5">
@@ -153,51 +261,6 @@ function Home() {
         </div>
       </div>
       {/* Faculty End */}
-
-      {/* Feature Start */}
-      <div className="container-xxl py-5">
-        <div className="container">
-          <div className="row g-5">
-            <div className="col-md-6 col-lg-3 wow fadeIn">
-              <div className="d-flex align-items-center justify-content-evenly mb-2">
-                <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
-                  <i className="fa fa-chalkboard fa-2x text-primary"></i>
-                </div>
-                <h1 className="display-2 text-primary mb-0"><Number n={20} /></h1>
-              </div>
-              <h5 className="text-center">Total Teachers</h5>
-            </div>
-            <div className="col-md-6 col-lg-3 wow fadeIn">
-              <div className="d-flex align-items-center justify-content-evenly mb-2">
-                <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
-                  <i className="fa fa-users fa-2x text-primary"></i>
-                </div>
-                <h1 className="display-2 text-primary mb-0"><Number n={300} /></h1>
-              </div>
-              <h5 className="text-center">Total Students</h5>
-            </div>
-            <div className="col-md-6 col-lg-3 wow fadeIn">
-              <div className="d-flex align-items-center justify-content-evenly mb-2">
-                <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
-                  <i className="fa fa-microchip fa-2x text-primary"></i>
-                </div>
-                <h1 className="display-2 text-primary mb-0"><Number n={4} /></h1>
-              </div>
-              <h5 className="text-center">Total Labs</h5>
-            </div>
-            <div className="col-md-6 col-lg-3 wow fadeIn">
-              <div className="d-flex align-items-center justify-content-evenly mb-2">
-                <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
-                  <i className="fa fa-laptop fa-2x text-primary"></i>
-                </div>
-                <h1 className="display-2 text-primary mb-0"><Number n={60} /></h1>
-              </div>
-              <h5 className="text-center">Total Computer</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Feature End */}
 
       {/* Carousel Start */}
       {/* <div className="section-title text-center">

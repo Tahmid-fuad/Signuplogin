@@ -17,6 +17,7 @@ const OwlModel = require("./models/owllink");
 const PicModel = require("./models/piclib");
 const RoutineModel = require("./models/routine");
 const EventModel = require("./models/events");
+const ReventModel = require("./models/revent");
 
 const app = express();
 app.use(express.json());
@@ -941,6 +942,75 @@ app.delete('/events/:id', async (req, res) => {
     await EventModel.findByIdAndDelete(id);
 
     res.status(200).json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+const storage6 = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/reventfile');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload6 = multer({ storage: storage6 });
+
+app.use('/public', express.static('public'));
+
+app.post('/addrevent', upload6.single('file'), async (req, res) => {
+  const { revent } = req.body;
+  const file = req.file ? req.file.filename : null;
+
+  try {
+    const newRevent = new ReventModel({ revent, file: file });
+    const savedRevent = await newRevent.save();
+    res.status(201).json({ revent: savedRevent });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.log(error.message);
+  }
+});
+
+app.use('/public/reventfile', express.static(path.join(__dirname, 'public/reventfile')));
+
+app.get('/fetchrevents', async (req, res) => {
+  try {
+    const revents = await ReventModel.find({});
+    res.status(200).json(revents);
+  } catch (error) {
+    console.error('Error fetching recent events:', error);
+    res.status(500).json({ message: 'Failed to retrieve recent events.' });
+  }
+});
+
+app.delete('/revents/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const revent = await ReventModel.findById(id);
+
+    if (!revent) {
+      return res.status(404).json({ message: 'Recent event not found' });
+    }
+
+    // Delete the associated file
+    if (revent.file) {
+      const filePath = path.join(__dirname, 'public/reventfile', revent.file);
+      // console.log('Attempting to delete file:', filePath);
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Failed to delete file:', err);
+        }
+      });
+    }
+
+    // Delete the notice from the database
+    await ReventModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Recent event deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

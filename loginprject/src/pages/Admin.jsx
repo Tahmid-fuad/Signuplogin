@@ -15,6 +15,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import HeaderComponent from './HeaderComponent';
 import SearchStudent from './SearchStudent';
+import AddRecentEvents from './AddRecentEvents';
 
 function Admin() {
   const [teacherEmail, setTeacherEmail] = useState('');
@@ -63,6 +64,13 @@ function Admin() {
   const [eventError, setEventError] = useState('');
   const [eventFetchError, setEventFetchError] = useState('');
   const [events, setEvents] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const noticesPerPage = 5;
+  const [revents, setRevents] = useState([]);
+  const [reventError, setReventError] = useState('');
+
+  console.log(revents);
+
 
   useEffect(() => {
     fetchMarks();
@@ -536,6 +544,41 @@ function Admin() {
     }
   };
 
+  const totalPages = Math.ceil(notices.length / noticesPerPage);
+  const startIndex = (currentPage - 1) * noticesPerPage;
+  const currentNotices = notices
+    .sort((a, b) => b._id.localeCompare(a._id))
+    .slice(startIndex, startIndex + noticesPerPage);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  useEffect(() => {
+    const fetchRevents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/fetchrevents');
+        setRevents(response.data);
+      } catch (err) {
+        setReventError('Failed to load recent events. Please try again later.');
+      }
+    };
+
+    fetchRevents();
+  }, []);
+
+  const deleteRevent = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/revents/${id}`);
+      setRevents(revents.filter(revent => revent._id !== id));
+    } catch (err) {
+      setReventError('Failed to delete recent event. Please try again later.');
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -711,15 +754,46 @@ function Admin() {
           <div className="col-6 float-start">
             <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
               <div className="heading-sect">
-                <h3 className="m-0 p-0 fs-6 fw-semibold">Notice Board</h3>
+                <h3 className="m-0 p-0 fs-6 fw-semibold">Recent Events</h3>
+              </div>
+              <div>
+                <ul className="latest-news-ul">
+                  {reventError ? (
+                    <li>{reventError}</li>
+                  ) : (
+                    revents
+                      .sort((a, b) => b._id.localeCompare(a._id))
+                      .map((revent) => (
+                        <li key={revent._id}>
+                          <a
+                            className={revent.file ? 'text-black text-decoration-underline' : 'text-black'}
+                            href={revent.file ? `http://localhost:3001/public/reventfile/${revent.file}` : '#'}>
+                            {revent.revent + " "}
+                          </a>
+                          <button className='btn btn-secondary rounded-3 btn-sm ms-auto' onClick={() => deleteRevent(revent._id)}>Delete</button>
+                        </li>
+                      ))
+                  )}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+            <AddRecentEvents revents={revents} setRevents={setRevents} />
+          </div>
+        </div>
+        <div className="row mb-3 p-3 bg-dark bg-opacity-10">
+          <div className="col-6 float-start">
+            <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
+              <div className="heading-sect">
+                <h3 className="m-0 p-0 fs-6 fw-semibold">Notices</h3>
               </div>
               <div>
                 <ul className="latest-news-ul">
                   {error ? (
                     <li>{error}</li>
                   ) : (
-                    notices
-                      .sort((a, b) => b._id.localeCompare(a._id))
+                    currentNotices
                       .map((notice) => (
                         <li key={notice._id}>
                           <a
@@ -732,6 +806,25 @@ function Admin() {
                       ))
                   )}
                 </ul>
+                <div className="text-center mt-3">
+                  <button
+                    onClick={handlePrevPage}
+                    disabled={currentPage === 1}
+                    className="btn btn-primary mx-2"
+                  >
+                    &larr; Previous
+                  </button>
+                  <span className="page-info">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className="btn btn-primary mx-2"
+                  >
+                    Next &rarr;
+                  </button>
+                </div>
               </div>
             </div>
           </div>
