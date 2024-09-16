@@ -69,9 +69,6 @@ function Admin() {
   const [revents, setRevents] = useState([]);
   const [reventError, setReventError] = useState('');
 
-  console.log(revents);
-
-
   useEffect(() => {
     fetchMarks();
   }, []);
@@ -750,7 +747,7 @@ function Admin() {
         </div>
       </div>
       <div>
-        <div className="row mb-3 p-3 bg-dark bg-opacity-10">
+        <div className="row mb-3 p-3">
           <div className="col-6 float-start">
             <div className="ms-xxl-1 me-xxl-1 bg-white p-3 mb-xxl-2 bg-dark bg-opacity-10">
               <div className="heading-sect">

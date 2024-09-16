@@ -26,7 +26,7 @@ app.use(cors({
   credentials: true
 }));
 
-const uri = "mongodb+srv://tahmidfuad18:eVpuJvt1jwyTx8cQ@cluster0.gsamudi.mongodb.net/";
+const uri = "mongodb://localhost:27017/";
 
 mongoose.connect(uri)
   .then(() => {
@@ -443,13 +443,34 @@ app.delete('/notices/:id', async (req, res) => {
 });
 
 // contact
-app.post("/contact", async (req, res) => {
+app.post('/contact', async (req, res) => {
   const { name, email, subject, message } = req.body;
 
   try {
     const newMessage = new ContactModel({ name, email, subject, message });
     const savedMessage = await newMessage.save();
-    res.status(201).json({ contact: savedMessage });
+
+    const emailMessage = `
+      Hi ${name},
+      
+      Thank you for reaching out to us regarding "${subject}".
+      We have received your message and will get back to you if further communication is needed.
+
+      Here is a copy of your message:
+      "${message}"
+
+      Best regards,
+      Dept. of Electronics and Telecommunication Engineering, CUET.
+    `;
+
+    const transporter = await setupTransporter();
+    await transporter.sendMail({
+      to: email,
+      subject: 'We have received your message',
+      text: emailMessage,
+    });
+
+    res.status(201).json({ contact: savedMessage, message: 'Message sent successfully!' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

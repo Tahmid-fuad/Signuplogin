@@ -36,18 +36,21 @@ function Home() {
 
   const [revents, setRevents] = useState([]);
   const [reventError, setReventError] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const fetchrevents = async () => {
+  const fetchRevents = async () => {
     try {
       const response = await axios.get('http://localhost:3001/fetchrevents');
       setRevents(response.data);
+      setLoading(false); 
     } catch (err) {
       setReventError('Failed to load recent events. Please try again later.');
+      setLoading(false); 
     }
   };
 
   useEffect(() => {
-    fetchrevents();
+    fetchRevents();
   }, []);
 
   return (
@@ -109,24 +112,28 @@ function Home() {
           </h1>
         </div>
         <div className="container-fluid p-0 pb-5">
-          <OwlCarousel className="owl-theme header-carousel" {...options}>
-            {reventError ? (
-              <li>{reventError}</li>
-            ) : (
-              revents
-                .sort((a, b) => b._id.localeCompare(a._id))
-                .map((revent) => (
-                  <div key={revent._id} className="card d-flex justify-content-center align-items-center text-center" style={{ marginBottom: "5rem" }}>
-                    <img src={`http://localhost:3001/public/reventfile/${revent.file}`} className="card-img-top w-75" alt="..." />
-                    <div className="card-body">
-                      {/* <h5 className="card-title">Card title</h5> */}
-                      <p className="card-text">{revent.revent}</p>
-                      {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+          {loading ? ( 
+            <div className="text-center">
+              <p>Loading events...</p>
+            </div>
+          ) : (
+            <OwlCarousel className="owl-theme header-carousel" {...options}>
+              {reventError ? (
+                <li>{reventError}</li>
+              ) : (
+                revents
+                  .sort((a, b) => b._id.localeCompare(a._id))
+                  .map((revent) => (
+                    <div key={revent._id} className="card d-flex justify-content-center align-items-center text-center" style={{ marginBottom: "5rem" }}>
+                      <img src={`http://localhost:3001/public/reventfile/${revent.file}`} className="card-img-top w-75" alt="..." />
+                      <div className="card-body">
+                        <p className="card-text">{revent.revent}</p>
+                      </div>
                     </div>
-                  </div>
-                ))
-            )}
-          </OwlCarousel>
+                  ))
+              )}
+            </OwlCarousel>
+          )}
         </div>
       </div>
       {/*  Carousel End  */}
