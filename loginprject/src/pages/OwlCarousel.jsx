@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
-import axios from 'axios'; 
+import axios from 'axios';
 
 const Carousel = () => {
     const options = {
@@ -18,13 +18,16 @@ const Carousel = () => {
 
     const [owls, setOwls] = useState([]);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
 
     const fetchOwls = async () => {
         try {
             const response = await axios.get('http://localhost:3001/fetchowls');
             setOwls(response.data);
+            setLoading(false);
         } catch (err) {
             setError('Failed to load Owl. Please try again later.');
+            setLoading(false);
         }
     };
 
@@ -40,20 +43,27 @@ const Carousel = () => {
                 </h1>
             </div>
             <div className="container-fluid p-0 pb-5">
-                <OwlCarousel className="owl-theme header-carousel" {...options}>
-                    {error ? (
-                        <li>{error}</li>
-                    ) : (
-                        owls.map((owl) => (
-                            <div key={owl._id} className="owl-carousel-item position-relative">
-                                <img
-                                    className="img-fluid"
-                                    src={`http://localhost:3001/public/owlimage/${owl.file}`}
-                                />
-                            </div>
-                        ))
-                    )}
-                </OwlCarousel>
+                {loading ? (
+                    <div className="text-center">
+                        <p>Loading owl carousel...</p>
+                    </div>
+                ) : (
+                    <OwlCarousel className="owl-theme header-carousel" {...options}>
+                        {error ? (
+                            <li>{error}</li>
+                        ) : (
+                            owls.map((owl) => (
+                                <div key={owl._id} className="owl-carousel-item position-relative">
+                                    <img
+                                        className="img-fluid"
+                                        src={`http://localhost:3001/public/owlimage/${owl.file}`}
+                                        style={{ maxHeight: '700px', objectFit: 'contain' }}
+                                    />
+                                </div>
+                            ))
+                        )}
+                    </OwlCarousel>
+                )}
             </div>
         </div>
     );

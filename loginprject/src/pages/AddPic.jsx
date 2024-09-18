@@ -43,7 +43,7 @@ const AddOwl = ({ }) => {
         <div>
             <div className='w-100 p-3 rounded bg-white'>
                 <form onSubmit={handlePicSubmit}>
-                    <h5 className='text-center'>Picture Library</h5>
+                    <h5 className='text-center'>Photo Gallery</h5>
                     <div className='mb-2'>
                         <label htmlFor="photo">Upload Photo</label>
                         <input

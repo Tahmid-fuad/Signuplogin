@@ -140,7 +140,10 @@ app.post('/forgot-password', async (req, res) => {
     await transporter.sendMail({
       to: email,
       subject: 'Password Reset Request',
-      text: `Please use the following link to reset your password: ${resetLink}`,
+      text: `Please use the following link to reset your password: ${resetLink}
+      
+Best regards,
+Dept. of Electronics and Telecommunication Engineering, CUET.`,
     });
 
     res.status(200).json({ message: 'Password reset email sent' });
@@ -451,17 +454,17 @@ app.post('/contact', async (req, res) => {
     const savedMessage = await newMessage.save();
 
     const emailMessage = `
-      Hi ${name},
-      
-      Thank you for reaching out to us regarding "${subject}".
-      We have received your message and will get back to you if further communication is needed.
+Hi ${name},
+   
+Thank you for reaching out to us regarding "${subject}".
+We have received your message and will get back to you if further communication is needed.
 
-      Here is a copy of your message:
-      "${message}"
+Here is a copy of your message:
+"${message}"
 
-      Best regards,
-      Dept. of Electronics and Telecommunication Engineering, CUET.
-    `;
+Best regards,
+Dept. of Electronics and Telecommunication Engineering, CUET.
+`;
 
     const transporter = await setupTransporter();
     await transporter.sendMail({

@@ -32,7 +32,7 @@ function About() {
                                                 <i className="fa fa-chalkboard fa-2x text-primary"></i>
                                             </div>
                                             <div className="ms-3">
-                                                <h2 className="text-primary mb-1">20</h2>
+                                                <h2 className="text-primary mb-1">17</h2>
                                                 <p className="fw-medium mb-0">Total Teachers</p>
                                             </div>
                                         </div>
@@ -43,7 +43,7 @@ function About() {
                                                 <i className="fa fa-users fa-2x text-primary"></i>
                                             </div>
                                             <div className="ms-3">
-                                                <h2 className="text-primary mb-1">300</h2>
+                                                <h2 className="text-primary mb-1">244</h2>
                                                 <p className="fw-medium mb-0">Total Students</p>
                                             </div>
                                         </div>
@@ -56,7 +56,7 @@ function About() {
                                                 <i className="fa fa-microchip fa-2x text-primary"></i>
                                             </div>
                                             <div className="ms-3">
-                                                <h2 className="text-primary mb-1">4</h2>
+                                                <h2 className="text-primary mb-1">5</h2>
                                                 <p className="fw-medium mb-0">Total Lab</p>
                                             </div>
                                         </div>
@@ -187,7 +187,7 @@ function About() {
                         <div className="col-lg-4 col-md-6 wow fadeInUp">
                             <div className="team-item">
                                 <div className="overflow-hidden position-relative">
-                                    <img className="img-fluid" src="assets/tf.jpg" alt="" />
+                                    <img className="img-fluid" src="assets/tahmid.png" alt="" />
                                     <div className="team-social">
                                         <a className="btn btn-square" href="https://facebook.com/tahmidfk"><i className="fab fa-facebook-f"></i></a>
                                         <a className="btn btn-square" href="https://x.com/TFkhan0"><i className="fa-brands fa-x-twitter"></i></a>

@@ -42,10 +42,10 @@ function Home() {
     try {
       const response = await axios.get('http://localhost:3001/fetchrevents');
       setRevents(response.data);
-      setLoading(false); 
+      setLoading(false);
     } catch (err) {
       setReventError('Failed to load recent events. Please try again later.');
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -59,7 +59,7 @@ function Home() {
 
       {/* Header start */}
       <div className="owl-carousel-item position-relative">
-        <img className="img-fluid" src="/assets/bg.jpg" alt="" />
+        <img className="img-fluid" src="/assets/new gate.jpg" alt="" />
         <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
           style={{ background: "rgba(53, 53, 53, .7)" }}>
           <div className="container">
@@ -108,11 +108,11 @@ function Home() {
       <div>
         <div className="section-title text-center">
           <h1 className="display-5 mt-5 mb-5">
-            <a href="/">Recent Events</a>
+            Recent Events
           </h1>
         </div>
         <div className="container-fluid p-0 pb-5">
-          {loading ? ( 
+          {loading ? (
             <div className="text-center">
               <p>Loading events...</p>
             </div>
@@ -125,7 +125,7 @@ function Home() {
                   .sort((a, b) => b._id.localeCompare(a._id))
                   .map((revent) => (
                     <div key={revent._id} className="card d-flex justify-content-center align-items-center text-center" style={{ marginBottom: "5rem" }}>
-                      <img src={`http://localhost:3001/public/reventfile/${revent.file}`} className="card-img-top w-75" alt="..." />
+                      <img src={`http://localhost:3001/public/reventfile/${revent.file}`} className="card-img-top w-75" alt="..." style={{ maxHeight: '500px', objectFit: 'contain' }} />
                       <div className="card-body">
                         <p className="card-text">{revent.revent}</p>
                       </div>
@@ -165,7 +165,7 @@ function Home() {
                 <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
                   <i className="fa fa-chalkboard fa-2x text-primary"></i>
                 </div>
-                <h1 className="display-2 text-primary mb-0"><Number n={20} /></h1>
+                <h1 className="display-2 text-primary mb-0"><Number n={17} /></h1>
               </div>
               <h5 className="text-center">Total Teachers</h5>
             </div>
@@ -174,7 +174,7 @@ function Home() {
                 <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
                   <i className="fa fa-users fa-2x text-primary"></i>
                 </div>
-                <h1 className="display-2 text-primary mb-0"><Number n={300} /></h1>
+                <h1 className="display-2 text-primary mb-0"><Number n={244} /></h1>
               </div>
               <h5 className="text-center">Total Students</h5>
             </div>
@@ -183,7 +183,7 @@ function Home() {
                 <div className="d-flex align-items-center justify-content-center bg-light" style={{ width: "60px", height: "60px" }}>
                   <i className="fa fa-microchip fa-2x text-primary"></i>
                 </div>
-                <h1 className="display-2 text-primary mb-0"><Number n={4} /></h1>
+                <h1 className="display-2 text-primary mb-0"><Number n={5} /></h1>
               </div>
               <h5 className="text-center">Total Labs</h5>
             </div>

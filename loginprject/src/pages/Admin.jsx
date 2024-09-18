@@ -857,7 +857,7 @@ function Admin() {
           </div>
           <div className="col-6">
             <div className="section-title text-start">
-              <h3 className="mb-3 mt-4">Add Event</h3>
+              <h3 className="mb-3 mt-4">Add Upcoming Event</h3>
               <form onSubmit={handleEventSubmit}>
                 <div className="row g-3">
                   <div className="col-12">
