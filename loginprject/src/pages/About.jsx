@@ -162,7 +162,7 @@ function About() {
 
 
             {/* Team Start */}
-            <div className="container-xxl py-5">
+            {/* <div className="container-xxl py-5">
                 <div className="container">
                     <div className="section-title text-center">
                         <h1 className="display-5 mb-5">Developed by</h1>
@@ -203,7 +203,7 @@ function About() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             {/* Team End */}
             <Footer />
         </div>
